@@ -12,6 +12,7 @@ import java.math.BigInteger;
 public class Numbers {
 
     public static void main(String[] args) {
+        System.out.println(factorialBig(20));
     };
 
     /**
@@ -53,8 +54,8 @@ public class Numbers {
     };
 
     /**
-     * A method that determines the great common factor that two given integers have
-     * in common
+     * A method that determines the great common factor that two given integers
+     * have in common
      * 
      * @param param1 an integer
      * @param param2 an integer
@@ -124,7 +125,8 @@ public class Numbers {
      * A method to determine the factorial of a number below 20
      *
      * @param num a number below 20
-     * @throws illegalArugmentException if the supplied argument is greater than 20
+     * @throws illegalArugmentException if the supplied argument is greater than
+     *                                  20
      * @return the factorial of the given number
      * 
      */
@@ -147,11 +149,13 @@ public class Numbers {
      * @param num a number
      * @return the factorial of the supplied number
      */
-    public static BigInteger factorial(BigInteger num) {
+    public static BigInteger factorialBig(int num) {
         if (num == BigInteger.ZERO || num == BigInteger.ONE) {
             return BigInteger.ONE;
         }
-        return num.multiply(factorial(num.subtract(BigInteger.ONE)));
+        System.out.println(
+        "big int" + num.multiply(factorialBig(num.subtract(BigInteger.ONE))));
+        return num.multiply(factorialBig(num.subtract(BigInteger.ONE)));
     };
 
 }

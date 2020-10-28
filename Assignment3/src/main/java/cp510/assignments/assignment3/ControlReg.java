@@ -6,7 +6,8 @@ public class ControlReg {
      * The ControlReg class for UW java 510.
      * 
      * The ControlReg class has methods to both encode and decode a 16-bit
-     * register.
+     * register. It also contains setters and getters to establish and retrieve
+     * the six values of the supplied register.
      * 
      * @author Toby Peterson.
      */
@@ -18,23 +19,12 @@ public class ControlReg {
     private int start;
     private int control;
 
-    private int originMask = 0b000000000000111;
-    private int securityMask = 0b000000000011000;
-    private int dataMask = 0b0000000111100000;
-    private int countMask = 0b000011000000000;
-    private int startMask = 0b0000100000000000;
-    private int controlMask = 0b1111000000000000;
-
-    /**
-     * Main application entry point.
-     *
-     * @param args command line arguments; not used
-     */
-
-//    public static void main(String[] args) {
-//
-////        ControlReg reg = new ControlReg(0xA565);
-//    }
+    private static int originMask = 0b000000000000111;
+    private static int securityMask = 0b000000000011000;
+    private static int dataMask = 0b0000000111100000;
+    private static int countMask = 0b000011000000000;
+    private static int startMask = 0b0000100000000000;
+    private static int controlMask = 0b1111000000000000;
 
     /**
      * ControlReg constructor.
@@ -43,10 +33,8 @@ public class ControlReg {
      */
 
     public ControlReg(int reg) {
-//        System.out.println("reg" + Integer.toBinaryString(reg));
         decodeReg(reg);
         encodeReg();
-//        System.out.println("encoded " + encodeReg());
     }
 
     /**
@@ -200,15 +188,14 @@ public class ControlReg {
     public int encodeReg() {
 
         int reg = 0;
-        reg = reg | control << 12;
-        reg = reg | start << 11;
-        reg = reg | count << 9;
-        reg = reg | data << 5;
-        reg = reg | security << 3;
         reg = reg | origin << 0;
+        reg = reg | security << 3;
+        reg = reg | data << 5;
+        reg = reg | count << 9;
+        reg = reg | start << 11;
+        reg = reg | control << 12;
 //        System.out.println("encodedreg: " + Integer.toBinaryString(reg));
 //        System.out.println("encodedregint: " + reg);
-
         return reg;
     };
 
