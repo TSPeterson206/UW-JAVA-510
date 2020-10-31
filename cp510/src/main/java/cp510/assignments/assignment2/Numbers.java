@@ -1,7 +1,5 @@
 package cp510.assignments.assignment2;
 
-import java.math.BigInteger;
-
 /**
  * The Numbers class for UW Java 510
  * 
@@ -12,7 +10,7 @@ import java.math.BigInteger;
 public class Numbers {
 
     public static void main(String[] args) {
-        System.out.println(factorialBig(20));
+//        System.out.println(factorialBig(20));
     };
 
     /**
@@ -149,13 +147,13 @@ public class Numbers {
      * @param num a number
      * @return the factorial of the supplied number
      */
-    public static BigInteger factorialBig(int num) {
-        if (num == BigInteger.ZERO || num == BigInteger.ONE) {
-            return BigInteger.ONE;
-        }
-        System.out.println(
-        "big int" + num.multiply(factorialBig(num.subtract(BigInteger.ONE))));
-        return num.multiply(factorialBig(num.subtract(BigInteger.ONE)));
-    };
+//    public static BigInteger factorialBig(int num) {
+//        if (num == BigInteger.ZERO || num == BigInteger.ONE) {
+//            return BigInteger.ONE;
+//        }
+//        System.out.println(
+//        "big int" + num.multiply(factorialBig(num.subtract(BigInteger.ONE))));
+//        return num.multiply(factorialBig(num.subtract(BigInteger.ONE)));
+//    };
 
 }
