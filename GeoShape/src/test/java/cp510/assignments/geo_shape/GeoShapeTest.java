@@ -7,40 +7,106 @@ import org.junit.jupiter.api.Test;
 
 class GeoShapeTest {
 
-    public static GeoShape shape = new GeoShape();
-    public static GeoLine line = new GeoLine();
-    public static GeoOval oval = new GeoOval();
-    public static GeoPlane plane = new GeoPlane();
-    public static GeoPoint point = new GeoPoint();
-    public static GeoRectangle rectangle = new GeoRectangle();
+    public static GeoShape shape;
+    public static GeoLine line;
+    public static GeoOval oval;
+    public static GeoPlane plane;
+    public static GeoPoint point;
+    public static GeoRectangle rectangle;
+
+    public static double xcoValue;
+    public static double ycoValue;
+    public static double distance;
+    public static String pointString;
+    public static GeoPoint lineString;
 
     public static void main(String[] args) {
-    };
+        shape = new GeoShape();
+        line = new GeoLine();
+        oval = new GeoOval();
+        plane = new GeoPlane();
+        point = new GeoPoint();
+        rectangle = new GeoRectangle();
+//GeoPoint
+        point.setXco(5.55555);
+        point.setYco(4.44444);
+        xcoValue = point.getXco();
+        ycoValue = point.getYco();
+        distance = point.distance(point);
+        pointString = point.toString();
+// GeoShape
+        shape.setOrigin(point);
+        shape.getOrigin();
+        shape.setColor(Color.RED);
+        shape.getColor();
+        shape.toString();
 
-//    @Test
-//    void test() {
-//        fail("Not yet implemented");
-//    }
+// GeoRectangle
+        rectangle.setWidth(1.0000);
+        rectangle.setHeight(2.0000);
+        rectangle.getWidth();
+        rectangle.getHeight();
+        rectangle.area();
+        rectangle.perimeter();
+        rectangle.setColor(Color.RED);
+        rectangle.toString();
+
+        // GeoOval
+        oval.area();
+        oval.perimeter();
+// GeoLine
+
+        line.setEnd(point);
+        line.getEnd();
+        line.setStart(point);
+        line.getStart();
+        line.length();
+        line.toString();
+        line.setColor(Color.RED);
+// GeoPlane
+        plane.show();
+        plane.addShape(shape);
+        plane.removeShape(shape);
+        plane.redraw();
+        plane.setBackgroundColor(Color.RED);
+        plane.getBackgroundColor();
+    };
 
     // Tests GeoPoint
 
     @Test
     void xAndYCoordinates() {
+        point = new GeoPoint();
+
         point.setXco(5.55555);
         point.setYco(4.44444);
+        xcoValue = point.getXco();
+        ycoValue = point.getYco();
+        pointString = point.toString();
 
-        Assertions.assertEquals(5.55555, point.getXco());
-        Assertions.assertEquals(4.44444, point.getYco());
+        Assertions.assertEquals(5.55555, xcoValue);
+        Assertions.assertEquals(4.44444, ycoValue);
+        Assertions.assertEquals("(5.5556,4.4444)", pointString);
 
+    }
+
+    @Test
+    void distance() {
+
+        Assertions.assertEquals(0, distance);
     }
 
     // Tests GeoShape class
     @Test
     void color() {
+        shape = new GeoShape();
 
-        int argb = Color.RED.getRGB();
-        String argc = String.format("#%06X", (argb & 0x00FFFFFF));
+        point = new GeoPoint();
 
+        point.setXco(5.55555);
+        point.setYco(4.44444);
+
+        shape.setOrigin(point);
         shape.setColor(Color.RED);
         Assertions.assertEquals(Color.RED, shape.getColor());
     }
@@ -48,15 +114,17 @@ class GeoShapeTest {
     // Tests GeoLine class
     @Test
     void start() {
+        point = new GeoPoint();
         point.setXco(5.55555);
-        ;
         point.setYco(4.44444);
-        shape.setOrigin(point);
-        line.setEnd(point);
-        System.out.println("oringin shape" + shape);
-        System.out.println("oringin line" + line);
+//        shape = new GeoShape();
 
-        Assertions.assertEquals("(5.55555,4.44444)", line.getEnd());
+        line = new GeoLine();
+        line.setEnd(point);
+//        System.out.println(point);
+//        GeoPoint lineString = line.getEnd();
+
+        Assertions.assertEquals(point, line.getEnd());
     }
 
 //
@@ -75,17 +143,31 @@ class GeoShapeTest {
 //Tests GeoOval class
     @Test
     void widthAndHeight() {
-        oval.setWidth(10.1234456);
-        oval.setHeight(20.1234567);
-        Assertions.assertEquals(10.1234456, oval.getWidth());
-        Assertions.assertEquals(20.1234567, oval.getHeight());
+        rectangle = new GeoRectangle();
+
+        rectangle.setWidth(10.1234456);
+        rectangle.setHeight(20.1234567);
+
+        oval = new GeoOval();
+//        System.out.println("rectangle and oval " + rectangle + "  " + oval
+//        + "zxzx" + rectangle.getHeight());
+        Assertions.assertEquals(0, oval.area());
+//        Assertions.assertEquals(20.1234567, oval.getHeight());
     }
 
     // Tests GeoRectangle class
     @Test
     void area() {
+        rectangle = new GeoRectangle();
+
         rectangle.setWidth(10.1234456);
         rectangle.setHeight(20.1234567);
+        rectangle.getWidth();
+        rectangle.getHeight();
+        rectangle.area();
+        rectangle.perimeter();
+        rectangle.setColor(Color.RED);
+        rectangle.toString();
         Assertions.assertEquals(203.7187191864055, rectangle.area());
 
     }
@@ -93,9 +175,15 @@ class GeoShapeTest {
 //Tests GeoRectangle class
     @Test
     void height() {
-        rectangle.setWidth(50.33333);
+//        rectangle.setWidth(50.33333);
+        rectangle = new GeoRectangle();
 
-        Assertions.assertEquals(50.33333, rectangle.getWidth());
+        rectangle.setWidth(10.1234456);
+        rectangle.setHeight(20.1234567);
+
+        Assertions.assertEquals(10.1234456, rectangle.getWidth());
+        Assertions.assertEquals(20.1234567, rectangle.getHeight());
+
     }
 
 //
@@ -108,6 +196,7 @@ class GeoShapeTest {
 //Tests GeoPlane class
     @Test
     void backgroundColor() {
+        plane = new GeoPlane();
         plane.setBackgroundColor(Color.BLUE);
         Assertions.assertEquals(Color.BLUE, plane.getBackgroundColor());
 
