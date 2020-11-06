@@ -9,18 +9,17 @@ public class GeoShape {
      * 
      * The GeoShape class determines the origin point of the generated shape. It
      * contains x and y coordinates and the fill color for the shape. It also
-     * contains setters and getters for these two attributes.
+     * contains setters and getters for these two attributes. This class
+     * encapsulates functionality common to all shapes in the geo_shape package.
      * 
      * @author Toby Peterson.
      */
 
-    GeoPoint origin;
-//    The x- and y- coordinates of the start of the shape. This property may never be null.
-
-    Color color;
-//    The fill color of the shape.
+    private GeoPoint origin;
+    private Color color;
 
     String colorConvert;
+    String originConvert;
 
     /**
      * GeoShape constructor.
@@ -34,6 +33,8 @@ public class GeoShape {
     /**
      * The getOrigin getter.
      * 
+     * Returns the origin of this shape.
+     * 
      * @return The GeoPoint origin coordinates.
      */
 
@@ -43,6 +44,10 @@ public class GeoShape {
 
     /**
      * The setOrigin setter.
+     * 
+     * Sets the origin of this shape to a given value. The given value may not
+     * be null. If the given value is null a NullPointerException will be
+     * thrown.
      * 
      * @throws NullPointerException of the submitted origin is null.
      */
@@ -59,6 +64,8 @@ public class GeoShape {
     /**
      * The getColor getter.
      * 
+     * Returns the fill color of this shape.
+     * 
      * @return The fill color for the generated shape.
      */
 
@@ -69,6 +76,9 @@ public class GeoShape {
     /**
      * The setColor setter.
      * 
+     * Sets the fill color of this shape to a given value. (Note: color may be
+     * null.).
+     * 
      * @param color The fill color of the generated shape. This is converted
      *              into a string format.
      */
@@ -78,6 +88,7 @@ public class GeoShape {
             int argb = color.getRGB();
             int rgb = argb & 0x00FFFFFF;
             this.colorConvert = String.format("#%06X", rgb);
+            this.color = color;
         }
         ;
         this.color = color;
@@ -86,6 +97,9 @@ public class GeoShape {
 
     /**
      * The toString method for GeoShape
+     * 
+     * Returns a string describing the origin and color properties of this
+     * GeoShape.
      * 
      * @return A human readable string of the origin and color values for the
      *         generated shape.

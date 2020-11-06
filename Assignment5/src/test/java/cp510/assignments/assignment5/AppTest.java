@@ -1,4 +1,4 @@
-package cp510.assignments.geo_shape;
+package cp510.assignments.assignment5;
 
 import junit.framework.Test;
 import junit.framework.TestCase;

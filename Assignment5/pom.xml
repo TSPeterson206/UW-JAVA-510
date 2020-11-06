@@ -1,0 +1,113 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>cp510.assignments</groupId>
+  <artifactId>Assignment5</artifactId>
+  <packaging>jar</packaging>
+  <version>05</version>
+  <name>Assignment5</name>
+  <url>http://maven.apache.org</url>
+  <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>3.8.1</version>
+      <scope>test</scope>
+    </dependency>
+	<dependency>
+        	<groupId>org.junit.jupiter</groupId>
+        	<artifactId>junit-jupiter-api</artifactId>
+        	<version>${junit_version}</version>
+        	<scope>test</scope>
+    	   </dependency>
+   	 
+    	   <dependency>
+        	<groupId>org.junit.jupiter</groupId>
+        	<artifactId>junit-jupiter-engine</artifactId>
+        	<version>${junit_version}</version>
+        	<scope>test</scope>
+    	   </dependency>
+   	 
+    	   <dependency>
+        	<groupId>uw.syp.java.javaintro</groupId>
+        	<artifactId>javaintro</artifactId>
+        	<version>${javaintro_version}</version>
+    	   </dependency>  
+		   
+		   
+		   
+  </dependencies>
+  <properties>
+    <maven.compiler.source>1.6</maven.compiler.source>
+    <maven.compiler.target>1.6</maven.compiler.target>
+	<student>Toby Peterson</student>
+    <project.build.sourceEncoding>
+        UTF-8
+    </project.build.sourceEncoding>
+    <junit_version>5.6.2</junit_version>
+    <javaintro_version>00-01</javaintro_version>
+    <compiler_version>3.8.1</compiler_version>
+    <assembly_version>3.3.0</assembly_version>
+    <surefire_version>2.22.1</surefire_version>
+</properties>
+<repositories>
+    <repository>
+   	 <id>jstraub-repository</id>
+   	 <name>javaintro</name>
+   	 <url>https://faculty.washington.edu/jstraub/repository/</url>
+    </repository>
+</repositories>
+
+<build>   
+        <resources>
+            <resource>
+            <directory>src/main/resources</directory>
+        </resource>
+        <resource>
+            <directory>src/test/resources</directory>
+        </resource>
+
+        </resources>
+ 
+        <plugins>
+<plugin>
+            <artifactId>maven-compiler-plugin</artifactId>
+            <version>${compiler_version}</version>
+            <configuration>
+                <release>11</release>
+                <compilerArgs>--enable-preview</compilerArgs>
+                <compilerArgs>
+                    <arg>-Xlint:all</arg>
+                    <arg>-Xlint:-serial</arg>
+                </compilerArgs>
+            </configuration>
+        </plugin> 
+
+<plugin>
+            <artifactId>maven-assembly-plugin</artifactId>
+            <groupId>org.apache.maven.plugins</groupId>
+            <version>${assembly_version}</version>
+            <configuration>
+                <finalName>
+                    ${student}-${project.version}
+                </finalName>
+                <formats>
+                    <format>tar.gz</format>
+                    <format>zip</format>
+                </formats>
+                <descriptorRefs>
+                    <descriptorRef>project</descriptorRef>
+                </descriptorRefs>
+                <tarLongFileMode>posix</tarLongFileMode>
+            </configuration>
+         </plugin> 
+<plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <version>${surefire_version}</version>
+        </plugin>
+
+        </plugins>
+    </build>
+
+</project>

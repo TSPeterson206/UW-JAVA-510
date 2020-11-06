@@ -9,37 +9,23 @@ public class GeoLine extends GeoShape {
      * 
      * The GeoLine class extends the GeoShape class. It contains getters and
      * setters for start and end properties, as well as a method to calculate
-     * the length of a line.
+     * the length of a line. This class encapsulates a line.
      * 
      * @author Toby Peterson.
      */
 
     GeoPoint end;
-//    The end of the line.
 
     GeoPoint start;
-    // The start of the line.
+//    GeoPoint start = getOrigin();
 
-    String colorConvert;
-
-    /**
-     * The setColor method for GeoLine.
-     * 
-     * @param color The intended color of the line. This method sets the line
-     *              color as a human readable string.
-     */
-
-    public void setColor(Color color) {
-        if (color != null) {
-            int argb = color.getRGB();
-            int rgb = argb & 0x00FFFFFF;
-            this.colorConvert = String.format("#%06X", rgb);
-        }
-        ;
-    };
+    String colorConvert = null;
+    Color tempColor;
 
     /**
      * The getEnd method for GeoLine.
+     * 
+     * Returns the end point of this line.
      * 
      * @return The end point of the line.
      */
@@ -50,6 +36,9 @@ public class GeoLine extends GeoShape {
 
     /**
      * The setEnd method for GeoLine.
+     * 
+     * Sets the end point of this line to the given value. The given value must
+     * not be null; if it is null, a NullPointerException will be thrown.
      * 
      * @param end The intended end point of the given line.
      */
@@ -65,43 +54,58 @@ public class GeoLine extends GeoShape {
     /**
      * The getStart method for GeoLine.
      * 
+     * Returns the starting point of this line.The starting point of the line is
+     * determined by the origin, which is stored in the GeoShape superclass.
+     * 
      * @return The start point of the line.
      */
 
     public GeoPoint getStart() {
-//        return this.start;
-        System.out.println("origin" + origin);
         return start;
     };
 
     /**
      * The setStart method for GeoLine.
      * 
+     * Sets the starting point of the line. Calling this method is equivalent to
+     * calling setOrigin(GeoPoint).
+     * 
      * @param start The intended start point of the given line.
      */
 
     public void setStart(GeoPoint start) {
-
-        this.start = start;
+        setOrigin(start);
     };
 
     /**
      * The length method for GeoLine.
      * 
+     * Returns the length of this line.
+     * 
      * @return The length of the given line.
      */
     public double length() {
+        // Currently a stub.
         return 0;
     };
 
     /**
-     * The toString method for GeoLine
+     * The toString method for GeoLine.
+     * 
+     * Returns a string describing the properties of this line.
      * 
      * @return A human readable string of the origin,color and end values for
      *         the generated line.
      */
 
     public String toString() {
-        return "origin=" + origin + ",color=" + colorConvert + ",end=" + end;
+        if (getColor() != null) {
+            int argb = getColor().getRGB();
+            int rgb = argb & 0x00FFFFFF;
+            this.colorConvert = String.format("#%06X", rgb);
+        }
+        ;
+        return "origin=" + getOrigin() + ",color=" + colorConvert + ",end="
+        + end;
     };
 }
