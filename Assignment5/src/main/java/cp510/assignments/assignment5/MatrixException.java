@@ -2,6 +2,25 @@ package cp510.assignments.assignment5;
 
 public class MatrixException extends RuntimeException {
 
+    public static void main(String[] args) {
+        System.out.println("Expected exception caught");
+    }
+
+    public MatrixException() {
+    }
+
+    public MatrixException(String msg) {
+        super(msg);
+    }
+
+    public MatrixException(String msg, Throwable cause) {
+        super(msg, cause);
+    }
+
+    public MatrixException(Throwable cause) {
+        super(cause);
+    }
+
 //    public class MatrixException 
 //    This class encapsulates an exception to be thrown when an error is encountered while performing a matrix operation. It adds no new properties or methods to those inherited from its superclass. It contains the following constructors.
 //

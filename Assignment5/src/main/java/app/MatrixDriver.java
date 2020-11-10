@@ -31,6 +31,7 @@ public class MatrixDriver {
 
         // One go-wronger
 //        try {
+//            System.out.println("hitting go wronger");
 //            matrix1X5_1.add(matrix5X1_1);
 //            System.out.println("Expected exception; non thrown");
 //        } catch (MatrixException exc) {
@@ -54,7 +55,6 @@ public class MatrixDriver {
 
         Matrix result = null;
         if (leftRows == rightRows && leftCols == rightCols) {
-//            System.out.println("hitting rows and columns equal: " + ident);
             result = left.add(right);
             System.out.println(prefix + "Sum " + ident);
             System.out.println(result);
