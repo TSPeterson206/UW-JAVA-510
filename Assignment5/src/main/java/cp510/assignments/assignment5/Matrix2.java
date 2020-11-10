@@ -1,9 +1,9 @@
 package cp510.assignments.assignment5;
 
-public class Matrix {
+public class Matrix2 {
 
     public double[][] data;
-    public String holder;
+    String holder;
     public double[][] acc;
     int rows;
     int cols;
@@ -11,30 +11,18 @@ public class Matrix {
 //  A two-dimensional array of doubles representing the data stored in the matrix.
 
 //  Constructor:
-    public Matrix(double[][] dataIn) throws MatrixException {
+    public Matrix2(double[][] dataIn) throws MatrixException {
         StringBuilder bldr = new StringBuilder();
         String newl = System.lineSeparator();
 
-        int lengthOfRow = dataIn[0].length;
-
         for (int i = 0; i < dataIn.length; i++) {
-            if (dataIn[i].length != lengthOfRow) {
-                throw new MatrixException();
-            }
-            ;
-            bldr.append("|");
             for (int j = 0; j < dataIn[i].length; j++) {
-//                bldr.append("  ").append(String.format("%05.3f", dataIn[i][j]))
-                bldr.append("  ").append(String.format("%7.3f", dataIn[i][j]))
-
-                .append("  ");
+                bldr.append(String.format("%05.3f", dataIn[i][j]));
             }
-            bldr.append("|");
             bldr.append(newl);
 //            System.out.println("constructor" + Arrays.toString(dataIn[i]));
         }
         ;
-
         holder = bldr.toString();
         data = dataIn;
 
@@ -49,34 +37,30 @@ public class Matrix {
 //  The given input.
 
 //  Methods:
-    public Matrix add(Matrix toAdd) throws MatrixException {
+    public Matrix2 add(Matrix2 toAdd) throws MatrixException {
         StringBuilder bldr = new StringBuilder();
         String newl = System.lineSeparator();
 
 //        System.out.println("currentmatix in add: " + currentMatrix);
-        try {
-            double[][] added = toAdd.data;
 
+        double[][] added = toAdd.data;
 //        System.out.println(
 //        "This is what is being added" + Arrays.toString(toAdd.data[0]));
 //        System.out
 //        .println("This is the current matrix" + Arrays.toString(data[0]));
 
-            for (int i = 0; i < data.length; i++) {
-                for (int j = 0; j < data[i].length; j++) {
-                    acc[i][j] = data[i][j] + added[i][j];
+        for (int i = 0; i < data.length; i++) {
+            for (int j = 0; j < data[i].length; j++) {
+//                double test = data[i][j] + added[i][j];
+                acc[i][j] = data[i][j] + added[i][j];
 
-                    bldr.append(String.format("%05.3f", acc[i][j]));
-                }
-                bldr.append(newl);
+                bldr.append(String.format("%05.3f", acc[i][j]));
             }
-            ;
-            holder = bldr.toString();
-            return new Matrix(acc);
-        } catch (MatrixException exc) {
-            System.out.println("hitting matrix exception in add");
-            throw new MatrixException();
+            bldr.append(newl);
         }
+        ;
+        holder = bldr.toString();
+        return new Matrix2(acc);
     };
 //  Adds a given matrix to this matrix. The result is a new matrix object. Throws MatrixException if this matrix and the given matrix have different dimensions.
 //  toAdd
@@ -85,7 +69,7 @@ public class Matrix {
 //  returns:
 //  A new matrix which is the sum of this matrix and the given matrix.
 
-    public Matrix subtract(Matrix toSub) throws MatrixException {
+    public Matrix2 subtract(Matrix2 toSub) throws MatrixException {
         StringBuilder bldr = new StringBuilder();
         String newl = System.lineSeparator();
 
@@ -108,14 +92,14 @@ public class Matrix {
         }
         ;
         holder = bldr.toString();
-        return new Matrix(acc);
+        return new Matrix2(acc);
     };
 //  Subtracts a given matrix from this matrix. The result is a new matrix object. Throws MatrixException if this matrix and the given matrix have different dimensions.
 //  toSub
 //  The given matrix.
 
-    public Matrix multiply(Matrix toMul) throws MatrixException {
-        Matrix newMatrix = new Matrix(data);
+    public Matrix2 multiply(Matrix toMul) throws MatrixException {
+        Matrix2 newMatrix = new Matrix2(data);
 
         int r1 = newMatrix.getNumRows(), c1 = newMatrix.getNumColumns();
         int r2 = toMul.getNumRows(), c2 = toMul.getNumColumns();
@@ -131,11 +115,11 @@ public class Matrix {
                 }
             }
         }
-        return new Matrix(product);
+        return new Matrix2(product);
     };
 
-    public Matrix multiply(double scalar) {
-        Matrix newMatrix = new Matrix(data);
+    public Matrix2 multiply(double scalar) {
+        Matrix2 newMatrix = new Matrix2(data);
 
         StringBuilder bldr = new StringBuilder();
         String newl = System.lineSeparator();
@@ -152,7 +136,7 @@ public class Matrix {
         }
         ;
         holder = bldr.toString();
-        return new Matrix(newMatrixData);
+        return new Matrix2(newMatrixData);
     };
 //  Multiplies this matrix by a given scalar. The result is a new matrix object.
 //  scalar
@@ -161,9 +145,9 @@ public class Matrix {
 //  Returns:
 //  A new matrix which is the scalar product of this matrix and the given scalar.
 
-    public Matrix negate() {
+    public Matrix2 negate() {
 
-        Matrix newMatrix = new Matrix(data);
+        Matrix2 newMatrix = new Matrix2(data);
 
         int r1 = newMatrix.getNumRows(), c1 = newMatrix.getNumColumns();
 //        int r2 = toMul.getNumRows(), c2 = toMul.getNumColumns();
@@ -185,7 +169,7 @@ public class Matrix {
         }
         holder = bldr.toString();
         ;
-        return new Matrix(result);
+        return new Matrix2(result);
     };
 //  Returns a new matrix which is the negation of this matrix.
 //
@@ -265,8 +249,8 @@ public class Matrix {
 //  Returns:
 //  The number of columns in this matrix.
 
-    public boolean approxEqual(Matrix test, double epsilon) {
-        Matrix currentMatrix = new Matrix(data);
+    public boolean approxEqual(Matrix2 test, double epsilon) {
+        Matrix2 currentMatrix = new Matrix2(data);
 
         double[][] tester = test.data;
         double[][] current = currentMatrix.getData();
@@ -313,28 +297,7 @@ public class Matrix {
 //  True, if this matrix is approximately equal to the given matrix according to the above criteria; false otherwise.
 
     public String toString() {
-
-        StringBuilder bldr = new StringBuilder();
-        String newl = System.lineSeparator();
-
-        for (int i = 0; i < data.length; i++) {
-            bldr.append("|");
-            for (int j = 0; j < data[i].length; j++) {
-//                bldr.append("  ").append(String.format("%05.3f", dataIn[i][j]))
-                bldr.append("  ").append(String.format("%7.3f", data[i][j]))
-
-                .append("  ");
-            }
-            bldr.append("|");
-            bldr.append(newl);
-//            System.out.println("constructor" + Arrays.toString(dataIn[i]));
-        }
-        ;
-
-        holder = bldr.toString();
-
-        String holder2 = holder;
-        return holder2;
+        return holder;
     };
 //  Returns a formatted string representing the encapsulated data. The format of the string must conform to the details specified in Required toString Format, above.
 //  Returns:
