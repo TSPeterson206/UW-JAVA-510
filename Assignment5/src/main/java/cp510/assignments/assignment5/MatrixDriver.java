@@ -1,8 +1,6 @@
-package app;
+package cp510.assignments.assignment5;
 
 import java.util.Random;
-
-import cp510.assignments.assignment5.Matrix;
 
 public class MatrixDriver {
     public static void main(String[] args) {
@@ -30,13 +28,12 @@ public class MatrixDriver {
         print(matrix5X5, matrix5X5, num++);
 
         // One go-wronger
-//        try {
-//            System.out.println("hitting go wronger");
-//            matrix1X5_1.add(matrix5X1_1);
-//            System.out.println("Expected exception; non thrown");
-//        } catch (MatrixException exc) {
-//            System.out.println("Expected exception caught");
-//        }
+        try {
+            matrix1X5_1.add(matrix5X1_1);
+            System.out.println("Expected exception; non thrown");
+        } catch (MatrixException exc) {
+            System.out.println("Expected exception caught");
+        }
     }
 
     private static void print(Matrix left, Matrix right, int ident) {

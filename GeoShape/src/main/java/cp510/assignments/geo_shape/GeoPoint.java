@@ -1,29 +1,30 @@
 package cp510.assignments.geo_shape;
 
+/**
+ * The GeoPoint class for UW java 510 assignment 4 (GeoShape part 1).
+ * 
+ * The GeoPoint class contains the getters and setters for the x and y
+ * coordinates, as well as a method to determine the distance between the two
+ * inputed points. This class encapsulates a point on a plane.
+ * 
+ * @author Toby Peterson.
+ */
 public class GeoPoint {
 
-    /**
-     * The GeoPoint class for UW java 510 assignment 4 (GeoShape part 1).
-     * 
-     * The GeoPoint class contains the getters and setters for the x and y
-     * coordinates, as well as a method to determine the distance between the
-     * two inputed points. This class encapsulates a point on a plane.
-     * 
-     * @author Toby Peterson.
-     */
+    private double xco = 0.0000;
+    private double yco = 0.0000;
+    private String xcoConvert;
+    private String ycoConvert;
 
-    double xco;
-    double yco;
-    String xcoConvert;
-    String ycoConvert;
+//    GeoPoint origin = new GeoPoint();
 
     /**
      * GeoPoint constructor.
      * 
      * The constructor to initiate an instance of GeoPoint.
      */
-
     public GeoPoint() {
+
     };
 
     /**
@@ -82,7 +83,13 @@ public class GeoPoint {
      */
 
     public double distance(GeoPoint other) {
-        return xco + yco;
+        double otherX = other.getXco();
+        double otherY = other.getYco();
+
+        return Math
+            .sqrt(Math.pow(2, (xco - otherX)) + Math.pow(2, (yco - otherY)));
+
+//        return xco + yco;
     };
 
     /**
@@ -95,6 +102,6 @@ public class GeoPoint {
      */
     public String toString() {
         return "(" + String.format("%05.4f", xco) + ","
-        + String.format("%05.4f", yco) + ")";
+            + String.format("%05.4f", yco) + ")";
     };
 }

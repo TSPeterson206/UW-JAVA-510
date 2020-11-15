@@ -2,25 +2,27 @@ package cp510.assignments.geo_shape;
 
 import java.awt.Color;
 
+/**
+ * The GeoRectangle class for UW java 510 assignment 4 (GeoShape part 1).
+ * 
+ * The GeoRectangle class extends the GeoShape class. It contains the width and
+ * height of a rectangle object. It contains setters and getters for height and
+ * width, as well as a method to calculate the area. This class encapsulates a
+ * rectangle.
+ * 
+ * @author Toby Peterson.
+ */
 public class GeoRectangle extends GeoShape {
 
-    /**
-     * The GeoRectangle class for UW java 510 assignment 4 (GeoShape part 1).
-     * 
-     * The GeoRectangle class extends the GeoShape class. It contains the width
-     * and height of a rectangle object. It contains setters and getters for
-     * height and width, as well as a method to calculate the area. This class
-     * encapsulates a rectangle.
-     * 
-     * @author Toby Peterson.
-     */
-
     double width;
-
     double height;
-
     String colorConvert;
 
+    /**
+     * GeoRectangle constructor.
+     * 
+     * The constructor to initiate an instance of GeoRectangle.
+     */
     public GeoRectangle() {
 
     };
@@ -31,7 +33,6 @@ public class GeoRectangle extends GeoShape {
      * @param color The fill color of the generated rectangle. This is converted
      *              into a string format.
      */
-
     public void setColor(Color color) {
         if (color != null) {
             int argb = color.getRGB();
@@ -59,7 +60,6 @@ public class GeoRectangle extends GeoShape {
      * 
      * @param width The width value of the given rectangle.
      */
-
     public void setWidth(double width) {
         this.width = width;
     };
@@ -71,7 +71,6 @@ public class GeoRectangle extends GeoShape {
      * 
      * @return double The height value of the given rectangle.
      */
-
     public double getHeight() {
         return height;
     };
@@ -84,7 +83,6 @@ public class GeoRectangle extends GeoShape {
      * @param height The fill color of the generated rectangle. This is
      *               converted into a string format.
      */
-
     public void setHeight(double height) {
         this.height = height;
     };
@@ -108,7 +106,7 @@ public class GeoRectangle extends GeoShape {
      * @return double The perimeter value of the width and height multiplied.
      */
     public double perimeter() {
-        return 0;
+        return width * height;
     };
 
     /**
@@ -119,11 +117,10 @@ public class GeoRectangle extends GeoShape {
      * @return String A human readable string of the origin, color, height, and
      *         width values for the generated shape.
      */
-
     public String toString() {
         return "origin=" + getOrigin() + ",color=" + colorConvert + ",width="
-        + String.format("%05.4f", width) + ",height="
-        + String.format("%05.4f", height);
+            + String.format("%05.4f", width) + ",height="
+            + String.format("%05.4f", height);
     };
 
 }

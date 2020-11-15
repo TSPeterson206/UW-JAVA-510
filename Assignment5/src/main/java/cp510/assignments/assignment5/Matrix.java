@@ -1,108 +1,110 @@
 package cp510.assignments.assignment5;
 
+/**
+ * The Matrix class for UW java 510 assignment 5 (Matrices).
+ * 
+ * This call encapsulates simple matrix operations. It has methods for adding,
+ * subtracting, negating and multiplying two matrices. Beyond that it has the
+ * ability to check two different matrices for equality, as well as grabbing
+ * data from a matrix such as individual elements and row/column quantities.
+ * 
+ * @author Toby Peterson.
+ */
 public class Matrix {
 
-    public double[][] data;
-    public String holder;
-    public double[][] acc;
-    int rows;
-    int cols;
+    /**
+     * The double containing the two-dimensional array for the current matrix.
+     */
+    private double[][] data;
+    /**
+     * A string used to make a string builder in order to output a human
+     * readable string.
+     */
+    private String holder;
+    /**
+     * A two-dimensional array of doubles that is identical in length to
+     * internal data in order to use the accumulator pattern.
+     */
+    private double[][] acc;
+    /**
+     * The amount of rows of the two-dimensional array passed to constructor.
+     */
+    private int rows;
+    /**
+     * The amount of columns of the two-dimensional array passed to constructor.
+     */
+    private int cols;
 
-//  A two-dimensional array of doubles representing the data stored in the matrix.
-
-//  Constructor:
+    /**
+     * Matrix constructor. Creates a matrix object from the given input. Throw
+     * MatrixException if the array is not rectangular (i.e. if rows have
+     * different lengths).
+     * 
+     * @param dataIn A two dimensional array to be used as the base matrix for a
+     *               new Matrix instance.
+     * @throws MatrixException.
+     */
     public Matrix(double[][] dataIn) throws MatrixException {
         StringBuilder bldr = new StringBuilder();
         String newl = System.lineSeparator();
 
-        int lengthOfRow = dataIn[0].length;
+        final int lengthOfRow = dataIn[0].length;
 
         for (int i = 0; i < dataIn.length; i++) {
             if (dataIn[i].length != lengthOfRow) {
-                throw new MatrixException();
+
+                MatrixException exc = new MatrixException();
+                Throwable e = exc.getCause();
+                throw new MatrixException("Matrix exception thrown!", e);
             }
             ;
             bldr.append("|");
             for (int j = 0; j < dataIn[i].length; j++) {
-//                bldr.append("  ").append(String.format("%05.3f", dataIn[i][j]))
-                bldr.append("  ").append(String.format("%7.3f", dataIn[i][j]))
-
-                .append("  ");
+                bldr.append(String.format("%7.3f", dataIn[i][j]));
             }
             bldr.append("|");
             bldr.append(newl);
-//            System.out.println("constructor" + Arrays.toString(dataIn[i]));
         }
         ;
-
-        holder = bldr.toString();
         data = dataIn;
-
         rows = getNumRows();
         cols = getNumColumns();
-
+        holder = bldr.toString();
         acc = new double[rows][cols];
     };
 
-//  Creates a matrix object from the given input. Throw MatrixException if the array is not rectangular (i.e. if rows have different lengths).
-//  dataIn
-//  The given input.
-
-//  Methods:
+    /**
+     * The Add method for the Matrix class.
+     * 
+     * Adds a given matrix to this matrix. The result is a new matrix object.
+     * Throws MatrixException if this matrix and the given matrix have different
+     * dimensions.
+     * 
+     * @param toAdd The given matrix to add.
+     * @return A new Matrix that is the sum of the data variable and the toSum
+     *         argument.
+     * @throws MatrixException.
+     */
     public Matrix add(Matrix toAdd) throws MatrixException {
-        StringBuilder bldr = new StringBuilder();
-        String newl = System.lineSeparator();
+        Matrix internal = new Matrix(data);
 
-//        System.out.println("currentmatix in add: " + currentMatrix);
-        try {
-            double[][] added = toAdd.data;
+        if (toAdd.getNumRows() != internal.getNumRows()
+            || toAdd.getNumColumns() != internal.getNumColumns()) {
 
-//        System.out.println(
-//        "This is what is being added" + Arrays.toString(toAdd.data[0]));
-//        System.out
-//        .println("This is the current matrix" + Arrays.toString(data[0]));
-
-            for (int i = 0; i < data.length; i++) {
-                for (int j = 0; j < data[i].length; j++) {
-                    acc[i][j] = data[i][j] + added[i][j];
-
-                    bldr.append(String.format("%05.3f", acc[i][j]));
-                }
-                bldr.append(newl);
-            }
-            ;
-            holder = bldr.toString();
-            return new Matrix(acc);
-        } catch (MatrixException exc) {
-            System.out.println("hitting matrix exception in add");
-            throw new MatrixException();
+            MatrixException exc = new MatrixException();
+            Throwable e = exc.getCause();
+            throw new MatrixException(e);
         }
-    };
-//  Adds a given matrix to this matrix. The result is a new matrix object. Throws MatrixException if this matrix and the given matrix have different dimensions.
-//  toAdd
-//  The given matrix.
 
-//  returns:
-//  A new matrix which is the sum of this matrix and the given matrix.
-
-    public Matrix subtract(Matrix toSub) throws MatrixException {
         StringBuilder bldr = new StringBuilder();
         String newl = System.lineSeparator();
 
-//        System.out.println("currentmatix in add: " + currentMatrix);
-
-        double[][] added = toSub.data;
-//        System.out.println(
-//        "This is what is being added" + Arrays.toString(toAdd.data[0]));
-//        System.out
-//        .println("This is the current matrix" + Arrays.toString(data[0]));
+        double[][] added = toAdd.data;
 
         for (int i = 0; i < data.length; i++) {
             for (int j = 0; j < data[i].length; j++) {
-                acc[i][j] = data[i][j] - added[i][j];
-//                acc[i][j] = -1 * added[i][j];
-
-                bldr.append(String.format("%05.3f", acc[i][j]));
+                acc[i][j] = data[i][j] + added[i][j];
+                bldr.append(String.format("%7.3f", acc[i][j]));
             }
             bldr.append(newl);
         }
@@ -110,18 +112,70 @@ public class Matrix {
         holder = bldr.toString();
         return new Matrix(acc);
     };
-//  Subtracts a given matrix from this matrix. The result is a new matrix object. Throws MatrixException if this matrix and the given matrix have different dimensions.
-//  toSub
-//  The given matrix.
 
+    /**
+     * The Subtract method for the Matrix class.
+     * 
+     * Subtracts a given matrix from this matrix. The result is a new matrix
+     * object. Throws MatrixException if this matrix and the given matrix have
+     * different dimensions.
+     * 
+     * @param toSub The given matrix to subtract.
+     * @return A new Matrix that is the difference of the data variable and the
+     *         toSub argument.
+     * @throws MatrixException.
+     */
+    public Matrix subtract(Matrix toSub) throws MatrixException {
+
+        Matrix internal = new Matrix(data);
+
+        if (toSub.getNumRows() != internal.getNumRows()
+            || toSub.getNumColumns() != internal.getNumColumns()) {
+            throw new MatrixException();
+        }
+
+        StringBuilder bldr = new StringBuilder();
+        String newl = System.lineSeparator();
+
+        double[][] added = toSub.data;
+
+        for (int i = 0; i < data.length; i++) {
+            for (int j = 0; j < data[i].length; j++) {
+                acc[i][j] = data[i][j] - added[i][j];
+                bldr.append(String.format("%7.3f", acc[i][j]));
+            }
+            bldr.append(newl);
+        }
+        ;
+        holder = bldr.toString();
+        return new Matrix(acc);
+    };
+
+    /**
+     * The Multiply method for the Matrix class.
+     * 
+     * Multiplies a given matrix by this matrix. The result is a new matrix
+     * object. Throws MatrixException if this matrix and the given matrix have
+     * different dimensions.
+     * 
+     * @param toMul The given matrix to subtract.
+     * @return A new Matrix that is the product of the data variable and the
+     *         toMul argument.
+     * @throws MatrixException.
+     */
     public Matrix multiply(Matrix toMul) throws MatrixException {
+
         Matrix newMatrix = new Matrix(data);
 
-        int r1 = newMatrix.getNumRows(), c1 = newMatrix.getNumColumns();
-        int r2 = toMul.getNumRows(), c2 = toMul.getNumColumns();
+        if (toMul.getNumRows() != newMatrix.getNumColumns()) {
+            throw new MatrixException("Cant multiply these dimension");
+        }
 
-        double[][] current = newMatrix.getData();
-        double[][] multi = toMul.data;
+        final int r1 = newMatrix.getNumRows(), c1 = newMatrix.getNumColumns();
+        final int r2 = toMul.getNumRows(), c2 = toMul.getNumColumns();
+
+        final double[][] current = newMatrix.getData();
+        final double[][] multi = toMul.data;
         double[][] product = new double[r1][c2];
 
         for (int i = 0; i < r1; i++) {
@@ -134,6 +188,17 @@ public class Matrix {
         return new Matrix(product);
     };
 
+    /**
+     * The Multiply (scalar) method for the Matrix class.
+     * 
+     * Multiplies a given matrix by the provided scalar value. The result is a
+     * new matrix object. Throws MatrixException if this matrix and the given
+     * matrix have different dimensions.
+     * 
+     * @param scalar The given scalar value.
+     * @return A new Matrix that is the product of the data variable and the
+     *         scalar argument.
+     */
     public Matrix multiply(double scalar) {
         Matrix newMatrix = new Matrix(data);
 
@@ -145,8 +210,7 @@ public class Matrix {
         for (int i = 0; i < newMatrixData.length; i++) {
             for (int j = 0; j < newMatrixData[i].length; j++) {
                 newMatrixData[i][j] = newMatrixData[i][j] * scalar;
-
-                bldr.append(String.format("%05.3f", acc[i][j]));
+                bldr.append(String.format("%7.3f", acc[i][j]));
             }
             bldr.append(newl);
         }
@@ -154,19 +218,20 @@ public class Matrix {
         holder = bldr.toString();
         return new Matrix(newMatrixData);
     };
-//  Multiplies this matrix by a given scalar. The result is a new matrix object.
-//  scalar
-//  The given scalar.
-//
-//  Returns:
-//  A new matrix which is the scalar product of this matrix and the given scalar.
 
+    /**
+     * The Negate method for the Matrix class.
+     * 
+     * Negates a given matrix. The result is a new matrix object.
+     * 
+     * @return A new Matrix that is the difference of the data variable and the
+     *         toSub argument.
+     */
     public Matrix negate() {
 
         Matrix newMatrix = new Matrix(data);
 
         int r1 = newMatrix.getNumRows(), c1 = newMatrix.getNumColumns();
-//        int r2 = toMul.getNumRows(), c2 = toMul.getNumColumns();
 
         double[][] current = newMatrix.getData();
         double[][] result = new double[r1][c1];
@@ -176,51 +241,50 @@ public class Matrix {
 
         for (int i = 0; i < current.length; i++) {
             for (int j = 0; j < current[i].length; j++) {
-//                System.out.println("to sub " + Arrays.toString(data[i]));
                 result[i][j] = -1 * current[i][j];
-
-                bldr.append(String.format("%05.3f", result[i][j]));
+                bldr.append(String.format("%7.3f", result[i][j]));
             }
             bldr.append(newl);
         }
         holder = bldr.toString();
-        ;
         return new Matrix(result);
     };
-//  Returns a new matrix which is the negation of this matrix.
-//
-//  Returns:
-//  A new matrix which is the negation of this matrix.
 
+    /**
+     * The getElement method.
+     * 
+     * @param row The row count.
+     * @param col The column count.
+     * @return The value of the element at the specified row and column.
+     * @throws IndexOutOfBoundsException.
+     */
     public double getElement(int row, int col)
-    throws IndexOutOfBoundsException {
-
+        throws IndexOutOfBoundsException {
         try {
             return data[row][col];
         } catch (IndexOutOfBoundsException exc) {
-            throw new IndexOutOfBoundsException();
+            throw new IndexOutOfBoundsException(
+                "Element isn't there" + exc.getCause());
         }
-
     };
-//  Returns the value of the element at a given row and column. Throws IndexOutOfBoundsException if the row or column are out of range.
-//  row
-//  The given row.
-//
-//  col
-//  The given column.
-//
-//  Returns:
-//  The value of the element at the given row and column.
 
+    /**
+     * The getData method.
+     * 
+     * @return A copy of the value stored in the data variable.
+     */
     public double[][] getData() {
         double[][] copy = this.data;
         return copy;
     };
-//  Returns an array which is a copy of the internal array.
-//
-//  Returns:
-//  An array which is a copy of the internal array.
 
+    /**
+     * The getRow method.
+     * 
+     * @param row The provided row value to return.
+     * @return The row of the matrix at the provided row value.
+     * @throws IndexOutOfBoundsException.
+     */
     public double[] getRow(int row) throws IndexOutOfBoundsException {
         try {
             return data[row];
@@ -228,43 +292,59 @@ public class Matrix {
             throw exc;
         }
     };
-//  Returns a one-dimensional array containing a copy of the given row. Throws IndexOutOfBoundsException if the given row is out of range.
-//  row
-//  The given row.
-//
-//  Returns:
-//  A one-dimensional array containing a copy of the given row. 
 
+    /**
+     * The getCol method.
+     * 
+     * @param col The provided row value to return.
+     * @return The column of the matrix at the provided column value.
+     * @throws IndexOutOfBoundsException
+     */
     public double[] getCol(int col) throws IndexOutOfBoundsException {
-
         try {
             return data[col];
         } catch (IndexOutOfBoundsException exc) {
             throw exc;
         }
-
     };
-//  Returns a one-dimensional array reflecting the data in the given column. Throws IndexOutOfBoundsException if the given column is out of range.
-//  col
-//  The given column.
-//
-//  Returns:
-//  A one-dimensional array reflecting the data in the given column.
 
+    /**
+     * The getNumRows method.
+     * 
+     * This method returns the number of rows of the specified matrix.
+     * 
+     * @return The number of rows in this matrix.
+     */
     public int getNumRows() {
         return data.length;
     };
-//  Returns the number of rows in this matrix.
-//  Returns:
-//  The number of rows in this matrix.
 
+    /**
+     * The getNumCols method.
+     * 
+     * This method returns the number of columns of the specified matrix.
+     * 
+     * @return The number of columns in this matrix.
+     */
     public int getNumColumns() {
         return data[0].length;
     };
-//  Returns the number of columns in this matrix.
-//  Returns:
-//  The number of columns in this matrix.
 
+    /**
+     * The approxEqual method.
+     * 
+     * This element checks to see if two matrices are approximately equal. The
+     * two matrices are equal if: A. They have the same number of rows. B. They
+     * have the same number of columns and C. Corresponding elements are
+     * approximately equal as determined by the epsilon test, which is Math.abs(
+     * this-element - test-element ) < epsilon.
+     * 
+     * @param test    A matrix to compare to the internal array.
+     * @param epsilon The epsilon test. See above for explanation.
+     * @return A boolean value indicating whether or not the two matrices are
+     *         approximately equal.
+     * 
+     */
     public boolean approxEqual(Matrix test, double epsilon) {
         Matrix currentMatrix = new Matrix(data);
 
@@ -300,44 +380,32 @@ public class Matrix {
             return false;
         }
     };
-//  Returns true if this matrix is approximately equal to a given matrix. The two matrices are equal if:
-//  They have the same number of rows.
-//  They have the same number of columns.
-//  Corresponding elements are approximately equal as determined by the epsilon test: Math.abs( this-element - test-element ) < epsilon.
-//
-//
-//  test
-//  The given matrix.
-//
-//  Returns:
-//  True, if this matrix is approximately equal to the given matrix according to the above criteria; false otherwise.
 
+    /**
+     * The toString method for this class.
+     * 
+     * @return The formatted string representing the encapsulated data. The
+     *         format of the string conforms to the details specified in the
+     *         required toString Format detailed in the assignment outline.
+     */
     public String toString() {
 
         StringBuilder bldr = new StringBuilder();
         String newl = System.lineSeparator();
 
         for (int i = 0; i < data.length; i++) {
-            bldr.append("|");
+            bldr.append("| ");
             for (int j = 0; j < data[i].length; j++) {
-//                bldr.append("  ").append(String.format("%05.3f", dataIn[i][j]))
-                bldr.append("  ").append(String.format("%7.3f", data[i][j]))
-
-                .append("  ");
+                bldr.append("").append(String.format("%7.3f", data[i][j]))
+                    .append("");
             }
-            bldr.append("|");
+            bldr.append(" |");
             bldr.append(newl);
-//            System.out.println("constructor" + Arrays.toString(dataIn[i]));
         }
         ;
-
         holder = bldr.toString();
 
         String holder2 = holder;
         return holder2;
     };
-//  Returns a formatted string representing the encapsulated data. The format of the string must conform to the details specified in Required toString Format, above.
-//  Returns:
-//  A formatted string representing the encapsulated data.
-
 }
