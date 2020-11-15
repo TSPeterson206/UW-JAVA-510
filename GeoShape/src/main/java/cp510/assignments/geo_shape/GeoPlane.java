@@ -2,16 +2,16 @@ package cp510.assignments.geo_shape;
 
 import java.awt.Color;
 
+/**
+ * The GeoPlane class for UW java 510 assignment 4 (GeoShape part 1).
+ * 
+ * The GeoPlane class handles the adding and removal of shapes. It has methods
+ * to add and remove shapes, as well as setters and getters for background
+ * color.
+ * 
+ * @author Toby Peterson.
+ */
 public class GeoPlane {
-    /**
-     * The GeoPlane class for UW java 510 assignment 4 (GeoShape part 1).
-     * 
-     * The GeoPlane class handles the adding and removal of shapes. It has
-     * methods to add and remove shapes, as well as setters and getters for
-     * background color.
-     * 
-     * @author Toby Peterson.
-     */
 
     Color backgroundColor = new Color(.5f, .5f, .5f);
 
@@ -34,7 +34,6 @@ public class GeoPlane {
      * 
      * @param shape A GeoShape object to help with adding a shape.
      */
-
     public void addShape(GeoShape shape) {
         // Currently a stub.
     };
@@ -50,7 +49,6 @@ public class GeoPlane {
      * @param shape The shape to remove.
      * @return The GeoShape object needing removal.
      */
-
     public GeoShape removeShape(GeoShape shape) {
         return null;
         // Currently a stub.
@@ -62,7 +60,6 @@ public class GeoPlane {
      * Explicitly draws the shapes in the list of shapes. Calling this method
      * has no effect if the plane is not visible.
      */
-
     public void redraw() {
         // Currently a stub.
     };

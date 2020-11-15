@@ -2,7 +2,7 @@ package cp510.assignments.geo_shape;
 
 import java.awt.Color;
 
-public class GeoShapeDriverV1 {
+public class GeoShapeDriver {
     public static void main(String[] args) {
         GeoPoint point1 = new GeoPoint();
         point1.setXco(5.55555);
@@ -20,8 +20,6 @@ public class GeoShapeDriverV1 {
         GeoPoint point4 = new GeoPoint();
         point4.setXco(1000);
         point4.setYco(2000);
-
-//        System.out.println("point1" + point1);
 
         GeoShape shape = new GeoShape();
         shape.setColor(null);
@@ -64,6 +62,8 @@ public class GeoShapeDriverV1 {
         System.out.println(line);
         line.setStart(point2);
         System.out.println(line);
+//        line.distance();
+//        System.out.println(line);
 
         System.out.println(new GeoPlane().getBackgroundColor());
 
