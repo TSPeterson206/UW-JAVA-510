@@ -90,6 +90,8 @@ public class GeoShapeDriverV2 {
         plane.addShape(shape);
         shape.draw(null);
 
+        System.out.println("plane" + plane.getShapes());
+
         Graphics2D gtx = getGraphicsCtx();
         plane.redraw(gtx);
 

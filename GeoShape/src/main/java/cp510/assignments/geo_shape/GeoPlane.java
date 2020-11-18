@@ -127,6 +127,6 @@ public class GeoPlane implements GWindowUser {
     };
 
     public void redraw() {
-        gWindow.repaint();
+//        gWindow.repaint();
     };
 }
