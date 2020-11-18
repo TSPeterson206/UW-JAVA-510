@@ -22,10 +22,20 @@ public class GeoPoint {
      * GeoPoint constructor.
      * 
      * The constructor to initiate an instance of GeoPoint.
+     * 
+     * @param yco2
+     * @param xco2
      */
     public GeoPoint() {
 
-    };
+    }
+//    Sets the x- and y-coordinates to 0.
+
+    public GeoPoint(double xco, double yco) {
+        this.xco = xco;
+        this.yco = yco;
+    }
+//    Sets the x- and y-coordinates to the given values.
 
     /**
      * The getxCo getter.

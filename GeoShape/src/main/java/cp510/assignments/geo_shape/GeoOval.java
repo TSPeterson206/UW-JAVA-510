@@ -1,5 +1,8 @@
 package cp510.assignments.geo_shape;
 
+import java.awt.Color;
+import java.awt.Graphics2D;
+
 /**
  * The GeoOval class for UW java 510 assignment 4 (GeoShape part 1).
  * 
@@ -12,6 +15,58 @@ package cp510.assignments.geo_shape;
  */
 public class GeoOval extends GeoRectangle {
 
+    public GeoOval(double width, double height) {
+        this(origin, color, width, height);
+        this.width = width;
+        this.height = height;
+        this.origin = DEFAULT_ORIGIN;
+        this.color = DEFAULT_COLOR;
+    };
+//    Sets the width and height of this oval to the given values. Sets the origin and color properties to the defaults (DEFAULT_ORIGIN and DEFAULT_COLOR). It is required that this constructor chains to the four-parameter constructor.
+//    width
+//    The given width.
+//
+//    height
+//    The given height.
+
+    public GeoOval(GeoPoint origin, double width, double height) {
+        this(origin, color, width, height);
+        this.width = width;
+        this.height = height;
+        this.origin = origin;
+        this.color = DEFAULT_COLOR;
+    };
+//    Sets the origin, width and height of this oval to the given values. Sets the color property to the default (DEFAULT_COLOR). It is required that this constructor chains to the four-parameter constructor.
+//    origin
+//    The given origin.
+//
+//    width
+//    The given width.
+//
+//    height
+//    The given height.
+
+    public GeoOval(GeoPoint origin, Color color, double width, double height) {
+        super(origin, color, width, height);
+        this.origin = origin;
+        this.color = color;
+        this.width = width;
+        this.height = height;
+
+    };
+
+//    Sets the origin, color, width and height of this oval to the given values. 
+//    origin
+//    The given origin.
+//
+//    color
+//    The given color.
+//
+//    width
+//    The given width.
+//
+//    height
+//    The given height.
     /**
      * The area calculation method for GeoOval.
      * 
@@ -34,5 +89,13 @@ public class GeoOval extends GeoRectangle {
     public double perimeter() {
         // Currently a stub.
         return 0.00;
+    };
+
+    public String toString() {
+        return "";
+    };
+
+    public void draw(Graphics2D gtx) {
+        System.out.println("Drawing Oval: " + toString());
     };
 }

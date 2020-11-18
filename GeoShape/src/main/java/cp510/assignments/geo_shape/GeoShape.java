@@ -1,6 +1,7 @@
 package cp510.assignments.geo_shape;
 
 import java.awt.Color;
+import java.awt.Graphics2D;
 
 /**
  * The GeoShape class for UW java 510 assignment 4 (GeoShape part 1).
@@ -12,22 +13,48 @@ import java.awt.Color;
  * 
  * @author Toby Peterson.
  */
-public class GeoShape {
+public abstract class GeoShape {
 
 //    private GeoPoint origin;
-    private GeoPoint origin = new GeoPoint();
+    protected static GeoPoint origin;
+    protected static Color color;
 
-    protected Color color;
+//    private String originConvert;
+    Color edgeColor;
+//    The edge color of the shape.
 
-    private String originConvert;
+    double edgeWidth;
+//    The edge width of the shape.
 
-    /**
-     * GeoShape constructor.
-     * 
-     * The constructor to initiate an instance of GeoShape.
-     */
-    public GeoShape() {
+    static Color DEFAULT_COLOR = Color.BLUE;
+    public static Color DEFAULT_EDGE_COLOR = Color.BLACK;
+    static double DEFAULT_EDGE_WIDTH = 1;
+    static GeoPoint DEFAULT_ORIGIN = new GeoPoint(0, 0);
+
+    String edgeColorConvert = null;
+
+    GeoShape(GeoPoint origin, Color color) throws NullPointerException {
+        if (origin == null) {
+            throw new NullPointerException();
+        } else {
+            this.origin = origin;
+        }
+        setColor(color);
     };
+//    Sets the origin and color of the shape. Origin may not be null. If null is passed for the origin NullPointerException must be thrown.
+//    origin
+//    The origin of the shape. May not be null. If null is passed for the origin NullPointerException must be thrown.
+//
+//    color
+//    The fill color of the shape (may be null).
+
+//    /**
+//     * GeoShape constructor.
+//     * 
+//     * The constructor to initiate an instance of GeoShape.
+//     */
+//    public GeoShape() {
+//    };
 
     /**
      * The getOrigin getter.
@@ -79,15 +106,6 @@ public class GeoShape {
      *              into a string format.
      */
     public void setColor(Color color) {
-//        String colorConvert;
-//
-//        if (color != null) {
-//            int argb = color.getRGB();
-//            int rgb = argb & 0x00FFFFFF;
-//            colorConvert = String.format("#%06X", rgb);
-//            this.color = color;
-//        }
-//        ;
         this.color = color;
     };
 
@@ -102,21 +120,52 @@ public class GeoShape {
      */
     public String toString() {
 
+        StringBuilder bldr = new StringBuilder();
+
         String colorConvert = null;
 
         if (color != null) {
             int argb = color.getRGB();
             int rgb = argb & 0x00FFFFFF;
             colorConvert = String.format("#%06X", rgb);
-//            this.color = color;
         } else {
             color = null;
         }
         ;
 
-//        if (origin == null) {
-//            return "origin=" + "(0.0000,0.0000)" + ",color=" + colorConvert;
-//        }
-        return "origin=" + origin + ",color=" + colorConvert;
+        if (edgeColor != null) {
+            int argb = edgeColor.getRGB();
+            int rgb = argb & 0x00FFFFFF;
+            edgeColorConvert = String.format("#%06X", rgb);
+        } else {
+            edgeColor = null;
+        }
+
+        bldr.append("origin=").append(origin).append(",color=")
+            .append(colorConvert).append(",edgeColor=").append(edgeColorConvert)
+            .append(",edgeWidth=").append(edgeWidth);
+//        return "origin=" + origin + ",color=" + colorConvert;
+        return bldr.toString();
+    }
+
+    public Color getEdgeColor() {
+        return this.edgeColor;
+    }
+
+    public void setEdgeColor(Color edgeColor) {
+        // TODO Auto-generated method stub
+        this.edgeColor = edgeColor;
+    }
+
+    public double getEdgeWidth() {
+        return this.edgeWidth;
+    }
+
+    public void setEdgeWidth(double edgeWidth) {
+        // TODO Auto-generated method stub
+        this.edgeWidth = edgeWidth;
+
     };
+
+    public abstract void draw(Graphics2D gtx);
 }
