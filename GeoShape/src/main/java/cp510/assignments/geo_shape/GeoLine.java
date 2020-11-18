@@ -1,6 +1,7 @@
 package cp510.assignments.geo_shape;
 
 import java.awt.Color;
+import java.awt.Graphics2D;
 
 /**
  * The GeoLine class for UW java 510 assignment 4 (GeoShape part 1).
@@ -19,7 +20,61 @@ public class GeoLine extends GeoShape {
 
     private Color tempColor;
 
-    private GeoPoint end = new GeoPoint();
+    GeoPoint end;
+
+//    private GeoPoint end = new GeoPoint(0, 0);
+
+    public GeoLine(GeoPoint start, GeoPoint end) throws NullPointerException {
+        this(start, end, DEFAULT_EDGE_COLOR, DEFAULT_EDGE_WIDTH);
+
+//        super(DEFAULT_EDGE_COLOR, DEFAULT_EDGE_WIDTH);
+        this.edgeColor = DEFAULT_EDGE_COLOR;
+        this.edgeWidth = DEFAULT_EDGE_WIDTH;
+
+    };
+//    Sets the start and endpoints of this line to the given values. Sets the edgeColor and edgeWidth properties to the defaults (DEFAULT_EDGE_COLOR and DEFAULT_EDGE_WIDTH) and sets the color property to null. It is required that this constructor chains to the four-parameter constructor.
+//    start
+//    The given start point.
+//
+//    end
+//    The given height.
+
+    public GeoLine(GeoPoint start, GeoPoint end, double width)
+        throws NullPointerException {
+        this(start, end, DEFAULT_EDGE_COLOR, width);
+        this.edgeColor = DEFAULT_EDGE_COLOR;
+    };
+//    Sets the start point, endpoint and edgeWidth properties of this line to the given values. Sets the edgeColor property to the default (DEFAULT_EDGE_COLOR) and sets the color property to null. It is required that this constructor chain to the four-parameter constructor.
+//    start
+//    The given start point.
+//
+//    end
+//    The given endpoint.
+//
+//    width
+//    The given edge width.
+
+    public GeoLine(GeoPoint start, GeoPoint end, Color edgeColor, double width)
+        throws NullPointerException {
+        super(origin, color);
+        this.color = null;
+        this.start = start;
+        this.end = end;
+        this.edgeColor = edgeColor;
+        this.edgeWidth = width;
+    };
+//    Sets the properties of this line to the given values; the color property is explicitly set to null.
+//    start
+//    The given start point.
+//
+//    edgeColor
+//    The given edge color.
+//
+//    end
+//    The given endpoint.
+//
+//    width
+//    The given edge width.
 
     /**
      * The getEnd method for GeoLine.
@@ -94,8 +149,16 @@ public class GeoLine extends GeoShape {
      *         the generated line.
      */
     public String toString() {
+
+        String edgeColorConvert = null;
+        if (edgeColor != null) {
+            int argb = edgeColor.getRGB();
+            int rgb = argb & 0x00FFFFFF;
+            edgeColorConvert = String.format("#%06X", rgb);
+        }
+        ;
+
         String colorConvert = null;
-        System.out.println("testing color" + getColor());
         if (getColor() != null) {
             int argb = this.color.getRGB();
             int rgb = argb & 0x00FFFFFF;
@@ -105,7 +168,18 @@ public class GeoLine extends GeoShape {
             color = null;
         }
         ;
-        return "origin=" + getOrigin() + ",color=" + colorConvert + ",end="
-            + end;
+        return "origin=" + getOrigin() + ",color=" + colorConvert
+            + ",edgeColor=" + edgeColorConvert + ",edgeWidth=" + edgeWidth
+            + ",end=" + end;
+    }
+
+    @Override
+    public void draw(Graphics2D gtx) {
+        // TODO Auto-generated method stub
+        System.out.println("Drawing Line: " + toString());
+
     };
+
+    public void setColor(Color color) {
+    }
 }

@@ -1,6 +1,7 @@
 package cp510.assignments.geo_shape;
 
 import java.awt.Color;
+import java.awt.Graphics2D;
 
 /**
  * The GeoRectangle class for UW java 510 assignment 4 (GeoShape part 1).
@@ -23,9 +24,38 @@ public class GeoRectangle extends GeoShape {
      * 
      * The constructor to initiate an instance of GeoRectangle.
      */
-    public GeoRectangle() {
 
-    };
+//    public GeoRectangle() {
+//    }
+
+    public GeoRectangle(double width, double height) {
+        this(origin, color, width, height);
+
+//        super(DEFAULT_ORIGIN, DEFAULT_COLOR);
+        this.width = width;
+        this.height = height;
+        this.origin = DEFAULT_ORIGIN;
+        this.color = DEFAULT_COLOR;
+    }
+
+    public GeoRectangle(GeoPoint origin, double width, double height) {
+        this(origin, color, width, height);
+
+//        super(DEFAULT_ORIGIN, DEFAULT_COLOR);
+        this.width = width;
+        this.height = height;
+        this.origin = origin;
+        this.color = DEFAULT_COLOR;
+    }
+
+    public GeoRectangle(GeoPoint origin, Color color, double width,
+        double height) {
+        super(DEFAULT_ORIGIN, DEFAULT_COLOR);
+        this.width = width;
+        this.height = height;
+        this.origin = origin;
+        setColor(color);
+    }
 
     /**
      * The setColor setter.
@@ -40,6 +70,7 @@ public class GeoRectangle extends GeoShape {
             this.colorConvert = String.format("#%06X", rgb);
         }
         ;
+        this.color = color;
     };
 
     /**
@@ -118,9 +149,22 @@ public class GeoRectangle extends GeoShape {
      *         width values for the generated shape.
      */
     public String toString() {
-        return "origin=" + getOrigin() + ",color=" + colorConvert + ",width="
-            + String.format("%05.4f", width) + ",height="
+//        System.out.println("color in rectangle" + color);
+        String edgeColorConvert = null;
+        if (edgeColor != null) {
+            int argb = edgeColor.getRGB();
+            int rgb = argb & 0x00FFFFFF;
+            edgeColorConvert = String.format("#%06X", rgb);
+        }
+        ;
+        return "origin=" + getOrigin() + ",color=" + colorConvert
+            + ",edgeColor=" + edgeColorConvert + ",edgeWidth=" + edgeWidth
+            + ",width=" + String.format("%05.4f", width) + ",height="
             + String.format("%05.4f", height);
     };
+
+    public void draw(Graphics2D gtx) {
+        System.out.println("Drawing Rectangle: " + toString());
+    }
 
 }

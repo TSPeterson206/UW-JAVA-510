@@ -1,6 +1,12 @@
 package cp510.assignments.geo_shape;
 
 import java.awt.Color;
+import java.awt.Graphics2D;
+import java.util.ArrayList;
+import java.util.List;
+
+import uw.syp.java.tools.GWindow;
+import uw.syp.java.tools.GWindowUser;
 
 /**
  * The GeoPlane class for UW java 510 assignment 4 (GeoShape part 1).
@@ -11,9 +17,26 @@ import java.awt.Color;
  * 
  * @author Toby Peterson.
  */
-public class GeoPlane {
+public class GeoPlane implements GWindowUser {
 
-    Color backgroundColor = new Color(.5f, .5f, .5f);
+    Color backgroundColor;
+
+    List<GeoShape> geoList = new ArrayList<GeoShape>();
+//    Contains a list of GeoShape objects to be drawn on the plane.
+
+    GWindow gWindow;
+
+    public GeoPlane() {
+        backgroundColor = new Color(.5f, .5f, .5f);
+    }
+//    Default constructor; sets the background color to medium gray (new Color(.5F,.5F,.fF)).
+
+    public GeoPlane(Color color) {
+        this.backgroundColor = color;
+    }
+//    Sets the background color to a given color.
+//    color
+//    The given color.
 
     /**
      * The show method for GeoPlane.
@@ -36,6 +59,7 @@ public class GeoPlane {
      */
     public void addShape(GeoShape shape) {
         // Currently a stub.
+        geoList.add(shape);
     };
 
     /**
@@ -50,8 +74,18 @@ public class GeoPlane {
      * @return The GeoShape object needing removal.
      */
     public GeoShape removeShape(GeoShape shape) {
-        return null;
+//        return null;
+        if (geoList.contains(shape)) {
+            geoList.remove(shape);
+            return shape;
+        } else {
+            return null;
+        }
         // Currently a stub.
+    };
+
+    public List<GeoShape> getShapes() {
+        return geoList;
     };
 
     /**
@@ -59,9 +93,13 @@ public class GeoPlane {
      * 
      * Explicitly draws the shapes in the list of shapes. Calling this method
      * has no effect if the plane is not visible.
+     * 
+     * @param gtx
      */
-    public void redraw() {
+    public void redraw(Graphics2D gtx) {
         // Currently a stub.
+//        GWindowUser.redraw()
+        redraw(gtx);
     };
 
     /**
@@ -85,5 +123,9 @@ public class GeoPlane {
      */
     public void setBackgroundColor(Color color) {
         this.backgroundColor = color;
+    };
+
+    public void redraw() {
+        gWindow.repaint();
     };
 }
