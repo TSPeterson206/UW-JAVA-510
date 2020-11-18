@@ -4,7 +4,7 @@
   <groupId>cp510.assignments</groupId>
   <artifactId>GeoShape</artifactId>
   <packaging>jar</packaging>
-  <version>01</version>
+  <version>02</version>
   <name>GeoShape</name>
   <url>http://maven.apache.org</url>
   <dependencies>

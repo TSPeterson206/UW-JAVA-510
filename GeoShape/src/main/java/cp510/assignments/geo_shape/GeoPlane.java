@@ -99,7 +99,8 @@ public class GeoPlane implements GWindowUser {
     public void redraw(Graphics2D gtx) {
         // Currently a stub.
 //        GWindowUser.redraw()
-        redraw(gtx);
+//        redraw(gtx);
+        gWindow.repaint();
     };
 
     /**

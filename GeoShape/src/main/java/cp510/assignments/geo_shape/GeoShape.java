@@ -34,11 +34,11 @@ public abstract class GeoShape {
     String edgeColorConvert = null;
 
     GeoShape(GeoPoint origin, Color color) throws NullPointerException {
-        if (origin == null) {
-            throw new NullPointerException();
-        } else {
-            this.origin = origin;
-        }
+//        if (origin == null) {
+//            throw new NullPointerException();
+//        } else {
+        this.origin = origin;
+//        }
         setColor(color);
     };
 //    Sets the origin and color of the shape. Origin may not be null. If null is passed for the origin NullPointerException must be thrown.
