@@ -92,7 +92,13 @@ public class GeoOval extends GeoRectangle {
     };
 
     public String toString() {
-        return "";
+        StringBuilder bldr = new StringBuilder();
+        bldr.append("origin=").append(origin).append(",color=").append(color)
+            .append(",edgeColor=").append(edgeColor).append("edgeWidth")
+            .append(edgeWidth).append("width").append(width).append("height")
+            .append(height);
+        // origin=(0.0000,0.0000),color=#0000FF,edgeColor=null,edgeWidth=1.0000,width=15.3246,height=71.0575
+        return bldr.toString();
     };
 
     public void draw(Graphics2D gtx) {
