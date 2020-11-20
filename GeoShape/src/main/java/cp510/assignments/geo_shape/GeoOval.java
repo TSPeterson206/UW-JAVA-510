@@ -48,11 +48,10 @@ public class GeoOval extends GeoRectangle {
 
     public GeoOval(GeoPoint origin, Color color, double width, double height) {
         super(origin, color, width, height);
-        this.origin = origin;
-        this.color = color;
+        this.origin = origin == null ? DEFAULT_ORIGIN : origin;
+        this.color = color == null ? DEFAULT_COLOR : color;
         this.width = width;
         this.height = height;
-
     };
 
 //    Sets the origin, color, width and height of this oval to the given values. 
@@ -92,11 +91,32 @@ public class GeoOval extends GeoRectangle {
     };
 
     public String toString() {
+
+        String colorConvert = null;
+        if (getColor() != null) {
+            int argb = this.color.getRGB();
+            int rgb = argb & 0x00FFFFFF;
+            colorConvert = String.format("#%06X", rgb);
+//            this.color = color;
+        } else {
+            color = null;
+        }
+        ;
+
+        String edgeColorConvert = null;
+        if (edgeColor != null) {
+            int argb = edgeColor.getRGB();
+            int rgb = argb & 0x00FFFFFF;
+            edgeColorConvert = String.format("#%06X", rgb);
+        }
+        ;
+
         StringBuilder bldr = new StringBuilder();
-        bldr.append("origin=").append(origin).append(",color=").append(color)
-            .append(",edgeColor=").append(edgeColor).append("edgeWidth")
-            .append(edgeWidth).append("width").append(width).append("height")
-            .append(height);
+        bldr.append("origin=").append(origin).append(",color=")
+            .append(colorConvert).append(",edgeColor=").append(edgeColorConvert)
+            .append(",edgeWidth=").append(String.format("%05.4f", edgeWidth))
+            .append(",width=").append(String.format("%05.4f", width))
+            .append(",height=").append(String.format("%05.4f", height));
         // origin=(0.0000,0.0000),color=#0000FF,edgeColor=null,edgeWidth=1.0000,width=15.3246,height=71.0575
         return bldr.toString();
     };

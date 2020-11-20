@@ -18,18 +18,29 @@ public class GeoShapeDriverV2 {
         shape.setEdgeColor(dat.edgeColor);
         shape.setEdgeWidth(dat.edgeWidth);
         shape.draw(null);
+//        System.out.println("***" + shape.toString());
 
         plane.addShape(shape);
+//        System.out.println("plane1" + plane.getShapes());
         shape = new GeoLine(dat.point1, dat.point2, dat.edgeColor,
             dat.edgeWidth);
         plane.addShape(shape);
+//        System.out.println("plane2" + plane.getShapes());
+//        System.out.println("***" + shape.toString());
+//        System.out.println("***" + shape.toString());
+
         shape.draw(null);
 
         /* edgeWidth default */
         dat.next();
         shape = new GeoOval(dat.point1, dat.color, dat.width, dat.height);
+//        System.out.println("geo oval" + dat.point1 + "  " + dat.color + "  "
+//            + dat.width + "  " + dat.height);
         shape.setEdgeColor(dat.edgeColor);
         plane.addShape(shape);
+//        System.out.println("plane3" + plane.getShapes());
+//        System.out.println("***" + shape.toString());
+
         shape.draw(null);
 
         shape = new GeoLine(dat.point1, dat.point2, null, 0);
@@ -40,6 +51,8 @@ public class GeoShapeDriverV2 {
         dat.next();
         shape = new GeoRectangle(dat.point1, null, dat.width, dat.height);
         plane.addShape(shape);
+        shape.draw(null);
+
         shape = new GeoLine(dat.point1, dat.point2, null, dat.edgeWidth);
         plane.addShape(shape);
         shape.draw(null);
@@ -91,6 +104,7 @@ public class GeoShapeDriverV2 {
         shape.draw(null);
 
         System.out.println("plane" + plane.getShapes());
+        ;
 
         Graphics2D gtx = getGraphicsCtx();
         plane.redraw(gtx);

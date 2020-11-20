@@ -85,6 +85,9 @@ public class GeoPlane implements GWindowUser {
     };
 
     public List<GeoShape> getShapes() {
+        for (GeoShape item : geoList)
+            System.out.println(item);
+
         return geoList;
     };
 
@@ -97,10 +100,11 @@ public class GeoPlane implements GWindowUser {
      * @param gtx
      */
     public void redraw(Graphics2D gtx) {
-        // Currently a stub.
-//        GWindowUser.redraw()
-//        redraw(gtx);
-        gWindow.repaint();
+//        // Currently a stub.
+//        GWindowUser.redraw((Graphics2D) geoList);
+////        redraw(gtx);
+////        gWindow.repaint();
+//        geoList.draw();
     };
 
     /**
