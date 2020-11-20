@@ -54,6 +54,7 @@ public class GeoRectangle extends GeoShape {
         this.width = width;
         this.height = height;
         this.origin = origin;
+        this.edgeColor = DEFAULT_EDGE_COLOR;
         setColor(color);
     }
 
@@ -150,16 +151,17 @@ public class GeoRectangle extends GeoShape {
      */
     public String toString() {
 //        System.out.println("color in rectangle" + color);
-        String edgeColorConvert = null;
+//        String edgeColorConvert = null;
         if (edgeColor != null) {
             int argb = edgeColor.getRGB();
             int rgb = argb & 0x00FFFFFF;
             edgeColorConvert = String.format("#%06X", rgb);
         }
         ;
-        return "origin=" + getOrigin() + ",color=" + colorConvert
-            + ",edgeColor=" + edgeColorConvert + ",edgeWidth=" + edgeWidth
-            + ",width=" + String.format("%05.4f", width) + ",height="
+        return "origin=" + origin + ",color=" + colorConvert + ",edgeColor="
+            + edgeColorConvert + ",edgeWidth="
+            + String.format("%05.4f", edgeWidth) + ",width="
+            + String.format("%05.4f", width) + ",height="
             + String.format("%05.4f", height);
     };
 

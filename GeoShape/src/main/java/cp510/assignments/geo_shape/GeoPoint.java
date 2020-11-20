@@ -111,6 +111,7 @@ public class GeoPoint {
      *         generated shape.
      */
     public String toString() {
+//        System.out.println("hitting geopoint tostring" + xco + " " + yco);
         return "(" + String.format("%05.4f", xco) + ","
             + String.format("%05.4f", yco) + ")";
     };

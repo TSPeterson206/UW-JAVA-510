@@ -16,14 +16,14 @@ import java.awt.Graphics2D;
 public abstract class GeoShape {
 
 //    private GeoPoint origin;
-    protected static GeoPoint origin;
+    public static GeoPoint origin = new GeoPoint(0, 0);
     protected static Color color;
 
 //    private String originConvert;
     Color edgeColor;
 //    The edge color of the shape.
 
-    double edgeWidth;
+    double edgeWidth = 1;
 //    The edge width of the shape.
 
     static Color DEFAULT_COLOR = Color.BLUE;
@@ -31,13 +31,14 @@ public abstract class GeoShape {
     static double DEFAULT_EDGE_WIDTH = 1;
     static GeoPoint DEFAULT_ORIGIN = new GeoPoint(0, 0);
 
-    String edgeColorConvert = null;
+    String edgeColorConvert;
 
     GeoShape(GeoPoint origin, Color color) throws NullPointerException {
 //        if (origin == null) {
 //            throw new NullPointerException();
 //        } else {
-        this.origin = origin;
+//        this.origin = origin;
+        setOrigin(origin);
 //        }
         setColor(color);
     };
@@ -77,11 +78,11 @@ public abstract class GeoShape {
      * @throws NullPointerException of the submitted origin is null.
      */
     public void setOrigin(GeoPoint origin) {
-        if (origin == null) {
-            throw new NullPointerException(
-                "Life is about substance. This can't be null.");
-        }
-        ;
+//        if (origin == null) {
+//            throw new NullPointerException(
+//                "Life is about substance. This can't be null.");
+//        }
+//        ;
         this.origin = origin;
     };
 
@@ -137,8 +138,6 @@ public abstract class GeoShape {
             int argb = edgeColor.getRGB();
             int rgb = argb & 0x00FFFFFF;
             edgeColorConvert = String.format("#%06X", rgb);
-        } else {
-            edgeColor = null;
         }
 
         bldr.append("origin=").append(origin).append(",color=")
@@ -154,7 +153,12 @@ public abstract class GeoShape {
 
     public void setEdgeColor(Color edgeColor) {
         // TODO Auto-generated method stub
-        this.edgeColor = edgeColor;
+//        System.out.println("setting edge color" + edgeColor);
+        if (edgeColor == null) {
+            this.edgeColor = null;
+        } else {
+            this.edgeColor = edgeColor;
+        }
     }
 
     public double getEdgeWidth() {

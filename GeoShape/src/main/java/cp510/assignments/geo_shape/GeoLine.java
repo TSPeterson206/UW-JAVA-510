@@ -27,9 +27,15 @@ public class GeoLine extends GeoShape {
     public GeoLine(GeoPoint start, GeoPoint end) throws NullPointerException {
         this(start, end, DEFAULT_EDGE_COLOR, DEFAULT_EDGE_WIDTH);
 
+        System.out.println("hitting geoline 2param constructor" + start + "  "
+            + end + "  " + edgeColor + "  " + edgeWidth);
+
 //        super(DEFAULT_EDGE_COLOR, DEFAULT_EDGE_WIDTH);
         this.edgeColor = DEFAULT_EDGE_COLOR;
         this.edgeWidth = DEFAULT_EDGE_WIDTH;
+        this.start = start;
+        this.end = end;
+        this.color = null;
 
     };
 //    Sets the start and endpoints of this line to the given values. Sets the edgeColor and edgeWidth properties to the defaults (DEFAULT_EDGE_COLOR and DEFAULT_EDGE_WIDTH) and sets the color property to null. It is required that this constructor chains to the four-parameter constructor.
@@ -42,7 +48,13 @@ public class GeoLine extends GeoShape {
     public GeoLine(GeoPoint start, GeoPoint end, double width)
         throws NullPointerException {
         this(start, end, DEFAULT_EDGE_COLOR, width);
+        System.out.println("hitting geoline 3param constructor" + start + "  "
+            + end + "  " + edgeColor + "  " + edgeWidth);
+        this.start = start;
+        this.end = end;
         this.edgeColor = DEFAULT_EDGE_COLOR;
+        this.edgeWidth = width;
+        this.color = null;
     };
 //    Sets the start point, endpoint and edgeWidth properties of this line to the given values. Sets the edgeColor property to the default (DEFAULT_EDGE_COLOR) and sets the color property to null. It is required that this constructor chain to the four-parameter constructor.
 //    start
@@ -57,11 +69,21 @@ public class GeoLine extends GeoShape {
     public GeoLine(GeoPoint start, GeoPoint end, Color edgeColor, double width)
         throws NullPointerException {
         super(origin, color);
+
         this.color = null;
-        this.start = start;
+        this.origin = start;
         this.end = end;
         this.edgeColor = edgeColor;
+        this.edgeColor = edgeColor == null ? DEFAULT_EDGE_COLOR : edgeColor;
         this.edgeWidth = width;
+        if (width == 0) {
+            this.edgeWidth = DEFAULT_EDGE_WIDTH;
+        }
+        ;
+//        GeoShape.origin = getOrigin();
+//        System.out.println("****** hitting geoline 4param constructor" + start
+//            + "  " + end + "  " + edgeColor + "  " + width + "  " + edgeWidth
+//            + "origin" + origin + "******");
     };
 //    Sets the properties of this line to the given values; the color property is explicitly set to null.
 //    start
@@ -150,7 +172,7 @@ public class GeoLine extends GeoShape {
      */
     public String toString() {
 
-        String edgeColorConvert = null;
+//        String edgeColorConvert = null;
         if (edgeColor != null) {
             int argb = edgeColor.getRGB();
             int rgb = argb & 0x00FFFFFF;
@@ -168,9 +190,9 @@ public class GeoLine extends GeoShape {
             color = null;
         }
         ;
-        return "origin=" + getOrigin() + ",color=" + colorConvert
-            + ",edgeColor=" + edgeColorConvert + ",edgeWidth=" + edgeWidth
-            + ",end=" + end;
+        return "origin=" + origin + ",color=" + colorConvert + ",edgeColor="
+            + edgeColorConvert + ",edgeWidth="
+            + String.format("%05.4f", edgeWidth) + ",end=" + end;
     }
 
     @Override
@@ -180,6 +202,7 @@ public class GeoLine extends GeoShape {
 
     };
 
+    @Override
     public void setColor(Color color) {
     }
 }
