@@ -9,53 +9,73 @@ import java.awt.Graphics2D;
  * The GeoShape class determines the origin point of the generated shape. It
  * contains x and y coordinates and the fill color for the shape. It also
  * contains setters and getters for these two attributes. This class
- * encapsulates functionality common to all shapes in the geo_shape package.
+ * encapsulates functionality common to all shapes in the geo_shape package. It
+ * is also an abstract class.
  * 
  * @author Toby Peterson.
  */
 public abstract class GeoShape {
 
-//    private GeoPoint origin;
-    public static GeoPoint origin = new GeoPoint(0, 0);
-    protected static Color color;
+    /**
+     * Origin. The x- and y- coordinates of the start of the shape. This
+     * property may never be null.
+     */
+    private GeoPoint origin = new GeoPoint(0, 0);
 
-//    private String originConvert;
-    Color edgeColor;
-//    The edge color of the shape.
+    /**
+     * Color. The fill color of the shape.
+     */
+    private Color color;
 
-    double edgeWidth = 1;
-//    The edge width of the shape.
+    /**
+     * edgeColor. The edge color of the shape.
+     */
+    private Color edgeColor;
 
-    static Color DEFAULT_COLOR = Color.BLUE;
+    /**
+     * edgeWidth. The edge width of the shape.
+     */
+    private double edgeWidth = 1;
+
+    /**
+     * DEFAULT_COLOR. The default fill color assigned to the shape.
+     */
+    public static Color DEFAULT_COLOR = Color.BLUE;
+
+    /**
+     * DEFAULT_EDGE_COLOR. The default edge color assigned to the shape.
+     */
     public static Color DEFAULT_EDGE_COLOR = Color.BLACK;
-    static double DEFAULT_EDGE_WIDTH = 1;
-    static GeoPoint DEFAULT_ORIGIN = new GeoPoint(0, 0);
 
-    String edgeColorConvert;
+    /**
+     * DEFAULT_EDGE_WIDTH. The default edge width assigned to the shape.
+     */
+    public static double DEFAULT_EDGE_WIDTH = 1;
 
+    /**
+     * DEFAULT_ORIGIN. The default origin point assigned to the shape.
+     */
+    public static GeoPoint DEFAULT_ORIGIN = new GeoPoint(0, 0);
+
+    /**
+     * The sole constructor for Geoshape. It contains two parameters and throws
+     * a NullPointerException if the origin parameter is null.
+     * 
+     * @param origin The startig point of the shape to be implemented. May not
+     *               be null.
+     * @param color  The assigned fill color of the shape to be implemented.
+     * @throws NullPointerException The origin argument of this constructor may
+     *                              not be null and this exception will be
+     *                              thrown if it is.
+     */
     GeoShape(GeoPoint origin, Color color) throws NullPointerException {
-//        if (origin == null) {
-//            throw new NullPointerException();
-//        } else {
-//        this.origin = origin;
-        setOrigin(origin);
-//        }
+        if (origin == null) {
+            throw new NullPointerException();
+        } else {
+            setOrigin(origin);
+        }
         setColor(color);
     };
-//    Sets the origin and color of the shape. Origin may not be null. If null is passed for the origin NullPointerException must be thrown.
-//    origin
-//    The origin of the shape. May not be null. If null is passed for the origin NullPointerException must be thrown.
-//
-//    color
-//    The fill color of the shape (may be null).
-
-//    /**
-//     * GeoShape constructor.
-//     * 
-//     * The constructor to initiate an instance of GeoShape.
-//     */
-//    public GeoShape() {
-//    };
 
     /**
      * The getOrigin getter.
@@ -77,14 +97,16 @@ public abstract class GeoShape {
      * 
      * @throws NullPointerException of the submitted origin is null.
      */
-    public void setOrigin(GeoPoint origin) {
-//        if (origin == null) {
-//            throw new NullPointerException(
-//                "Life is about substance. This can't be null.");
-//        }
-//        ;
+    public void setOrigin(GeoPoint origin) throws NullPointerException {
+//        System.out.println("setOrigin: " + origin);
+        if (origin == null) {
+            throw new NullPointerException(
+                "Life is about substance2. This can't be null.");
+        }
+        ;
         this.origin = origin;
-    };
+
+    }
 
     /**
      * The getColor getter.
@@ -123,6 +145,7 @@ public abstract class GeoShape {
 
         StringBuilder bldr = new StringBuilder();
 
+        String edgeColorConvert = null;
         String colorConvert = null;
 
         if (color != null) {
@@ -143,17 +166,27 @@ public abstract class GeoShape {
         bldr.append("origin=").append(origin).append(",color=")
             .append(colorConvert).append(",edgeColor=").append(edgeColorConvert)
             .append(",edgeWidth=").append(edgeWidth);
-//        return "origin=" + origin + ",color=" + colorConvert;
         return bldr.toString();
     }
 
+    /**
+     * The getEdgeColor getter for GeoShape. Returns the edge color of this
+     * shape
+     * 
+     * @return The edgeColor assigned to the edgeColor field in the GeoShape
+     *         class.
+     */
     public Color getEdgeColor() {
-        return this.edgeColor;
+        return edgeColor;
     }
 
+    /**
+     * The setEdgeColor setter for GeoShape. It sets the edge color of this
+     * shape.
+     * 
+     * @param edgeColor The edge color of this shape.
+     */
     public void setEdgeColor(Color edgeColor) {
-        // TODO Auto-generated method stub
-//        System.out.println("setting edge color" + edgeColor);
         if (edgeColor == null) {
             this.edgeColor = null;
         } else {
@@ -161,15 +194,33 @@ public abstract class GeoShape {
         }
     }
 
+    /**
+     * The getEdgeWidth getter for GeoShape. Returns the edge width of this
+     * shape
+     * 
+     * @return The edgeWidth assigned to the edgeWidth field in the GeoShape
+     *         class.
+     */
     public double getEdgeWidth() {
         return this.edgeWidth;
     }
 
+    /**
+     * The setEdgeWidth setter for GeoShape. It sets the edge width of this
+     * shape.
+     * 
+     * @param edgeWidth The edge width of this shape.
+     */
     public void setEdgeWidth(double edgeWidth) {
-        // TODO Auto-generated method stub
         this.edgeWidth = edgeWidth;
 
     };
 
+    /**
+     * The draw method for GeoShape. This method is used to draw the given shape
+     * on a GeoPlane eventually.
+     * 
+     * @param gtx The context to use for drawing this shape.
+     */
     public abstract void draw(Graphics2D gtx);
 }

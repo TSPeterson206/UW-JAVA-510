@@ -11,31 +11,41 @@ package cp510.assignments.geo_shape;
  */
 public class GeoPoint {
 
-    private double xco = 0.0000;
-    private double yco = 0.0000;
-    private String xcoConvert;
-    private String ycoConvert;
-
-//    GeoPoint origin = new GeoPoint();
+    /**
+     * xco. The x-coordinate of the point.
+     */
+    private double xco;
 
     /**
-     * GeoPoint constructor.
+     * The y-coordinate of the point.
+     */
+    private double yco;
+
+    /**
+     * GeoPoint constructor (no parameters)
      * 
-     * The constructor to initiate an instance of GeoPoint.
+     * The constructor to initiate an instance of GeoPoint. This contructor sets
+     * the x and y coordinates to 0.
      * 
-     * @param yco2
-     * @param xco2
      */
     public GeoPoint() {
-
+        xco = 0.0000;
+        yco = 0.0000;
     }
-//    Sets the x- and y-coordinates to 0.
 
+    /**
+     * The GeoPoiont constructor (two parameters).
+     * 
+     * The constructor to initiate an instance of GeoPoint with the given
+     * parameters. Sets the x- and y-coordinates to the given values.
+     * 
+     * @param xco
+     * @param yco
+     */
     public GeoPoint(double xco, double yco) {
         this.xco = xco;
         this.yco = yco;
     }
-//    Sets the x- and y-coordinates to the given values.
 
     /**
      * The getxCo getter.
@@ -45,8 +55,6 @@ public class GeoPoint {
      * @return The GeoPoint x coordinate.
      */
     public double getXco() {
-//        xcoConvert = xco + "";
-//        xcoConvert = String.format("%05.4f", xco);
         return xco;
     };
 
@@ -57,7 +65,6 @@ public class GeoPoint {
      * 
      * @param xco The given value.
      */
-
     public void setXco(double xco) {
         this.xco = xco;
     };
@@ -78,7 +85,6 @@ public class GeoPoint {
      * 
      * Sets the y coordinate for the GeoPoint object.
      */
-
     public void setYco(double yco) {
         this.yco = yco;
     };
@@ -91,15 +97,12 @@ public class GeoPoint {
      * @param other the given point.
      * @return double The distance between this point and the given point.
      */
-
     public double distance(GeoPoint other) {
         double otherX = other.getXco();
         double otherY = other.getYco();
 
         return Math
             .sqrt(Math.pow(2, (xco - otherX)) + Math.pow(2, (yco - otherY)));
-
-//        return xco + yco;
     };
 
     /**
@@ -111,7 +114,6 @@ public class GeoPoint {
      *         generated shape.
      */
     public String toString() {
-//        System.out.println("hitting geopoint tostring" + xco + " " + yco);
         return "(" + String.format("%05.4f", xco) + ","
             + String.format("%05.4f", yco) + ")";
     };

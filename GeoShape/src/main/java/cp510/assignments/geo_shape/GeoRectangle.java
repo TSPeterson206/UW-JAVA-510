@@ -15,64 +15,82 @@ import java.awt.Graphics2D;
  */
 public class GeoRectangle extends GeoShape {
 
-    double width;
-    double height;
+    /**
+     * width. The width of the rectangle.
+     */
+    private double width;
+
+    /**
+     * height. The height of the rectangle.
+     */
+    private double height;
+
+    /**
+     * A string containing the fill color for the rectangle in hexadecimal
+     * format.
+     */
     String colorConvert;
 
     /**
-     * GeoRectangle constructor.
+     * The constructor (2 parameters) for the GeoRectangle class. It sets the
+     * width and height of this rectangle to the given values. It also sets the
+     * origin and color properties to the defaults (DEFAULT_ORIGIN and
+     * DEFAULT_COLOR)
      * 
-     * The constructor to initiate an instance of GeoRectangle.
+     * @param width
+     * @param height
      */
-
-//    public GeoRectangle() {
-//    }
-
     public GeoRectangle(double width, double height) {
-        this(origin, color, width, height);
+        this(DEFAULT_ORIGIN, DEFAULT_COLOR, width, height);
 
 //        super(DEFAULT_ORIGIN, DEFAULT_COLOR);
         this.width = width;
         this.height = height;
-        this.origin = DEFAULT_ORIGIN;
-        this.color = DEFAULT_COLOR;
+        setOrigin(DEFAULT_ORIGIN);
+//        this.color = DEFAULT_COLOR;
+        setColor(DEFAULT_COLOR);
+
     }
 
+    /**
+     * The constructor (3 parameters) for the GeoRectangle class. It sets the
+     * origin, width and height of this rectangle to the given values. It also
+     * sets the color property to the default value (DEFAULT_COLOR)
+     * 
+     * @param width
+     * @param height
+     * @param origin
+     */
     public GeoRectangle(GeoPoint origin, double width, double height) {
-        this(origin, color, width, height);
-
-//        super(DEFAULT_ORIGIN, DEFAULT_COLOR);
+        this(origin, DEFAULT_COLOR, width, height);
         this.width = width;
         this.height = height;
-        this.origin = origin;
-        this.color = DEFAULT_COLOR;
+//        this.origin = origin;
+        setOrigin(origin);
+//        this.color = DEFAULT_COLOR;
+        setColor(DEFAULT_COLOR);
+
     }
 
+    /**
+     * The constructor (4 parameters) for the GeoRectangle class. It sets the
+     * origin, color, width and height of this rectangle to the given values.
+     * 
+     * @param width
+     * @param height
+     * @param origin
+     * @param color
+     */
     public GeoRectangle(GeoPoint origin, Color color, double width,
         double height) {
         super(DEFAULT_ORIGIN, DEFAULT_COLOR);
         this.width = width;
         this.height = height;
-        this.origin = origin;
-        this.edgeColor = DEFAULT_EDGE_COLOR;
+//        this.origin = origin;
+        setOrigin(origin);
+        setEdgeColor(DEFAULT_EDGE_COLOR);
         setColor(color);
     }
-
-    /**
-     * The setColor setter.
-     * 
-     * @param color The fill color of the generated rectangle. This is converted
-     *              into a string format.
-     */
-    public void setColor(Color color) {
-        if (color != null) {
-            int argb = color.getRGB();
-            int rgb = argb & 0x00FFFFFF;
-            this.colorConvert = String.format("#%06X", rgb);
-        }
-        ;
-        this.color = color;
-    };
 
     /**
      * The getWidth getter.
@@ -150,21 +168,36 @@ public class GeoRectangle extends GeoShape {
      *         width values for the generated shape.
      */
     public String toString() {
-//        System.out.println("color in rectangle" + color);
-//        String edgeColorConvert = null;
-        if (edgeColor != null) {
-            int argb = edgeColor.getRGB();
+
+        String edgeColorConvert = null;
+        String colorConvert = null;
+        if (getColor() != null) {
+            int argb = getColor().getRGB();
+            int rgb = argb & 0x00FFFFFF;
+            colorConvert = String.format("#%06X", rgb);
+        } else {
+//            color = null;
+        }
+
+        if (getEdgeColor() != null) {
+            int argb = getEdgeColor().getRGB();
             int rgb = argb & 0x00FFFFFF;
             edgeColorConvert = String.format("#%06X", rgb);
         }
         ;
-        return "origin=" + origin + ",color=" + colorConvert + ",edgeColor="
-            + edgeColorConvert + ",edgeWidth="
-            + String.format("%05.4f", edgeWidth) + ",width="
+        return "origin=" + getOrigin() + ",color=" + colorConvert
+            + ",edgeColor=" + edgeColorConvert + ",edgeWidth="
+            + String.format("%05.4f", getEdgeWidth()) + ",width="
             + String.format("%05.4f", width) + ",height="
             + String.format("%05.4f", height);
     };
 
+    /**
+     * The draw method for GeoRectangle. This method is used to draw the given
+     * shape on a GeoPlane eventually.
+     * 
+     * @param gtx The context to use for drawing this shape.
+     */
     public void draw(Graphics2D gtx) {
         System.out.println("Drawing Rectangle: " + toString());
     }

@@ -19,24 +19,39 @@ import uw.syp.java.tools.GWindowUser;
  */
 public class GeoPlane implements GWindowUser {
 
-    Color backgroundColor;
+    /**
+     * backgroundColor. The background color of the plane that displays the
+     * given shapes. The default background color is medium-gray
+     */
+    private Color backgroundColor;
 
-    List<GeoShape> geoList = new ArrayList<GeoShape>();
-//    Contains a list of GeoShape objects to be drawn on the plane.
+    /**
+     * geoList. Contains a list of GeoShape objects to be drawn on the plane.
+     */
+    private List<GeoShape> geoList = new ArrayList<GeoShape>();
 
-    GWindow gWindow;
+    /**
+     * gWindow. The canvas on which GeoShapes will be drawn.
+     */
+    private GWindow gWindow;
 
+    /**
+     * The default constructor for GeoPlane. It sets the background color to
+     * medium gray (new Color(.5F,.5F,.fF)).
+     */
     public GeoPlane() {
         backgroundColor = new Color(.5f, .5f, .5f);
     }
-//    Default constructor; sets the background color to medium gray (new Color(.5F,.5F,.fF)).
 
+    /**
+     * The one-parameter constructor for GeoPlane. Sets the background color to
+     * a given color.
+     * 
+     * @param color The given color.
+     */
     public GeoPlane(Color color) {
         this.backgroundColor = color;
     }
-//    Sets the background color to a given color.
-//    color
-//    The given color.
 
     /**
      * The show method for GeoPlane.
@@ -81,30 +96,42 @@ public class GeoPlane implements GWindowUser {
         } else {
             return null;
         }
-        // Currently a stub.
     };
 
+    /**
+     * The getShapes method for GeoPlane.
+     * 
+     * @return The list (geoList) containing the shapes to display on the plane.
+     */
     public List<GeoShape> getShapes() {
-        for (GeoShape item : geoList)
-            System.out.println(item);
+//        for (GeoShape item : geoList)
+//            System.out.println(item);
 
         return geoList;
     };
 
     /**
-     * The redraw method for GeoPlane.
+     * The redraw (1 parameter) method for GeoPlane.
      * 
-     * Explicitly draws the shapes in the list of shapes. Calling this method
-     * has no effect if the plane is not visible.
+     * Calls the draw(Graphics2D) method for all shapes in the list of shapes.
      * 
      * @param gtx
      */
     public void redraw(Graphics2D gtx) {
-//        // Currently a stub.
-//        GWindowUser.redraw((Graphics2D) geoList);
-////        redraw(gtx);
-////        gWindow.repaint();
-//        geoList.draw();
+        show();
+        for (GeoShape item : geoList) {
+            item.draw(gtx);
+        }
+    };
+
+    /**
+     * The redraw (0 parameters) method. It explicitly draws the shapes in the
+     * list of shapes. Calling this method has no effect if the plane is not
+     * visible.
+     */
+    public void redraw() {
+        gWindow.start();
+        gWindow.repaint();
     };
 
     /**
@@ -128,9 +155,5 @@ public class GeoPlane implements GWindowUser {
      */
     public void setBackgroundColor(Color color) {
         this.backgroundColor = color;
-    };
-
-    public void redraw() {
-//        gWindow.repaint();
     };
 }
