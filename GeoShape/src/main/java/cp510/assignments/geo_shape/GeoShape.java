@@ -95,6 +95,7 @@ public abstract class GeoShape {
      * be null. If the given value is null a NullPointerException will be
      * thrown.
      * 
+     * @param origin The origin to set.
      * @throws NullPointerException of the submitted origin is null.
      */
     public void setOrigin(GeoPoint origin) throws NullPointerException {

@@ -39,7 +39,7 @@ class DListTest {
     }
 
     @Test
-    void addRemoveHead() {
+    void addAndRemoveHead() {
         DList listTrial = new DList();
         DNode node1 = new DNode("test1");
         DNode node2 = new DNode("test2");
@@ -59,67 +59,68 @@ class DListTest {
 
         listTrial.addHead(node4);
         assertEquals("test4", listTrial.getHead().getData());
+        assertEquals("test4", listTrial.removeHead().getData());
     }
 
     @Test
-    void removeTail() {
+    void addAndRemoveTail() {
         DList list = new DList();
-        DNode[] testNodes = new DNode[5];
-        int limit = testNodes.length;
-        for (int inx = 0; inx < limit; ++inx) {
-            testNodes[inx] = new DNode(inx);
-            list.addTail(testNodes[inx]);
-            assert (testNodes[inx].getNext() == list);
+        DNode[] nodes = new DNode[5];
+        int length = nodes.length;
+
+        for (int i = 0; i < length; i++) {
+            nodes[i] = new DNode(i);
+            list.addTail(nodes[i]);
+            assert (nodes[i].getNext() == list);
         }
 
-        for (int inx = limit - 1; inx >= 0; --inx) {
+        for (int i = length - 1; i >= 0; i--) {
             DNode node = list.removeTail();
-            assertEquals(testNodes[inx], node);
+            assertEquals(nodes[i], node);
         }
-
         assertEquals(list, list.removeTail());
-        assertTrue(list.isEmpty());
     }
 
-//    @Test
-//    void addTail1() {
-//        DList list = new DList();
-//        DNode[] testNodes = new DNode[5];
-//        int limit = testNodes.length;
-//        for (int inx = 0; inx < limit; ++inx) {
-//            testNodes[inx] = new DNode(inx);
-//            list.addTail(testNodes[inx]);
-//            assert (testNodes[inx].getNext() == list);
-//        }
-//
-//        assertEquals(testNodes[0], list.getHead());
-//        assertEquals(testNodes[limit - 1], list.getTail());
-//        for (int inx = 0; inx < limit - 1; ++inx) {
-//            DNode currNode = testNodes[inx];
-//            DNode expNext = testNodes[inx + 1];
-//            assertEquals(expNext, currNode.getNext());
-//        }
-//        assertEquals(list, testNodes[limit - 1].getNext());
-//    }
-//
-//    @Test
-//    void addTail2() {
-//        DList list = new DList();
-//        DNode[] testNodes = new DNode[5];
-//        int limit = testNodes.length;
-//        for (int inx = 0; inx < limit; ++inx) {
-//            testNodes[inx] = new DNode(inx);
-//            list.addTail(testNodes[inx]);
-//            assert (testNodes[inx].getNext() == list);
-//        }
-//
-//        int count = 0;
-//        for (DNode node = list.getHead(); node != list; node = node.getNext()) {
-//            Object obj = node.getData();
-//            assertTrue(obj instanceof Integer);
-//            assertEquals(count++, (Integer) obj);
-//        }
-//        assertEquals(list, testNodes[limit - 1].getNext());
-//    }
+    @Test
+    void getHeadAndGetTail() {
+        DList list = new DList();
+        DNode node1 = new DNode("test1");
+        DNode node2 = new DNode("test2");
+        DNode node3 = new DNode("test3");
+        DNode node4 = new DNode("test4");
+
+        list.addHead(node1);
+        assertEquals("test1", list.getHead().getData());
+
+        list.addHead(node2);
+        assertEquals("test2", list.getHead().getData());
+
+        list.addTail(node3);
+        assertEquals("test3", list.getTail().getData());
+
+        list.addTail(node4);
+        assertEquals("test4", list.getTail().getData());
+    }
+
+    @Test
+    void size() {
+        DList listTrial = new DList();
+        DNode node1 = new DNode("test1");
+        DNode node2 = new DNode("test2");
+        DNode node3 = new DNode("test3");
+        DNode node4 = new DNode("test4");
+
+        listTrial.addAfter(node1);
+        listTrial.addHead(node2);
+        listTrial.addBefore(node3);
+
+        assertEquals(3, listTrial.size());
+
+        listTrial.removeHead();
+        assertEquals(2, listTrial.size());
+
+        listTrial.addTail(node4);
+        assertEquals(3, listTrial.size());
+    }
 
 }

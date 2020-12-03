@@ -46,7 +46,6 @@ public class GeoLine extends GeoShape {
         this.end = end;
 //        this.color = null;
         setColor(null);
-
     };
 
     /**

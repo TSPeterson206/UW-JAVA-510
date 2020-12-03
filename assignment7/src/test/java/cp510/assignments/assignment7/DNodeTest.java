@@ -12,8 +12,6 @@ class DNodeTest {
 
     @Test
     void remove() {
-//        DList list = new DList();
-
         DNode nodeA = new DNode("test1");
         DNode nodeB = new DNode("test2");
         DNode nodeC = new DNode("test3");
@@ -150,35 +148,83 @@ class DNodeTest {
     }
 
     @Test
+    void addBefore() {
+        DNode left = new DNode();
+        DNode right = new DNode();
+        DNode middle = new DNode();
+        DNode term = new DNode();
+
+        right.addBefore(left);
+        assertEquals(right, left.getNext());
+        assertEquals(right, left.getPrevious());
+        assertEquals(left, right.getNext());
+        assertEquals(left, right.getPrevious());
+
+        right.addBefore(middle);
+        assertEquals(middle, left.getNext());
+        assertEquals(right, left.getPrevious());
+        assertEquals(right, middle.getNext());
+        assertEquals(left, middle.getPrevious());
+        assertEquals(left, right.getNext());
+        assertEquals(middle, right.getPrevious());
+
+        right.addBefore(term);
+        assertEquals(right, term.getNext());
+        assertEquals(left, middle.getPrevious());
+        assertEquals(term, right.getPrevious());
+        assertEquals(middle, left.getNext());
+    }
+
+    @Test
+    void getNextAndGetPrevious() {
+        DList list = new DList();
+
+        DNode node1 = new DNode("test1");
+        DNode node2 = new DNode("test2");
+        DNode node3 = new DNode("test3");
+
+        list.addHead(node1);
+        list.addAfter(node2);
+        list.addAfter(node3);
+
+        assertEquals("test2", node1.getPrevious().getData());
+        assertEquals(null, node1.getNext().getData());
+        assertEquals("test3", node2.getPrevious().getData());
+        assertEquals("test1", node2.getNext().getData());
+        assertEquals(null, node3.getPrevious().getData());
+        assertEquals("test2", node3.getNext().getData());
+    }
+
+    @Test
     void addTail1() {
         DList list = new DList();
-        DNode[] testNodes = new DNode[5];
-        int limit = testNodes.length;
-        for (int inx = 0; inx < limit; ++inx) {
-            testNodes[inx] = new DNode(inx);
-            list.addTail(testNodes[inx]);
-            assert (testNodes[inx].getNext() == list);
+        DNode[] nodes = new DNode[5];
+        int length = nodes.length;
+        for (int i = 0; i < length; i++) {
+            nodes[i] = new DNode(i);
+            list.addTail(nodes[i]);
+            assert (nodes[i].getNext() == list);
         }
 
-        assertEquals(testNodes[0], list.getHead());
-        assertEquals(testNodes[limit - 1], list.getTail());
-        for (int inx = 0; inx < limit - 1; ++inx) {
-            DNode currNode = testNodes[inx];
-            DNode expNext = testNodes[inx + 1];
-            assertEquals(expNext, currNode.getNext());
+        assertEquals(nodes[0], list.getHead());
+        assertEquals(nodes[length - 1], list.getTail());
+        for (int i = 0; i < length - 1; i++) {
+            DNode currentNode = nodes[i];
+            DNode expected = nodes[i + 1];
+            assertEquals(expected, currentNode.getNext());
         }
-        assertEquals(list, testNodes[limit - 1].getNext());
+        assertEquals(list, nodes[length - 1].getNext());
     }
 
     @Test
     void addTail2() {
         DList list = new DList();
-        DNode[] testNodes = new DNode[5];
-        int limit = testNodes.length;
-        for (int inx = 0; inx < limit; ++inx) {
-            testNodes[inx] = new DNode(inx);
-            list.addTail(testNodes[inx]);
-            assert (testNodes[inx].getNext() == list);
+        DNode[] nodes = new DNode[5];
+        int limit = nodes.length;
+        for (int i = 0; i < limit; i++) {
+            nodes[i] = new DNode(i);
+            list.addTail(nodes[i]);
+            assert (nodes[i].getNext() == list);
         }
 
         int count = 0;
@@ -187,6 +233,43 @@ class DNodeTest {
             assertTrue(obj instanceof Integer);
             assertEquals(count++, (Integer) obj);
         }
-        assertEquals(list, testNodes[limit - 1].getNext());
+        assertEquals(list, nodes[limit - 1].getNext());
+    }
+
+    @Test
+    void getAndSetData() {
+        DNode node1 = new DNode();
+        node1.setData("sampleData");
+        assertEquals("sampleData", node1.getData());
+    }
+
+    @Test
+    void isEnqueued() {
+        DNode nodeA = new DNode("test1");
+        DNode nodeB = new DNode("test2");
+        DNode nodeC = new DNode("test3");
+        DNode nodeD = new DNode("test4");
+        DNode nodeE = new DNode("test5");
+
+        nodeA.addAfter(nodeB);
+        nodeB.addAfter(nodeC);
+        nodeC.addAfter(nodeD);
+        nodeD.addAfter(nodeE);
+        assertEquals(true, nodeA.isEnqueued());
+        assertEquals(true, nodeB.isEnqueued());
+        assertEquals(true, nodeC.isEnqueued());
+        assertEquals(true, nodeD.isEnqueued());
+        assertEquals(true, nodeE.isEnqueued());
+
+        nodeB.remove();
+
+        assertEquals(true, nodeA.isEnqueued());
+        assertEquals(false, nodeB.isEnqueued());
+        assertEquals(true, nodeC.isEnqueued());
+
+        nodeD.remove();
+        assertEquals(false, nodeD.isEnqueued());
+        assertEquals(true, nodeE.isEnqueued());
+
     }
 }

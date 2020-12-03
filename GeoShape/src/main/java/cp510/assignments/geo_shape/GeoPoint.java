@@ -24,8 +24,8 @@ public class GeoPoint {
     /**
      * GeoPoint constructor (no parameters)
      * 
-     * The constructor to initiate an instance of GeoPoint. This contructor sets
-     * the x and y coordinates to 0.
+     * The constructor to initiate an instance of GeoPoint. This constructor
+     * sets the x and y coordinates to 0.
      * 
      */
     public GeoPoint() {

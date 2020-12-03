@@ -13,9 +13,7 @@ import org.junit.jupiter.api.function.Executable;
 
 import uw.syp.java.tools.GWindow;
 
-class GeoShapeTest<Expected> {
-
-    Expected Exceptions;
+class GeoShapeTest {
 
 //    private GeoShape shape = null;
     private GeoLine line;
@@ -78,7 +76,6 @@ class GeoShapeTest<Expected> {
 //
 //    @Test
     void distance() {
-
         Assertions.assertEquals(0, distance);
     }
 

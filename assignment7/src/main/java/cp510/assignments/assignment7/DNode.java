@@ -19,11 +19,13 @@ public class DNode {
      * unenqueued.
      */
     private DNode flink;
+
     /**
      * blink. This is a reference to previous item in list, or self if
      * unenqueued.
      */
     private DNode blink;
+
     /**
      * data. This field is a reference to the data stored in the node.
      */
