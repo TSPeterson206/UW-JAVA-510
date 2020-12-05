@@ -2,6 +2,8 @@ package cp510.assignments.geo_shape;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.geom.Line2D;
+import java.util.Objects;
 
 /**
  * The GeoLine class for UW java 510 assignment 4 (GeoShape part 1).
@@ -207,8 +209,9 @@ public class GeoLine extends GeoShape {
     @Override
     public void draw(Graphics2D gtx) {
         // TODO Auto-generated method stub
-        System.out.println("Drawing Line: " + toString());
-
+//        System.out.println("Drawing Line: " + toString());
+        Line2D line = new Line2D.Double();
+        super.draw(line, gtx);
     };
 
     /**
@@ -219,5 +222,52 @@ public class GeoLine extends GeoShape {
      */
     @Override
     public void setColor(Color color) {
+    }
+
+    /**
+     * 
+     */
+    public boolean equals(Object other) {
+        boolean result = false;
+        if (other == null)
+            result = false;
+        else if (this == other)
+            result = true;
+        else if (this.getClass() != other.getClass())
+            result = false;
+        else {
+            GeoLine that = (GeoLine) other;
+            if (this.end != that.end)
+                ;
+            else if (this.getStart() != that.getStart())
+                ;
+            else if (this.getOrigin() != that.getOrigin())
+                ;
+            else if (this.getColor() != that.getColor())
+                ;
+            else if (this.getEdgeColor() != that.getEdgeColor())
+                ;
+            else if (this.getEdgeWidth() != that.getEdgeWidth())
+                ;
+            else
+                result = true;
+        }
+        return result;
+    }
+//    Returns true if a given object is equal to this object. The given object is equal to this object if:
+//    It is not null;
+//    It is a GeoLine;
+//    All corresponding properties in the GeoShape superclass are equal; and
+//    The corresponding endpoint properties are equal.
+//    See also: Equals/HashCode Methods, commonPropertiesEqual(GeoShape)
+//    other
+//    The given object.
+//
+//    Returns:
+//    True if a given object is equal to this object.
+
+    public int hashCode() {
+        int hash = Objects.hash(getOrigin(), getColor(), getStart(), getEnd());
+        return hash;
     }
 }

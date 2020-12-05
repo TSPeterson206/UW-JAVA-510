@@ -1,6 +1,7 @@
 package cp510.assignments.geo_shape;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -54,4 +55,31 @@ class GeoPointTest {
         Assertions.assertEquals("(5.5556,4.4444)", point.toString());
         Assertions.assertEquals("(6.0000,7.0000)", point2.toString());
     }
+
+    // given junit test for equals
+    @Test
+    void testEqualsHash() {
+        int xco1 = 100;
+        int yco1 = xco1 + 50;
+        int xco2 = 2 * xco1;
+        int yco2 = 2 * yco1;
+        GeoPoint pointA = new GeoPoint(xco1, yco1);
+        GeoPoint pointB = new GeoPoint(xco1, yco1);
+
+        assertNotEquals(pointA, null);
+        assertNotEquals(pointA, new Object());
+        assertEquals(pointA, pointA);
+        assertEquals(pointA, pointB);
+        assertEquals(pointB, pointA);
+        assertEquals(pointA.hashCode(), pointB.hashCode());
+
+        pointB.setXco(xco2);
+        assertNotEquals(pointA, pointB);
+        pointB.setXco(xco1);
+        assertEquals(pointA, pointB);
+
+        pointB.setYco(yco2);
+        assertNotEquals(pointA, pointB);
+    }
+
 }

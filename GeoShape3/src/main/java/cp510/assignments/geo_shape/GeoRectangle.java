@@ -2,6 +2,8 @@ package cp510.assignments.geo_shape;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.geom.Rectangle2D;
+import java.util.Objects;
 
 /**
  * The GeoRectangle class for UW java 510 assignment 4 (GeoShape part 1).
@@ -203,8 +205,56 @@ public class GeoRectangle extends GeoShape {
      * 
      * @param gtx The context to use for drawing this shape.
      */
+//    public void draw(Graphics2D gtx) {
+//        System.out.println("Drawing Rectangle: " + toString());
+//    }
+
     public void draw(Graphics2D gtx) {
-        System.out.println("Drawing Rectangle: " + toString());
+        Rectangle2D rect = new Rectangle2D.Double();
+        super.draw(rect, gtx);
     }
+//    Instantiate and initialize a Rectangle2D.Double object.
+//    Pass the Rectangle2D object to the draw( Shape, Graphics2D ) method method in the GeoShape class.
+
+    @Override
+    public boolean equals(Object other) {
+        boolean result = false;
+        if (other == null)
+            result = false;
+        else if (this == other)
+            result = true;
+        else if (this.getClass() != other.getClass())
+            result = false;
+        else {
+            GeoRectangle that = (GeoRectangle) other;
+            if (this.getWidth() != that.getWidth())
+                ;
+            else if (this.getHeight() != that.getHeight())
+                ;
+            else {
+                result = true;
+            }
+        }
+        return result;
+    }
+//    Returns true if a given object is equal to this object. The given object is equal to this object if:
+//    It is not null;
+//    It is a GeoRectangle;
+//    All corresponding properties in the GeoShape superclass are equal; and
+//    The corresponding width and height properties are equal.
+//    See also: Equals/HashCode Methods, commonPropertiesEqual(GeoShape)
+//    other
+//    The given object.
+
+//    Returns:
+//    True if a given object is equal to this object.
+
+    public int hashCode() {
+        int hash = Objects.hash(getOrigin(), getColor(), width, height);
+        return hash;
+    }
+//    Calculates and returns a hashcode for this object.
+//    Returns:
+//    A hashcode for this object.
 
 }

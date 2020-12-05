@@ -2,6 +2,7 @@ package cp510.assignments.geo_shape;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Shape;
 
 /**
  * The GeoShape class for UW java 510 assignment 4 (GeoShape part 1).
@@ -224,4 +225,80 @@ public abstract class GeoShape {
      * @param gtx The context to use for drawing this shape.
      */
     public abstract void draw(Graphics2D gtx);
+
+    /**
+     * The draw(2 params) method for GeoShape. It uses the given graphics
+     * context to draw and/or fill the given shape.
+     * 
+     * @param shape The given shape.
+     * @param gtx   The graphical parameters to be applied to the given shape.
+     */
+    public void draw(Shape shape, Graphics2D gtx) {
+        System.out.println(
+            "hitting super draw: " + shape + "hash: " + shape.hashCode());
+//        Rectangle2D bounds = shape.getBounds2D();
+//        System.out.println(bounds);
+//        gtx.setColor(shape);
+        System.out.println("*********************");
+        gtx.fill(shape);
+        gtx.draw(shape);
+
+//        Ellipse2D oval = new Ellipse2D.Double(50, 50, 100, 200);
+//        gtx.setColor(Color.GREEN);
+//        gtx.fill(oval);
+//        gtx.setColor(Color.BLACK);
+//        gtx.setStroke(new BasicStroke(4));
+//        gtx.draw(oval);
+
+//        gtx.draw(shape);
+
+//        if (getColor() != null) {
+//            gtx.fill(shape);
+//        }
+//        ;
+//        if (getEdgeColor() != null && getEdgeWidth() > 0) {
+//            gtx.draw(shape);
+//        }
+//        ;
+    }
+//    Uses the given graphics context to draw and/or fill the given shape. It operates according to the following instructions:
+//    If the color property is not null, fill the shape using gtx.fill( Shape ).
+//    If the edgeColor property is not null, and the edgeWidth is greater than 0, draw the edge of the shape using gtx.draw( Shape ).
+
+    /**
+     * The commonPropertiesEqual method for GeoShape. This determines whether
+     * the encapsulated object and a given object have identical property
+     * values. It return true if so and false if not.
+     * 
+     * @param other The object being passed in for comparison.
+     * @return boolean The value indicating if the properties are equal and the
+     *         passed in object is not null.
+     */
+    public boolean commonPropertiesEqual(GeoShape other) {
+        if (other == null) {
+            return false;
+        }
+
+        if ((getOrigin() == other.getOrigin())
+            && (getColor() == other.getColor())
+            && (getEdgeColor() == other.getEdgeColor())
+            && (getEdgeWidth() == other.getEdgeWidth())
+
+        ) {
+            return true;
+        } else {
+            return false;
+        }
+
+    }
+//    Returns true if a given GeoShape object is not null and the properties it has in common with this object are equal. The common properties are:
+//    origin
+//    color
+//    edgeColor
+//    edgeWidth
+//    other
+//    The given GeoShape; may be null.
+//
+//    Returns:
+//    True if a given GeoShape object is not null and the properties it has in common with this object are equal
 }

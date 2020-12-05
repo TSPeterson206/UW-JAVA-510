@@ -1,5 +1,7 @@
 package cp510.assignments.geo_shape;
 
+import java.util.Objects;
+
 /**
  * The GeoPoint class for UW java 510 assignment 4 (GeoShape part 1).
  * 
@@ -110,6 +112,45 @@ public class GeoPoint {
             (otherY - yco) * (otherY - yco) + (otherX - xco) * (otherX - xco));
 
     };
+
+    /**
+     * equals method for GeoPoint.
+     * 
+     * @return boolean A boolean value determining if the two objects are indeed
+     *         equal or not.
+     */
+    @Override
+    public boolean equals(Object other) {
+        boolean result = false;
+        if (other == null)
+            result = false;
+        else if (this == other)
+            result = true;
+        else if (this.getClass() != other.getClass())
+            result = false;
+        else {
+            GeoPoint that = (GeoPoint) other;
+            if (this.xco != that.xco)
+                ;
+            else if (this.yco != that.yco)
+                ;
+            else
+                result = true;
+        }
+        return result;
+    }
+
+    /**
+     * The hashCode method for GeoPoint. It returns a hash value for this
+     * object.
+     * 
+     * @return int A hash value for this object.
+     */
+    @Override
+    public int hashCode() {
+        int hash = Objects.hash(xco, yco);
+        return hash;
+    }
 
     /**
      * The toString method for GeoShape

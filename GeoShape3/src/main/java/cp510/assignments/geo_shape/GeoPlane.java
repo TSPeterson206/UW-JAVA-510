@@ -2,6 +2,7 @@ package cp510.assignments.geo_shape;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,6 +42,8 @@ public class GeoPlane implements GWindowUser {
      */
     public GeoPlane() {
         backgroundColor = new Color(.5f, .5f, .5f);
+        gWindow = new GWindow(800, 800);
+        gWindow.setGWindowUser(this);
     }
 
     /**
@@ -50,7 +53,7 @@ public class GeoPlane implements GWindowUser {
      * @param color The given color.
      */
     public GeoPlane(Color color) {
-        this.backgroundColor = color;
+        setBackgroundColor(color);
     }
 
     /**
@@ -60,8 +63,25 @@ public class GeoPlane implements GWindowUser {
      * shapes to draw will immediately be drawn.
      */
     public void show() {
-        // Currently a stub.
+//        Calls the start method of the encapsulated GWindow object, then calls the GWindows repaint() method.
+        gWindow.start();
+        gWindow.repaint();
     };
+
+    /**
+     * The getBitmap method for GeoPlane.
+     * 
+     * @return BufferedImage The bitmap bufferedImage of the encapsulated
+     *         object.
+     */
+    public BufferedImage getBitmap() {
+
+//        return gWindow.getBitmap();
+        return null;
+    }
+//    Returns the bitmap currently drawn on the canvas. (Note that all you have to do is call the GWindow's getBitmap method.)
+//    Returns:
+//    Returns the bitmap currently drawn on the canvas.
 
     /**
      * The addShape method for GeoPlane.
@@ -118,10 +138,18 @@ public class GeoPlane implements GWindowUser {
      * @param gtx The graphical parameter used for draw.
      */
     public void redraw(Graphics2D gtx) {
-        show();
+//        show();
+
+        int width = gWindow.getWidth();
+        int height = gWindow.getHeight();
+
+        gtx.setColor(backgroundColor);
+        gtx.fillRect(0, 0, width, height);
+
         for (GeoShape item : geoList) {
             item.draw(gtx);
         }
+
     };
 
     /**
@@ -130,7 +158,7 @@ public class GeoPlane implements GWindowUser {
      * visible.
      */
     public void redraw() {
-//        gWindow.start();
+        gWindow.start();
         gWindow.repaint();
     };
 

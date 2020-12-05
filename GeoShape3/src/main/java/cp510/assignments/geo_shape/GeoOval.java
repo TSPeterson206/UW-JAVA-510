@@ -2,6 +2,8 @@ package cp510.assignments.geo_shape;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.geom.Ellipse2D;
+import java.util.Objects;
 
 /**
  * The GeoOval class for UW java 510 assignment 4 (GeoShape part 1).
@@ -74,7 +76,9 @@ public class GeoOval extends GeoRectangle {
      * @return double The area value of a given oval.
      */
     public double area() {
-        return 0.00;
+        double halfWidth = getWidth() / 2;
+        double halfHeight = getHeight() / 2;
+        return halfWidth * halfHeight * Math.PI;
     };
 
     /**
@@ -85,8 +89,9 @@ public class GeoOval extends GeoRectangle {
      * @return double The perimeter value of a given oval.
      */
     public double perimeter() {
-        // Currently a stub.
-        return 0.00;
+        double w = getWidth();
+        double h = getHeight();
+        return (double) 2 * Math.PI * Math.sqrt(((w * w) + (h * h)) / 2);
     };
 
     /**
@@ -135,6 +140,57 @@ public class GeoOval extends GeoRectangle {
      * @param gtx The context to use for drawing this shape.
      */
     public void draw(Graphics2D gtx) {
-        System.out.println("Drawing Oval: " + toString());
+//        System.out.println("Drawing Oval: " + toString());
+        Ellipse2D oval = new Ellipse2D.Double();
+        super.draw(oval, gtx);
     };
+
+    public boolean equals(Object other) {
+        boolean result = false;
+        if (other == null)
+            result = false;
+        else if (this == other)
+            result = true;
+        else if (this.getClass() != other.getClass())
+            result = false;
+        else {
+            GeoOval that = (GeoOval) other;
+            if (this.getWidth() != that.getWidth())
+                ;
+            else if (this.getHeight() != that.getHeight())
+                ;
+            else if (this.getOrigin() != that.getOrigin())
+                ;
+            else if (this.getColor() != that.getColor())
+                ;
+            else if (this.getEdgeColor() != that.getEdgeColor())
+                ;
+            else if (this.getEdgeWidth() != that.getEdgeWidth())
+                ;
+            else
+                result = true;
+        }
+        return result;
+    }
+//    Returns true if a given object is equal to this object. The given object is equal to this object if:
+//    It is not null;
+//    It is a GeoOval;
+//    All corresponding properties in the GeoShape superclass are equal; and
+//    The corresponding width and height properties are equal.
+//    See also: Equals/HashCode Methods, commonPropertiesEqual(GeoShape)
+//    other
+//    The given object.
+//
+//    Returns:
+//    True if a given object is equal to this object.
+
+    public int hashCode() {
+        int hash = Objects.hash(getOrigin(), getColor(), getWidth(),
+            getHeight());
+        return hash;
+    }
+//    Calculates and returns a hashcode for this object.
+//    Returns:
+//    A hashcode for this object.
+
 }
