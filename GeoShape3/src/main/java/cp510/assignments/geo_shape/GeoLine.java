@@ -16,11 +16,6 @@ import java.util.Objects;
  */
 public class GeoLine extends GeoShape {
 
-//    /**
-//     * The starting point of the GeoLine.
-//     */
-//    private GeoPoint start;
-
     /**
      * The ending point of the GeoLine.
      */
@@ -43,10 +38,7 @@ public class GeoLine extends GeoShape {
             throw new NullPointerException();
         }
         ;
-//        setEdgeColor(DEFAULT_EDGE_COLOR);
-//        setEdgeWidth(DEFAULT_EDGE_WIDTH);
         setStart(start);
-//        this.end = end;
         setColor(null);
     };
 
@@ -69,10 +61,6 @@ public class GeoLine extends GeoShape {
             throw new NullPointerException();
         }
         ;
-//        setStart(start);
-//        this.end = end;
-//        setEdgeColor(DEFAULT_EDGE_COLOR);
-//        setEdgeWidth(width);
         setColor(null);
     };
 
@@ -187,14 +175,6 @@ public class GeoLine extends GeoShape {
         ;
 
         String colorConvert = null;
-//        if (getColor() != null) {
-//            int argb = getColor().getRGB();
-//            int rgb = argb & 0x00FFFFFF;
-//            colorConvert = String.format("#%06X", rgb);
-//        } else {
-////            color = null;
-//        }
-//        ;
         return "origin=" + getOrigin() + ",color=" + colorConvert
             + ",edgeColor=" + edgeColorConvert + ",edgeWidth="
             + String.format("%05.4f", getEdgeWidth()) + ",end=" + end;
@@ -208,9 +188,12 @@ public class GeoLine extends GeoShape {
      */
     @Override
     public void draw(Graphics2D gtx) {
-        // TODO Auto-generated method stub
-//        System.out.println("Drawing Line: " + toString());
-        Line2D line = new Line2D.Double();
+        double xco1 = getOrigin().getXco();
+        double yco1 = getOrigin().getYco();
+        double xco2 = getEnd().getXco();
+        double yco2 = getEnd().getYco();
+
+        Line2D line = new Line2D.Double(xco1, yco1, xco2, yco2);
         super.draw(line, gtx);
     };
 
@@ -225,7 +208,10 @@ public class GeoLine extends GeoShape {
     }
 
     /**
+     * The equals method for the GeoLine class.
      * 
+     * @return boolean A boolean that states whether the passed argument Object
+     *         is equal to the encapsulated object.
      */
     public boolean equals(Object other) {
         boolean result = false;
@@ -239,11 +225,7 @@ public class GeoLine extends GeoShape {
             GeoLine that = (GeoLine) other;
             if (this.end != that.end)
                 ;
-            else if (this.getStart() != that.getStart())
-                ;
             else if (this.getOrigin() != that.getOrigin())
-                ;
-            else if (this.getColor() != that.getColor())
                 ;
             else if (this.getEdgeColor() != that.getEdgeColor())
                 ;
@@ -254,18 +236,13 @@ public class GeoLine extends GeoShape {
         }
         return result;
     }
-//    Returns true if a given object is equal to this object. The given object is equal to this object if:
-//    It is not null;
-//    It is a GeoLine;
-//    All corresponding properties in the GeoShape superclass are equal; and
-//    The corresponding endpoint properties are equal.
-//    See also: Equals/HashCode Methods, commonPropertiesEqual(GeoShape)
-//    other
-//    The given object.
-//
-//    Returns:
-//    True if a given object is equal to this object.
 
+    /**
+     * The hashCode method for the GeoLine class.
+     * 
+     * @return int The hashcode for the encapuslated object.
+     */
+    @Override
     public int hashCode() {
         int hash = Objects.hash(getOrigin(), getColor(), getStart(), getEnd());
         return hash;

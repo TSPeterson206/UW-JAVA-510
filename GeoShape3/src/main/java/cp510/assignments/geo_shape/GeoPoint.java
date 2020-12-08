@@ -104,17 +104,12 @@ public class GeoPoint {
     public double distance(GeoPoint other) {
         double otherX = other.getXco();
         double otherY = other.getYco();
-
-//        return Math
-//            .sqrt(Math.pow(2, (xco - otherX)) + Math.pow(2, (yco - otherY)));
-
         return Math.sqrt(
             (otherY - yco) * (otherY - yco) + (otherX - xco) * (otherX - xco));
-
     };
 
     /**
-     * equals method for GeoPoint.
+     * The equals method for GeoPoint.
      * 
      * @return boolean A boolean value determining if the two objects are indeed
      *         equal or not.

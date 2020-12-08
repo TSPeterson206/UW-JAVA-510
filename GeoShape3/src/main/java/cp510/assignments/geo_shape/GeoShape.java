@@ -1,8 +1,10 @@
 package cp510.assignments.geo_shape;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Shape;
+import java.util.Objects;
 
 /**
  * The GeoShape class for UW java 510 assignment 4 (GeoShape part 1).
@@ -189,11 +191,11 @@ public abstract class GeoShape {
      * @param edgeColor The edge color of this shape.
      */
     public void setEdgeColor(Color edgeColor) {
-        if (edgeColor == null) {
-            this.edgeColor = null;
-        } else {
-            this.edgeColor = edgeColor;
-        }
+//        if (edgeColor == null) {
+//            this.edgeColor = null;
+//        } else {
+        this.edgeColor = edgeColor;
+//        }
     }
 
     /**
@@ -234,36 +236,19 @@ public abstract class GeoShape {
      * @param gtx   The graphical parameters to be applied to the given shape.
      */
     public void draw(Shape shape, Graphics2D gtx) {
-        System.out.println(
-            "hitting super draw: " + shape + "hash: " + shape.hashCode());
-//        Rectangle2D bounds = shape.getBounds2D();
-//        System.out.println(bounds);
-//        gtx.setColor(shape);
-        System.out.println("*********************");
-        gtx.fill(shape);
-        gtx.draw(shape);
-
-//        Ellipse2D oval = new Ellipse2D.Double(50, 50, 100, 200);
-//        gtx.setColor(Color.GREEN);
-//        gtx.fill(oval);
-//        gtx.setColor(Color.BLACK);
-//        gtx.setStroke(new BasicStroke(4));
-//        gtx.draw(oval);
-
-//        gtx.draw(shape);
-
-//        if (getColor() != null) {
-//            gtx.fill(shape);
-//        }
-//        ;
-//        if (getEdgeColor() != null && getEdgeWidth() > 0) {
-//            gtx.draw(shape);
-//        }
-//        ;
+        if (getColor() != null) {
+            gtx.setColor(getColor());
+            gtx.fill(shape);
+        }
+        ;
+        if (getEdgeColor() != null && getEdgeWidth() > 0) {
+            double ew = getEdgeWidth();
+            gtx.setColor(getEdgeColor());
+            gtx.setStroke(new BasicStroke((float) ew));
+            gtx.draw(shape);
+        }
+        ;
     }
-//    Uses the given graphics context to draw and/or fill the given shape. It operates according to the following instructions:
-//    If the color property is not null, fill the shape using gtx.fill( Shape ).
-//    If the edgeColor property is not null, and the edgeWidth is greater than 0, draw the edge of the shape using gtx.draw( Shape ).
 
     /**
      * The commonPropertiesEqual method for GeoShape. This determines whether
@@ -291,14 +276,15 @@ public abstract class GeoShape {
         }
 
     }
-//    Returns true if a given GeoShape object is not null and the properties it has in common with this object are equal. The common properties are:
-//    origin
-//    color
-//    edgeColor
-//    edgeWidth
-//    other
-//    The given GeoShape; may be null.
-//
-//    Returns:
-//    True if a given GeoShape object is not null and the properties it has in common with this object are equal
+
+    /**
+     * The hashCode method for GeoShape.
+     * 
+     * @return int The hashed value of the encapsulated GeoShape object.
+     */
+    @Override
+    public int hashCode() {
+        int hash = Objects.hash(origin, color, edgeColor, edgeWidth);
+        return hash;
+    }
 }

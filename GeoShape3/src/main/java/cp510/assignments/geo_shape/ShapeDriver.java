@@ -8,6 +8,7 @@ import java.awt.Color;
  * @author jack
  */
 public class ShapeDriver {
+
     /** The plane to draw on. */
     private GeoPlane plane = new GeoPlane();
 

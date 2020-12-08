@@ -41,8 +41,9 @@ public class GeoPlane implements GWindowUser {
      * medium gray (new Color(.5F,.5F,.fF)).
      */
     public GeoPlane() {
+        this(Color.GRAY);
         backgroundColor = new Color(.5f, .5f, .5f);
-        gWindow = new GWindow(800, 800);
+        gWindow = new GWindow(500, 500);
         gWindow.setGWindowUser(this);
     }
 
@@ -63,25 +64,21 @@ public class GeoPlane implements GWindowUser {
      * shapes to draw will immediately be drawn.
      */
     public void show() {
-//        Calls the start method of the encapsulated GWindow object, then calls the GWindows repaint() method.
         gWindow.start();
         gWindow.repaint();
     };
 
     /**
-     * The getBitmap method for GeoPlane.
+     * The getBitmap method for GeoPlane. Note: I have been instructed to return
+     * null in this method due to issues with students calling the getBitmap
+     * method on GWindow.
      * 
      * @return BufferedImage The bitmap bufferedImage of the encapsulated
      *         object.
      */
     public BufferedImage getBitmap() {
-
-//        return gWindow.getBitmap();
         return null;
     }
-//    Returns the bitmap currently drawn on the canvas. (Note that all you have to do is call the GWindow's getBitmap method.)
-//    Returns:
-//    Returns the bitmap currently drawn on the canvas.
 
     /**
      * The addShape method for GeoPlane.
@@ -93,8 +90,8 @@ public class GeoPlane implements GWindowUser {
      * @param shape A GeoShape object to help with adding a shape.
      */
     public void addShape(GeoShape shape) {
-        // Currently a stub.
         geoList.add(shape);
+//        redraw();
     };
 
     /**
@@ -109,7 +106,6 @@ public class GeoPlane implements GWindowUser {
      * @return The GeoShape object needing removal.
      */
     public GeoShape removeShape(GeoShape shape) {
-//        return null;
         if (geoList.contains(shape)) {
             geoList.remove(shape);
             return shape;
@@ -124,9 +120,6 @@ public class GeoPlane implements GWindowUser {
      * @return The list (geoList) containing the shapes to display on the plane.
      */
     public List<GeoShape> getShapes() {
-//        for (GeoShape item : geoList)
-//            System.out.println(item);
-
         return geoList;
     };
 
@@ -138,8 +131,6 @@ public class GeoPlane implements GWindowUser {
      * @param gtx The graphical parameter used for draw.
      */
     public void redraw(Graphics2D gtx) {
-//        show();
-
         int width = gWindow.getWidth();
         int height = gWindow.getHeight();
 
@@ -158,7 +149,6 @@ public class GeoPlane implements GWindowUser {
      * visible.
      */
     public void redraw() {
-        gWindow.start();
         gWindow.repaint();
     };
 

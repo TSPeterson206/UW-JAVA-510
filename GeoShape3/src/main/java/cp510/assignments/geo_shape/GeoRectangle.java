@@ -152,18 +152,7 @@ public class GeoRectangle extends GeoShape {
      */
     public double perimeter() {
 
-        double perimeter;
-
-//        ellipse perimeter approx 2pi sqrt((a^2+b^2)/2)
-
-        // formula to find the Perimeter
-        // of an Ellipse.
-        perimeter = (double) 2 * 3.14
-            * Math.sqrt(((width * width) + (height * height)) / (2 * 1.0));
-
-        System.out.println("Perimeter: " + perimeter);
-
-        return perimeter;
+        return 2 * (getWidth() + getHeight());
     };
 
     /**
@@ -205,17 +194,20 @@ public class GeoRectangle extends GeoShape {
      * 
      * @param gtx The context to use for drawing this shape.
      */
-//    public void draw(Graphics2D gtx) {
-//        System.out.println("Drawing Rectangle: " + toString());
-//    }
-
     public void draw(Graphics2D gtx) {
-        Rectangle2D rect = new Rectangle2D.Double();
+        double xco = getOrigin().getXco();
+        double yco = getOrigin().getYco();
+
+        Rectangle2D rect = new Rectangle2D.Double(xco, yco, width, height);
         super.draw(rect, gtx);
     }
-//    Instantiate and initialize a Rectangle2D.Double object.
-//    Pass the Rectangle2D object to the draw( Shape, Graphics2D ) method method in the GeoShape class.
 
+    /**
+     * The equals method for the GeoRectangle class.
+     * 
+     * @return boolean A boolean that states whether the passed argument Object
+     *         is equal to the encapsulated object.
+     */
     @Override
     public boolean equals(Object other) {
         boolean result = false;
@@ -231,30 +223,30 @@ public class GeoRectangle extends GeoShape {
                 ;
             else if (this.getHeight() != that.getHeight())
                 ;
+            else if (!this.getOrigin().equals(that.getOrigin()))
+                ;
+            else if (this.getColor() != that.getColor())
+                ;
+            else if (this.getEdgeColor() != that.getEdgeColor())
+                ;
+            else if (this.getEdgeWidth() != that.getEdgeWidth())
+                ;
             else {
                 result = true;
             }
         }
         return result;
     }
-//    Returns true if a given object is equal to this object. The given object is equal to this object if:
-//    It is not null;
-//    It is a GeoRectangle;
-//    All corresponding properties in the GeoShape superclass are equal; and
-//    The corresponding width and height properties are equal.
-//    See also: Equals/HashCode Methods, commonPropertiesEqual(GeoShape)
-//    other
-//    The given object.
 
-//    Returns:
-//    True if a given object is equal to this object.
-
+    /**
+     * The hashCode method for the GeoRectangle class.
+     * 
+     * @return int The hashcode for the encapuslated object.
+     */
+    @Override
     public int hashCode() {
         int hash = Objects.hash(getOrigin(), getColor(), width, height);
         return hash;
     }
-//    Calculates and returns a hashcode for this object.
-//    Returns:
-//    A hashcode for this object.
 
 }

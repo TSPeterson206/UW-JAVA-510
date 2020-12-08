@@ -3,15 +3,11 @@ package cp510.assignments.geo_shape;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
-
-import uw.syp.java.tools.GWindow;
 
 class GeoShapeTest {
 
@@ -56,47 +52,74 @@ class GeoShapeTest {
 
     // Tests GeoShape class
     @Test
-    void color() {
-        GeoShape shape = null;
+    void colorTest() {
+        point = new GeoPoint(4, 5);
+        NestedTestClass newTest = new NestedTestClass(point, Color.black);
+        Assertions.assertEquals(Color.black, newTest.getColor());
+        newTest.setColor(Color.orange);
+        Assertions.assertEquals(Color.orange, newTest.getColor());
+    }
 
-        System.out.println("point: " + point + " " + point2);
+    @Test
+    void originTest() {
+        String testString1 = "origin=(4.0000,5.0000),color=#000000,edgeColor=null,edgeWidth=1.0";
+        String testString2 = "origin=(6.0000,7.0000),color=#000000,edgeColor=null,edgeWidth=1.0";
 
-        shape = new GeoLine(point, point2, Color.RED, 1);
-        System.out.println("shape: " + shape);
-        point = new GeoPoint();
+        GeoPoint point = new GeoPoint(4, 5);
+        GeoPoint point2 = new GeoPoint(6, 7);
 
-        point.setXco(5.55555);
-        point.setYco(4.44444);
+        NestedTestClass newTest = new NestedTestClass(point, Color.black);
+        Assertions.assertEquals(testString1, newTest.toString());
+        newTest.setOrigin(point2);
+        Assertions.assertEquals(testString2, newTest.toString());
+        newTest.getOrigin();
+    }
 
-        shape.setOrigin(point);
-        shape.setEdgeColor(Color.RED);
-        Assertions.assertEquals(Color.RED, shape.getEdgeColor());
-        Assertions.assertEquals(
-            "origin=(5.5556,4.4444),color=null,edgeColor=#FF0000,edgeWidth=1.0000,end=(3.0000,4.0000)",
-            shape.toString());
-        shape.setColor(null);
-        Assertions.assertEquals(
-            "origin=(5.5556,4.4444),color=null,edgeColor=#FF0000,edgeWidth=1.0000,end=(3.0000,4.0000)",
-            shape.toString());
+    @Test
+    void edgeColorSetAndGet() {
+        NestedTestClass newTest = new NestedTestClass(point, Color.black);
+        newTest.setEdgeColor(Color.RED);
+        Assertions.assertEquals(Color.RED, newTest.getEdgeColor());
+    }
 
-        GeoShape newShape = shape;
-        String result = newShape.toString();
-        System.out.println(result);
+    @Test
+    void edgeWidthSetAndGet() {
+        NestedTestClass newTest = new NestedTestClass(point, Color.black);
+        newTest.setEdgeWidth(2);
+        Assertions.assertEquals(2.0, newTest.getEdgeWidth());
+    }
 
-        StringTester newTest = new StringTester(point, Color.black);
+    @Test
+    void toStringTest() {
+        NestedTestClass newTest = new NestedTestClass(point, Color.black);
         String result2 = newTest.toString();
         System.out.println(result2);
         newTest.setEdgeColor(Color.GREEN);
         System.out.println(newTest.toString());
         newTest.setColor(null);
         System.out.println(newTest.toString());
+    }
 
+    @Test
+    void hashTest() {
+        NestedTestClass newTest = new NestedTestClass(point, Color.black);
+        Assertions.assertEquals(144896032, newTest.hashCode());
+    }
+
+    @Test
+    void commonPropertiesTest() {
+        NestedTestClass newTest1 = new NestedTestClass(point, Color.black);
+        NestedTestClass newTest2 = new NestedTestClass(point, Color.black);
+        NestedTestClass newTest3 = null;
+
+        Assertions.assertTrue(newTest1.commonPropertiesEqual(newTest2));
+        Assertions.assertFalse(newTest1.commonPropertiesEqual(newTest3));
+        newTest1.setOrigin(point2);
+        Assertions.assertFalse(newTest1.commonPropertiesEqual(newTest2));
     }
 
     @Test
     void testExpectedExceptionNullOriginRectangle() {
-//        final GeoShape shape = null;
-
         rectangle = new GeoRectangle(point, Color.red, 1, 2);
         Assertions.assertThrows(NullPointerException.class, new Executable() {
             public void execute() throws Throwable {
@@ -107,122 +130,31 @@ class GeoShapeTest {
 
     @Test
     void testExpectedExceptionNullOriginShape() {
-        StringTester test = new StringTester(point, Color.blue);
+        NestedTestClass test = new NestedTestClass(point, Color.blue);
 
-//        rectangle = new GeoRectangle(point, Color.red, 1, 2);
         Assertions.assertThrows(NullPointerException.class, new Executable() {
             public void execute() throws Throwable {
-                StringTester test = new StringTester(null, Color.blue);
+                NestedTestClass test = new NestedTestClass(null, Color.blue);
             }
         });
 
     }
 
-//    @Test
-//    void testExpectedExceptionNullStartLine2params() {
-////        GeoLine test = new GeoLine(null, point);
-//
-////        rectangle = new GeoRectangle(point, Color.red, 1, 2);
-//        Assertions.assertThrows(NullPointerException.class, new Executable() {
-//            public void execute() throws Throwable {
-//                GeoLine test = new GeoLine(null, point, 1);
-//            }
-//        });
-//
-//    }
-//
-//    @Test
-//    void testExpectedExceptionNullStartLine3params() {
-//
-//        Assertions.assertThrows(NullPointerException.class, new Executable() {
-//            public void execute() throws Throwable {
-//                GeoLine test = new GeoLine(null, point, 1);
-//            }
-//        });
-//
-//    }
-//
-//    @Test
-//    void testExpectedExceptionNullStartLine4params() {
-//        GeoLine test = new GeoLine(point, point2, Color.RED, 1);
-//
-//        Assertions.assertThrows(NullPointerException.class, new Executable() {
-//            public void execute() throws Throwable {
-//                test.setOrigin(null);
-//            }
-//        });
-//
-//    }
-
-//    @Test
-//    void testExpectedExceptionNullStartLine() {
-//
-//        Assertions.assertThrows(NullPointerException.class, new Executable() {
-//            public void execute() throws Throwable {
-//                GeoLine test = new GeoLine(null, point2, Color.RED, 1);
-//            }
-//        });
-//
-//    }
-
-    // Tests GeoLine class
-
-//    @Test
-//    void testExpectedExceptionNullOriginLine() {
-//
-//        line = new GeoLine(point, point2, Color.RED, 1);
-//        Assertions.assertThrows(NullPointerException.class, new Executable() {
-//            public void execute() throws Throwable {
-//                line.setEnd(null);
-//            }
-//        });
-//    }
-
-//Tests GeoOval class
-
-    // Tests GeoRectangle class
-
-//
-//    @Test
-//    void perimeter() {
-//
-//        Assertions.assertEquals(0, reg.getSecurity());
-//    }
-
-//Tests GeoPlane class
     @Test
-    void backgroundColor() {
-        GWindow gWindow = null;
-
-        List<GeoShape> geoList = new ArrayList<GeoShape>();
-
-        GeoShape shape = null;
-        shape = new GeoRectangle(point, Color.red, 1, 2);
-        geoList.add(shape);
+    void backgroundColorSetAndGetTest() {
         plane = new GeoPlane();
-        plane2 = new GeoPlane(Color.red);
 
-        plane.show();
-        plane.addShape(shape);
-        plane.removeShape(shape);
-        plane.removeShape(null);
-        plane.getShapes();
-//        plane.redraw();
         plane.setBackgroundColor(Color.BLUE);
         Assertions.assertEquals(Color.BLUE, plane.getBackgroundColor());
-//        Assertions.assertEquals(void, plane.show());
-        plane.redraw(gtx);
-//        plane.redraw();
-//        gWindow.start();
     }
 
-    private static class StringTester extends GeoShape {
-        public StringTester(GeoPoint origin, Color color) {
+    private static class NestedTestClass extends GeoShape {
+        public NestedTestClass(GeoPoint origin, Color color) {
             super(origin, color);
         }
 
         public static void main(String[] args) {
-            StringTester newOne = new StringTester(point, Color.red);
+            NestedTestClass newOne = new NestedTestClass(point, Color.red);
             System.out.println(newOne.toString());
         }
 
