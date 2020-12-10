@@ -124,8 +124,8 @@ class GeoRectangleTest {
         rectangle1 = new GeoRectangle(point1, Color.red, 1, 2);
         rectangle2 = new GeoRectangle(point2, Color.blue, 3, 4);
 
-        assertEquals(-2080247776, rectangle1.hashCode());
-        assertEquals(1137093983, rectangle2.hashCode());
+        assertEquals(787092448, rectangle1.hashCode());
+        assertEquals(-1247358689, rectangle2.hashCode());
     }
 
     @Test

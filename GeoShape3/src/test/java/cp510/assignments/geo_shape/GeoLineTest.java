@@ -200,8 +200,8 @@ class GeoLineTest {
         line1 = new GeoLine(point1, point2, Color.red, 1);
         line2 = new GeoLine(point2, point1, Color.blue, 3);
 
-        assertEquals(1319856192, line1.hashCode());
-        assertEquals(566454336, line2.hashCode());
+        assertEquals(-879613087, line1.hashCode());
+        assertEquals(1321814594, line2.hashCode());
     }
 
     @Test

@@ -77,7 +77,7 @@ public class GeoPlane implements GWindowUser {
      *         object.
      */
     public BufferedImage getBitmap() {
-        return null;
+        return gWindow.getBitmap();
     }
 
     /**
@@ -91,7 +91,6 @@ public class GeoPlane implements GWindowUser {
      */
     public void addShape(GeoShape shape) {
         geoList.add(shape);
-//        redraw();
     };
 
     /**
@@ -174,4 +173,5 @@ public class GeoPlane implements GWindowUser {
     public void setBackgroundColor(Color color) {
         this.backgroundColor = color;
     };
+
 }

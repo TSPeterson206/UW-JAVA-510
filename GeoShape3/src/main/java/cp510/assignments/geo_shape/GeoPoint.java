@@ -14,7 +14,7 @@ import java.util.Objects;
 public class GeoPoint {
 
     /**
-     * xco. The x-coordinate of the point.
+     * The x-coordinate of the point.
      */
     private double xco;
 
@@ -111,6 +111,7 @@ public class GeoPoint {
     /**
      * The equals method for GeoPoint.
      * 
+     * @param other The other object to be passed in for comparison.
      * @return boolean A boolean value determining if the two objects are indeed
      *         equal or not.
      */

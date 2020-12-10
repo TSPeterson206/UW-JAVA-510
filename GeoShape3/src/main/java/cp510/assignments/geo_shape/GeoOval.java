@@ -27,11 +27,6 @@ public class GeoOval extends GeoRectangle {
      */
     public GeoOval(double width, double height) {
         this(DEFAULT_ORIGIN, DEFAULT_COLOR, width, height);
-//        setWidth(width);
-//        setHeight(height);
-//        setOrigin(DEFAULT_ORIGIN);
-//        setColor(DEFAULT_COLOR);
-
     };
 
     /**
@@ -45,10 +40,6 @@ public class GeoOval extends GeoRectangle {
      */
     public GeoOval(GeoPoint origin, double width, double height) {
         this(origin, DEFAULT_COLOR, width, height);
-//        setWidth(width);
-//        setHeight(height);
-//        setOrigin(origin);
-//        setColor(DEFAULT_COLOR);
     };
 
     /**
@@ -147,6 +138,7 @@ public class GeoOval extends GeoRectangle {
     /**
      * The equals method for the GeoOval class.
      * 
+     * @param other The other object to be passed in for comparison.
      * @return boolean A boolean that states whether the passed argument Object
      *         is equal to the encapsulated object.
      */
@@ -182,12 +174,12 @@ public class GeoOval extends GeoRectangle {
     /**
      * The hashCode method for the GeoOval class.
      * 
-     * @return int The hashcode for the encapuslated object.
+     * @return int The hashcode for the encapsulated object.
      */
     @Override
     public int hashCode() {
         int hash = Objects.hash(getOrigin(), getColor(), getWidth(),
-            getHeight());
+            getHeight(), getEdgeColor(), getEdgeWidth());
         return hash;
     }
 

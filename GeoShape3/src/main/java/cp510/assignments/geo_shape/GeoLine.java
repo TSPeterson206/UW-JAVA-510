@@ -50,7 +50,7 @@ public class GeoLine extends GeoShape {
      * 
      * @param start The starting coordinates of the instantiated line.
      * @param end   The ending coordinates of the instantiated line.
-     * @param width The wdith of the instantied line.
+     * @param width The width of the instantiated line.
      * @throws NullPointerException This throws a NullPointerException if null
      *                              is passed into the start parameter.
      */
@@ -71,7 +71,7 @@ public class GeoLine extends GeoShape {
      * 
      * @param start     The starting coordinates of the instantiated line.
      * @param end       The ending coordinates of the instantiated line.
-     * @param width     The wdith of the instantied line.
+     * @param width     The width of the instantiated line.
      * @param edgeColor The edge color of the instantiated line.
      * @throws NullPointerException This throws a NullPointerException if null
      *                              is passed into the start parameter.
@@ -210,6 +210,7 @@ public class GeoLine extends GeoShape {
     /**
      * The equals method for the GeoLine class.
      * 
+     * @param other The other object being passed in for comparison.
      * @return boolean A boolean that states whether the passed argument Object
      *         is equal to the encapsulated object.
      */
@@ -240,11 +241,12 @@ public class GeoLine extends GeoShape {
     /**
      * The hashCode method for the GeoLine class.
      * 
-     * @return int The hashcode for the encapuslated object.
+     * @return int The hashcode for the encapsulated object.
      */
     @Override
     public int hashCode() {
-        int hash = Objects.hash(getOrigin(), getColor(), getStart(), getEnd());
+        int hash = Objects.hash(getOrigin(), getColor(), getEnd(),
+            getEdgeColor(), getEdgeWidth());
         return hash;
     }
 }

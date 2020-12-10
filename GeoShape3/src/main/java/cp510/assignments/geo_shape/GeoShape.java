@@ -64,7 +64,7 @@ public abstract class GeoShape {
      * The sole constructor for Geoshape. It contains two parameters and throws
      * a NullPointerException if the origin parameter is null.
      * 
-     * @param origin The startig point of the shape to be implemented. May not
+     * @param origin The starting point of the shape to be implemented. May not
      *               be null.
      * @param color  The assigned fill color of the shape to be implemented.
      * @throws NullPointerException The origin argument of this constructor may
@@ -102,7 +102,6 @@ public abstract class GeoShape {
      * @throws NullPointerException of the submitted origin is null.
      */
     public void setOrigin(GeoPoint origin) throws NullPointerException {
-//        System.out.println("setOrigin: " + origin);
         if (origin == null) {
             throw new NullPointerException(
                 "Life is about substance2. This can't be null.");
@@ -191,11 +190,7 @@ public abstract class GeoShape {
      * @param edgeColor The edge color of this shape.
      */
     public void setEdgeColor(Color edgeColor) {
-//        if (edgeColor == null) {
-//            this.edgeColor = null;
-//        } else {
         this.edgeColor = edgeColor;
-//        }
     }
 
     /**
@@ -229,7 +224,7 @@ public abstract class GeoShape {
     public abstract void draw(Graphics2D gtx);
 
     /**
-     * The draw(2 params) method for GeoShape. It uses the given graphics
+     * The draw(2 parameters) method for GeoShape. It uses the given graphics
      * context to draw and/or fill the given shape.
      * 
      * @param shape The given shape.

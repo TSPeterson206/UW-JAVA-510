@@ -1,5 +1,7 @@
 package cp510.assignments.geo_shape;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
@@ -93,11 +95,10 @@ class GeoShapeTest {
     void toStringTest() {
         NestedTestClass newTest = new NestedTestClass(point, Color.black);
         String result2 = newTest.toString();
-        System.out.println(result2);
         newTest.setEdgeColor(Color.GREEN);
-        System.out.println(newTest.toString());
         newTest.setColor(null);
-        System.out.println(newTest.toString());
+        String result3 = newTest.toString();
+        assertTrue(result2 != result3);
     }
 
     @Test

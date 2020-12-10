@@ -6,8 +6,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.awt.Color;
 
-import javax.swing.JOptionPane;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -22,23 +20,6 @@ public class GeoOvalTest {
         Figures figures = new Figures();
 
     }
-
-    @Test
-    void trial() {
-//        System.out.println("hitting trial");
-//
-////        Outer outer = new Outer();
-////        Outer.Inner inner = outer.new Inner();
-//
-//        GeoOvalTest got2 = new GeoOvalTest();
-//        GeoOvalTest.Figures inner = got2.new Figures();
-//        inner.execute();
-
-    }
-
-//    int type = BufferedImage.TYPE_INT_ARGB;
-//    BufferedImage image = new BufferedImage(10, 10, type);
-//    Graphics2D gtx = (Graphics2D) image.createGraphics();
 
     @Test
     void constructorAndSetterGetterTests() {
@@ -134,8 +115,8 @@ public class GeoOvalTest {
         oval1 = new GeoOval(point1, Color.red, 1, 2);
         oval2 = new GeoOval(point2, Color.blue, 3, 4);
 
-        assertEquals(-2080247776, oval1.hashCode());
-        assertEquals(1137093983, oval2.hashCode());
+        assertEquals(-1405720544, oval1.hashCode());
+        assertEquals(-1916743265, oval2.hashCode());
     }
 
     @Test
@@ -171,18 +152,5 @@ public class GeoOvalTest {
         assertEquals(4.967294132898051, oval1.perimeter());
         assertEquals(9.42477796076938, oval2.area());
         assertEquals(11.107207345395915, oval2.perimeter());
-    }
-
-    @Test
-    void tester() {
-        new Figures().main(new String[] { "arg1", "arg2", "arg3" });
-        verify(
-            "Do you see the sample output? This is using the draw methods for Oval, Rectangle and Line. Success!");
-    }
-
-    private void verify(String prompt) {
-        int resp = JOptionPane.showConfirmDialog(null, prompt,
-            "Validation Dialog", JOptionPane.YES_NO_OPTION);
-        assertEquals(JOptionPane.YES_OPTION, resp);
     }
 }

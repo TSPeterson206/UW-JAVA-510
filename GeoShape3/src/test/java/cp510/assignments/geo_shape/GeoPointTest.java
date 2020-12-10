@@ -20,7 +20,6 @@ class GeoPointTest {
 
         double result = Math
             .sqrt((y2 - y1) * (y2 - y1) + (x2 - x1) * (x2 - x1));
-        System.out.println(result + " " + point1.distance(point2));
         assertEquals(5, point1.distance(point2));
     }
 
@@ -42,7 +41,6 @@ class GeoPointTest {
         Assertions.assertEquals("(5.5556,4.4444)", point.toString());
         Assertions.assertEquals(3.5136383309896884, point.distance(point2));
         double result = point.distance(point2);
-        System.out.println("checking point distance" + result);
     }
 
     @Test

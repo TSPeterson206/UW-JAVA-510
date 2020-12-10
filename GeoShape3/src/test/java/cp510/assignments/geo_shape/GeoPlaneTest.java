@@ -6,6 +6,8 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
+import javax.swing.JOptionPane;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -30,7 +32,7 @@ class GeoPlaneTest {
     }
 
     @Test
-    void show() {
+    void showAndBitmap() {
         GeoPlane plane = new GeoPlane();
 
         GeoLine line1;
@@ -46,6 +48,8 @@ class GeoPlaneTest {
         plane.addShape(line2);
         plane.redraw(gtx);
         plane.show();
+        plane.getBitmap();
+        Assertions.assertTrue(plane.getBitmap() instanceof BufferedImage);
     }
 
     @Test
@@ -70,19 +74,24 @@ class GeoPlaneTest {
     }
 
     @Test
-    void bufferedImage() {
-        // Per instructor, getBitmap returns null due to some students having
-        // issues with this method of GWindow working.
-        GeoPlane plane = new GeoPlane(Color.red);
-        Assertions.assertEquals(null, plane.getBitmap());
-    }
-
-    @Test
     void backgroundColors() {
         GeoPlane plane = new GeoPlane(Color.orange);
         assertEquals(Color.orange, plane.getBackgroundColor());
         plane.setBackgroundColor(Color.PINK);
         assertEquals(Color.PINK, plane.getBackgroundColor());
+    }
+
+    @Test
+    void testingDrawingOnPlane() {
+        new Figures().main(new String[] { "arg1", "arg2", "arg3" });
+        verify(
+            "Do you see the sample output? This is using the draw methods for Oval, Rectangle and Line. Success!");
+    }
+
+    private void verify(String prompt) {
+        int resp = JOptionPane.showConfirmDialog(null, prompt,
+            "Validation Dialog", JOptionPane.YES_NO_OPTION);
+        assertEquals(JOptionPane.YES_OPTION, resp);
     }
 
 }

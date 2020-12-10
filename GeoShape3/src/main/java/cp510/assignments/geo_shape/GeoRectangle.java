@@ -44,10 +44,6 @@ public class GeoRectangle extends GeoShape {
      */
     public GeoRectangle(double width, double height) {
         this(DEFAULT_ORIGIN, DEFAULT_COLOR, width, height);
-//        this.width = width;
-//        this.height = height;
-//        setOrigin(DEFAULT_ORIGIN);
-//        setColor(DEFAULT_COLOR);
     }
 
     /**
@@ -61,11 +57,6 @@ public class GeoRectangle extends GeoShape {
      */
     public GeoRectangle(GeoPoint origin, double width, double height) {
         this(origin, DEFAULT_COLOR, width, height);
-//        this.width = width;
-//        this.height = height;
-//        setOrigin(origin);
-//        setColor(DEFAULT_COLOR);
-
     }
 
     /**
@@ -205,6 +196,7 @@ public class GeoRectangle extends GeoShape {
     /**
      * The equals method for the GeoRectangle class.
      * 
+     * @param other The other object to be passed in for comparison.
      * @return boolean A boolean that states whether the passed argument Object
      *         is equal to the encapsulated object.
      */
@@ -241,11 +233,12 @@ public class GeoRectangle extends GeoShape {
     /**
      * The hashCode method for the GeoRectangle class.
      * 
-     * @return int The hashcode for the encapuslated object.
+     * @return int The hashcode for the encapsulated object.
      */
     @Override
     public int hashCode() {
-        int hash = Objects.hash(getOrigin(), getColor(), width, height);
+        int hash = Objects.hash(getWidth(), getHeight(), getOrigin(),
+            getColor(), width, height);
         return hash;
     }
 
