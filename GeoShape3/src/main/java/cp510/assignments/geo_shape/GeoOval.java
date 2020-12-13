@@ -93,7 +93,7 @@ public class GeoOval extends GeoRectangle {
      *         GeoOval object.
      */
     public String toString() {
-        colorConvert = null;
+        String colorConvert = null;
 
         if (getColor() != null) {
             int argb = getColor().getRGB();

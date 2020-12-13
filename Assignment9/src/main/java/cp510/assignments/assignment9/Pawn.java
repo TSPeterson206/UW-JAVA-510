@@ -1,7 +1,12 @@
 package cp510.assignments.assignment9;
 
+import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author toby
+ *
+ */
 public class Pawn extends ChessPiece {
 
 //  Each of these classes represents a piece on a chess board.Each has a single constructor and a single method (required by the abstract superclass).
@@ -14,7 +19,7 @@ public class Pawn extends ChessPiece {
      * @param color The color of this chess piece.
      */
     Pawn(ChessColor color) {
-        super("", "", color);
+        super("pawn", "", color);
 
     }
 
@@ -30,8 +35,7 @@ public class Pawn extends ChessPiece {
      */
     @Override
     public List<ChessPoint> getValidMoves(ChessPieceMap chessMap) {
-        // TODO Auto-generated method stub
-        return null;
+        return new ArrayList<ChessPoint>();
     }
 
 }

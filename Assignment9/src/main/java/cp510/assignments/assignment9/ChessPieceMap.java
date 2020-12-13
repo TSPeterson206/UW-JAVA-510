@@ -1,6 +1,7 @@
 package cp510.assignments.assignment9;
 
 import java.util.HashMap;
+import java.util.Objects;
 
 /**
  * The ChessPieceMap class for the chess project.
@@ -10,14 +11,14 @@ import java.util.HashMap;
  */
 public class ChessPieceMap extends HashMap<ChessPoint, ChessPiece> {
 
+//    maybe try this.map and move this to constructor?
+
     /**
      * The default constructor for ChessPieceMap.
      */
     public ChessPieceMap() {
+        HashMap<ChessPoint, ChessPiece> map = new HashMap(100, .75f);
     };
-//        Constructor. Creates a <ChessPoint,ChessPiece> map with an initial size of 100, and a load factor of .75.
-
-//        Methods:
 
     /**
      * The get method for ChessPieceMap. This method is identical to
@@ -31,7 +32,19 @@ public class ChessPieceMap extends HashMap<ChessPoint, ChessPiece> {
      *                        not a valid square.
      */
     public ChessPiece get(ChessPoint point) throws ChessException {
-        return null;
+
+        if (point.getCol() < 0 || point.getCol() > 7) {
+
+            ChessException exc = new ChessException();
+            Throwable e = exc.getCause();
+            throw new ChessException(e);
+        }
+        if (point.getRow() < 0 || point.getRow() > 7) {
+            throw new ChessException();
+        }
+
+        System.out.println(super.get(point).getName());
+        return super.get(point);
     }
 
     /**
@@ -43,6 +56,15 @@ public class ChessPieceMap extends HashMap<ChessPoint, ChessPiece> {
      *         cannot be found.
      */
     public ChessPoint getKey(ChessPiece piece) {
+//        for (ChessPiece key : map.values()) {
+//if(key==piece) {}
+//        }
+//        
+        for (Entry<ChessPoint, ChessPiece> entry : super.entrySet()) {
+            if (Objects.equals(piece, entry.getValue())) {
+                return entry.getKey();
+            }
+        }
         return null;
     }
 
@@ -67,6 +89,11 @@ public class ChessPieceMap extends HashMap<ChessPoint, ChessPiece> {
 //    is exhausted.
 
     /**
+     * The put method for the ChessPieceMap class. It adds a
+     * ChessPoint/ChessPiece entry to the map. Null values are not permitted.
+     * This method is identical to Map<ChessPoint,ChessPiece>.put, but throws an
+     * exception if the given point is not a valid square on a chess board, or
+     * the given value is null.
      * 
      * @param point The key for the new entry.
      * @param piece The value for the new entry.
@@ -77,7 +104,29 @@ public class ChessPieceMap extends HashMap<ChessPoint, ChessPiece> {
      */
     public ChessPiece put(ChessPoint point, ChessPiece piece)
         throws ChessException {
-        return null;
+//        ChessException exc = null;
+
+        if (piece == null) {
+            throw new ChessException();
+        }
+        if (point.getCol() < 0 || point.getCol() > 7) {
+            throw new ChessException(
+                "Throwing an exception, out of column range.");
+        }
+
+        if (point.getRow() < 0 || point.getRow() > 7) {
+            ChessException exc = new ChessException();
+            Throwable e = exc.getCause();
+            throw new ChessException("Chess exception thrown!", e);
+        }
+
+//        System.out.println("hitting put in piece: " + piece.toString() + " "
+//            + piece.getName());
+//        System.out.println("mapbefore: " + super.toString());
+        super.putIfAbsent(point, piece);
+//        System.out.println("mapafter: " + super.toString());
+
+        return piece;
     }
 
 //    Adds
@@ -107,7 +156,43 @@ public class ChessPieceMap extends HashMap<ChessPoint, ChessPiece> {
      * @return A ChessMap with all pieces in the traditional start positions.
      */
     public static ChessPieceMap newGame() {
-        return null;
+        ChessPieceMap newMap = new ChessPieceMap();
+        newMap.put(new ChessPoint(1, 0), new Pawn(ChessColor.BLACK));
+        newMap.put(new ChessPoint(1, 1), new Pawn(ChessColor.BLACK));
+        newMap.put(new ChessPoint(1, 2), new Pawn(ChessColor.BLACK));
+        newMap.put(new ChessPoint(1, 3), new Pawn(ChessColor.BLACK));
+        newMap.put(new ChessPoint(1, 4), new Pawn(ChessColor.BLACK));
+        newMap.put(new ChessPoint(1, 5), new Pawn(ChessColor.BLACK));
+        newMap.put(new ChessPoint(1, 6), new Pawn(ChessColor.BLACK));
+        newMap.put(new ChessPoint(1, 7), new Pawn(ChessColor.BLACK));
+
+        newMap.put(new ChessPoint(0, 0), new Rook(ChessColor.BLACK));
+        newMap.put(new ChessPoint(0, 1), new Knight(ChessColor.BLACK));
+        newMap.put(new ChessPoint(0, 2), new Bishop(ChessColor.BLACK));
+        newMap.put(new ChessPoint(0, 3), new King(ChessColor.BLACK));
+        newMap.put(new ChessPoint(0, 4), new Queen(ChessColor.BLACK));
+        newMap.put(new ChessPoint(0, 5), new Bishop(ChessColor.BLACK));
+        newMap.put(new ChessPoint(0, 6), new Knight(ChessColor.BLACK));
+        newMap.put(new ChessPoint(0, 7), new Rook(ChessColor.BLACK));
+
+        newMap.put(new ChessPoint(6, 0), new Pawn(ChessColor.WHITE));
+        newMap.put(new ChessPoint(6, 1), new Pawn(ChessColor.WHITE));
+        newMap.put(new ChessPoint(6, 2), new Pawn(ChessColor.WHITE));
+        newMap.put(new ChessPoint(6, 3), new Pawn(ChessColor.WHITE));
+        newMap.put(new ChessPoint(6, 4), new Pawn(ChessColor.WHITE));
+        newMap.put(new ChessPoint(6, 5), new Pawn(ChessColor.WHITE));
+        newMap.put(new ChessPoint(6, 6), new Pawn(ChessColor.WHITE));
+        newMap.put(new ChessPoint(6, 7), new Pawn(ChessColor.WHITE));
+
+        newMap.put(new ChessPoint(7, 0), new Rook(ChessColor.WHITE));
+        newMap.put(new ChessPoint(7, 1), new Knight(ChessColor.WHITE));
+        newMap.put(new ChessPoint(7, 2), new Bishop(ChessColor.WHITE));
+        newMap.put(new ChessPoint(7, 3), new King(ChessColor.WHITE));
+        newMap.put(new ChessPoint(7, 4), new Queen(ChessColor.WHITE));
+        newMap.put(new ChessPoint(7, 5), new Bishop(ChessColor.WHITE));
+        newMap.put(new ChessPoint(7, 6), new Knight(ChessColor.WHITE));
+        newMap.put(new ChessPoint(7, 7), new Rook(ChessColor.WHITE));
+        return newMap;
     }
 
 }

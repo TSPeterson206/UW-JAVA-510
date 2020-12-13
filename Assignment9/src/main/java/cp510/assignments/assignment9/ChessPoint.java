@@ -6,6 +6,7 @@ public class ChessPoint {
      * The row of a square on the board
      */
     int row;
+
     /**
      * The column of a square on the board
      */
@@ -16,6 +17,8 @@ public class ChessPoint {
      * properties to (0, 0).
      */
     public ChessPoint() {
+        setCol(0);
+        setRow(0);
     }
 
     /**
@@ -26,19 +29,19 @@ public class ChessPoint {
      * @param col The given column.
      */
     public ChessPoint(int row, int col) {
-        this.row = row;
-        this.col = col;
+        setRow(row);
+        setCol(col);
     }
 
     /**
+     * The copy constructor; copies the properties of the given ChessPoint to
+     * this ChessPoint.
      * 
      * @param toCopy The given ChessPoint.
      */
     public ChessPoint(ChessPoint toCopy) {
+        setPoint(toCopy.getRow(), toCopy.getCol());
     }
-//        Copy constructor; copies the properties of the given ChessPoint to this ChessPoint.
-
-//        toCopy
 
     /**
      * 
@@ -53,6 +56,17 @@ public class ChessPoint {
      *         on a chess board.
      */
     public boolean add(int row, int col) {
+
+        if (row > 7 || row < 0) {
+            return false;
+        }
+        ;
+        if (col > 7 || col < 0) {
+            return false;
+        }
+        ;
+        setRow(row);
+        setCol(col);
         return true;
     }
 
@@ -65,7 +79,7 @@ public class ChessPoint {
      * @return The calculated hashcode.
      */
     public int hashCode() {
-        return 0;
+        return 8 * getRow() + getCol();
     }
 
     /**
@@ -79,7 +93,24 @@ public class ChessPoint {
      *         not.
      */
     public boolean equals(Object obj) {
-        return true;
+        boolean result = false;
+        if (obj == null)
+            result = false;
+//        else if (this == obj)
+//            result = true;
+        else if (this.getClass() != obj.getClass())
+            result = false;
+        else {
+            ChessPoint that = (ChessPoint) obj;
+            if (this.getCol() != that.getCol())
+                ;
+            else if (this.getRow() != that.getRow())
+                ;
+            else {
+                result = true;
+            }
+        }
+        return result;
     }
 
     /**
@@ -126,6 +157,8 @@ public class ChessPoint {
      * @param col The new value of the column property.
      */
     public void setPoint(int row, int col) {
+        setCol(col);
+        setRow(row);
     }
 
     /**
@@ -134,6 +167,9 @@ public class ChessPoint {
      * @return A readable string representing the properties of this ChessPoint.
      */
     public String toString() {
-        return "";
+        StringBuilder bldr = new StringBuilder();
+        bldr.append("row = ").append(getRow()).append(", column = ")
+            .append(getCol());
+        return bldr.toString();
     }
 }

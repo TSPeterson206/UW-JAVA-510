@@ -31,7 +31,7 @@ public class GeoRectangle extends GeoShape {
      * A string containing the fill color for the rectangle in hexadecimal
      * format.
      */
-    String colorConvert;
+    private String colorConvert;
 
     /**
      * The constructor (2 parameters) for the GeoRectangle class. It sets the

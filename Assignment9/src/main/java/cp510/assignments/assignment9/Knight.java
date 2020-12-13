@@ -1,5 +1,6 @@
 package cp510.assignments.assignment9;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Knight extends ChessPiece {
@@ -13,7 +14,7 @@ public class Knight extends ChessPiece {
      * @param color The color of this rook.
      */
     public Knight(ChessColor color) {
-        super("", "", color);
+        super("knight", "", color);
     }
 
     /**
@@ -28,8 +29,7 @@ public class Knight extends ChessPiece {
 //  }
     @Override
     public List<ChessPoint> getValidMoves(ChessPieceMap chessMap) {
-        // TODO Auto-generated method stub
-        return null;
+        return new ArrayList<ChessPoint>();
     }
 //  Given the state of a chess board calculate all valid moves for this Rook.If there are no valid moves an empty list will be returned.
 

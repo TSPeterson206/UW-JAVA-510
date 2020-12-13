@@ -3,6 +3,13 @@ package cp510.assignments.assignment9;
 import java.awt.Image;
 import java.util.List;
 
+/**
+ * The ChessPiece class for the chess project. This abstract class is the root
+ * class of all chess pieces.
+ * 
+ * @author Toby Peterson.
+ *
+ */
 public abstract class ChessPiece {
 
 //    Root class of all chess pieces, this class will have the following properties, constructors and methods.
@@ -24,68 +31,52 @@ public abstract class ChessPiece {
     /**
      * True if this chess piece has not been captured
      */
-    boolean isAlive;
+    private boolean isAlive;
 
     /**
-     * @param name
-     * @param imagePath
-     * @param color
+     * The 3-parameter constrctor for Chess Piece. When invoking this
+     * constructor, the imagePath is the empty string, the color will be one of
+     * ChessColor.BLACK or ChessColor.WHITE, and the name will be the name of
+     * the chess piece.
+     * 
+     * @param name      The name of this chess piece.
+     * @param imagePath The path to the file containing the image for this chess
+     *                  piece. For this assigment, it returns an empty string.
+     * @param color     The color of this chess piece.
      */
     public ChessPiece(String name, String imagePath, ChessColor color) {
-        System.out.println("hitting chesspiece");
+//        System.out
+//            .println("hitting chesspiece constructor: " + "name: " + name);
         this.name = name;
-//        this.imagePath="";
+//        this.image = "";
+        this.isAlive = true;
         this.color = color;
     }
 
-//    name
-//    The name of this chess piece.
-//
-//    imagePath
-//    The path to the file containing the image for this chess piece.
-//    Note: for this assignment please pass the empty string ("").
-//
-//    color
-//    The color of this chess piece.
-
-//    Discussion:
-//    When invoking this constructor, the imagePath should be the empty string, the color will be one of ChessColor.BLACK or ChessColor.WHITE, and the name will be the name of the chess piece:
-//
-//    Class
-//    Name
-//    Rook
-//    "rook"
-//    Bishop
-//    "bishop"
-//    Knight
-//    "knight"
-//    Queen
-//    "queen"
-//    King
-//    "king"
-//    Pawn
-//    "pawn"
-
-//    Methods:
     /**
+     * The abstract method getValidMoves. It returns a list of all valid moves
+     * for this chess piece given the state of the chess board. Note: all
+     * ChessPiece subclasses except Bishop and Rook should return an empty list
+     * (return new ArrayList<ChessPoint>()).
+     * 
      * 
      * @param chessMap The current state of the chess board.
      * @return A list of all valid moves for this chess piece.
      */
     public abstract List<ChessPoint> getValidMoves(ChessPieceMap chessMap);
-//    Returns a list of all valid moves for this chess piece given the state of the chess board.Note: all ChessPiece subclasses except Bishop and Rook should return an empty list (return new ArrayList<ChessPoint>()).    
 
     /**
      * The getName getter for the name property.
      * 
      * @return The value of the name property.
      */
-    public int getName() {
-        return 0;
+    public String getName() {
+        return this.name;
     }
 
     /**
-     * The getImage getter for the image property.
+     * The getImage getter for the image property. Note:for this assignment this
+     * method should return null.
      * 
      * @return The value of the image property.
      */
@@ -94,21 +85,14 @@ public abstract class ChessPiece {
         return null;
     }
 
-//    returns The
-//    value of
-//    the image property.Note:for this assignment this
-//    method should return null.
-
     /**
      * The getter for this chess piece's color.
      * 
      * @return ChessColor The color of the chess piece.
      */
     public ChessColor getColor() {
-        return null;
+        return this.color;
     }
-
-//        returns This chess piece'scolor.
 
     /**
      * The getter for the isAlive property.
@@ -117,17 +101,17 @@ public abstract class ChessPiece {
      * 
      */
     public boolean isAlive() {
-        return true;
+        return isAlive;
     }
 
     /**
      * The setter for the isAlive property.
      * 
-     * @param alive The boolean
+     * @param alive The boolean that determines if this piece is alive or not.
      */
     public void setAlive(boolean alive) {
         {
-
+            this.isAlive = alive;
         }
     }
 }

@@ -71,7 +71,7 @@ public abstract class GeoShape {
      *                              not be null and this exception will be
      *                              thrown if it is.
      */
-    GeoShape(GeoPoint origin, Color color) throws NullPointerException {
+    public GeoShape(GeoPoint origin, Color color) throws NullPointerException {
         if (origin == null) {
             throw new NullPointerException();
         } else {

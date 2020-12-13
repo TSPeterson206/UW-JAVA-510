@@ -1,5 +1,6 @@
 package cp510.assignments.assignment9;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class King extends ChessPiece {
@@ -14,7 +15,7 @@ public class King extends ChessPiece {
      * @param color The color of this chess piece.
      */
     King(ChessColor color) {
-        super("", "", color);
+        super("king", "", color);
 
     }
 
@@ -30,8 +31,7 @@ public class King extends ChessPiece {
      */
     @Override
     public List<ChessPoint> getValidMoves(ChessPieceMap chessMap) {
-        // TODO Auto-generated method stub
-        return null;
+        return new ArrayList<ChessPoint>();
     }
 
 }
