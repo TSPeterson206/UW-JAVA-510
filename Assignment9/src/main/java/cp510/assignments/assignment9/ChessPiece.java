@@ -12,8 +12,6 @@ import java.util.List;
  */
 public abstract class ChessPiece {
 
-//    Root class of all chess pieces, this class will have the following properties, constructors and methods.
-
     /**
      * The name of this chess piece, e.g. "bishop".
      */
@@ -34,19 +32,17 @@ public abstract class ChessPiece {
     private boolean isAlive;
 
     /**
-     * The 3-parameter constrctor for Chess Piece. When invoking this
+     * The 3-parameter constructor for Chess Piece. When invoking this
      * constructor, the imagePath is the empty string, the color will be one of
      * ChessColor.BLACK or ChessColor.WHITE, and the name will be the name of
      * the chess piece.
      * 
      * @param name      The name of this chess piece.
      * @param imagePath The path to the file containing the image for this chess
-     *                  piece. For this assigment, it returns an empty string.
+     *                  piece. For this assignment, it returns an empty string.
      * @param color     The color of this chess piece.
      */
     public ChessPiece(String name, String imagePath, ChessColor color) {
-//        System.out
-//            .println("hitting chesspiece constructor: " + "name: " + name);
         this.name = name;
 //        this.image = "";
         this.isAlive = true;

@@ -1,16 +1,24 @@
 package cp510.assignments.assignment9;
 
+/**
+ * The ChessPoint class for the chess project. This is the row and column
+ * coordinates used to place,remove, check on the position of ChessPiece on the
+ * ChessPieceMap (a hashmap).
+ * 
+ * @author Toby Peterson.
+ *
+ */
 public class ChessPoint {
 
     /**
      * The row of a square on the board
      */
-    int row;
+    private int row;
 
     /**
      * The column of a square on the board
      */
-    int col;
+    private int col;
 
     /**
      * The default constructor for ChessPoint. It sets the row and col
@@ -96,8 +104,6 @@ public class ChessPoint {
         boolean result = false;
         if (obj == null)
             result = false;
-//        else if (this == obj)
-//            result = true;
         else if (this.getClass() != obj.getClass())
             result = false;
         else {

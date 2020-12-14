@@ -16,7 +16,6 @@ public class ChessDriver {
         for (int row = 0; row < 8; ++row)
             for (int col = 0; col < 8; ++col) {
                 ChessPoint point = new ChessPoint(row, col);
-//                System.out.println(point.toString());
                 ChessPiece piece = map.get(point);
                 StringBuilder bldr = new StringBuilder();
                 bldr.append(point).append(' ');
@@ -78,7 +77,6 @@ public class ChessDriver {
         printList(list);
     }
 
-//
     private static void driverConfig() {
         Rook rookB = new Rook(ChessColor.BLACK);
         Bishop bishopB = new Bishop(ChessColor.BLACK);
@@ -94,10 +92,10 @@ public class ChessDriver {
         ChessPoint bishopWPos = new ChessPoint(2, 5);
 
         ChessPieceMap map = new ChessPieceMap();
-
         map.put(rookBPos, rookB);
         map.put(bishopBPos, bishopB);
         map.put(bishopWPos, bishopW);
+
         List<ChessPoint> list = rookB.getValidMoves(map);
         System.out.println("DriverConfig: Black Rook");
         printList(list);

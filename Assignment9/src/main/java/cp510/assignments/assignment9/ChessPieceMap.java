@@ -4,14 +4,13 @@ import java.util.HashMap;
 import java.util.Objects;
 
 /**
- * The ChessPieceMap class for the chess project.
+ * The ChessPieceMap class for the chess project. This class extends a
+ * superclass of Hashmap. This is used as the basis for a chess board.
  * 
  * @author Toby Peterson.
  *
  */
 public class ChessPieceMap extends HashMap<ChessPoint, ChessPiece> {
-
-//    maybe try this.map and move this to constructor?
 
     /**
      * The default constructor for ChessPieceMap.
@@ -42,24 +41,18 @@ public class ChessPieceMap extends HashMap<ChessPoint, ChessPiece> {
         if (point.getRow() < 0 || point.getRow() > 7) {
             throw new ChessException();
         }
-
-        System.out.println(super.get(point).getName());
         return super.get(point);
     }
 
     /**
      * The getKey method for ChessPieceMap. It gets the key associated with the
-     * given value.Returns null if the given value cannot be found.
+     * given value. Returns null if the given value cannot be found.
      * 
      * @param piece The chess piece to be found.
      * @return The key associated with the given value, or null if the value
      *         cannot be found.
      */
     public ChessPoint getKey(ChessPiece piece) {
-//        for (ChessPiece key : map.values()) {
-//if(key==piece) {}
-//        }
-//        
         for (Entry<ChessPoint, ChessPiece> entry : super.entrySet()) {
             if (Objects.equals(piece, entry.getValue())) {
                 return entry.getKey();
@@ -67,26 +60,6 @@ public class ChessPieceMap extends HashMap<ChessPoint, ChessPiece> {
         }
         return null;
     }
-
-//    Discussion:
-//    There is
-//    no corresponding
-//    method in
-//    the superclass.
-//    To implement this method,
-//    get the
-//    set of
-//    keys associated with this
-//    map.Use each
-//    key to
-//    interrogate the
-//    map until
-//    the target
-//    value is found,
-//    or until
-//    the set
-//    of keys
-//    is exhausted.
 
     /**
      * The put method for the ChessPieceMap class. It adds a
@@ -104,8 +77,6 @@ public class ChessPieceMap extends HashMap<ChessPoint, ChessPiece> {
      */
     public ChessPiece put(ChessPoint point, ChessPiece piece)
         throws ChessException {
-//        ChessException exc = null;
-
         if (piece == null) {
             throw new ChessException();
         }
@@ -119,34 +90,9 @@ public class ChessPieceMap extends HashMap<ChessPoint, ChessPiece> {
             Throwable e = exc.getCause();
             throw new ChessException("Chess exception thrown!", e);
         }
-
-//        System.out.println("hitting put in piece: " + piece.toString() + " "
-//            + piece.getName());
-//        System.out.println("mapbefore: " + super.toString());
-        super.putIfAbsent(point, piece);
-//        System.out.println("mapafter: " + super.toString());
-
+        super.put(point, piece);
         return piece;
     }
-
-//    Adds
-//    a ChessPoint/
-//    ChessPiece entry
-//    to the
-//    map.Null values
-//    are not
-//    permitted.This method
-//    is identical
-//    to Map<ChessPoint,ChessPiece>.put,but throws
-//    an exception if
-//    the given
-//    point is
-//    not a
-//    valid square
-//    on a
-//    chess board, or
-//    the given
-//    value is null.
 
     /**
      * The newGame method for ChessPieceMap. Instantiates a ChessMap with all

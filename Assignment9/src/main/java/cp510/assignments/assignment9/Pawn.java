@@ -4,34 +4,30 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author toby
+ * The Pawn class for the chess project. This is a chess piece that extends the
+ * superclass ChessPiece.
+ * 
+ * @author Toby Peterson.
  *
  */
 public class Pawn extends ChessPiece {
 
-//  Each of these classes represents a piece on a chess board.Each has a single constructor and a single method (required by the abstract superclass).
-
-//  Constructor:
-//  Knight​(ChessColor color){}
-
     /**
+     * The single-parameter constructor for Pawn.
      * 
      * @param color The color of this chess piece.
      */
-    Pawn(ChessColor color) {
+    public Pawn(ChessColor color) {
         super("pawn", "", color);
-
     }
 
     /**
+     * The getValidMoves method for the chess piece. For this project, this
+     * particular piece (all except rook and bishop) will return an empty list.
+     *
      * 
-     */
-//  public java.util.List<ChessPoint> getValidMoves ​(
-//  ChessPieceMap chessMap);
-//  For the above classes this method will be a stub that returns an empty list ("new ArrayList<ChessPoint>()"). chessMap Not used returns An empty List<ChessPoint>.
-
-    /**
-     * 
+     * @param chessMap The state of the chess board.
+     * @return An empty list.
      */
     @Override
     public List<ChessPoint> getValidMoves(ChessPieceMap chessMap) {

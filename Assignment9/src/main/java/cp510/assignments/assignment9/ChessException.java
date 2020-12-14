@@ -4,7 +4,7 @@ package cp510.assignments.assignment9;
  * The ChessException exception for the project. There are four constructors
  * within this class that take various types of input.
  * 
- * @author Toby Peterson
+ * @author Toby Peterson.
  *
  */
 public class ChessException extends RuntimeException {
