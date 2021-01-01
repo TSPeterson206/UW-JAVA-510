@@ -16,14 +16,13 @@ public class ChessPieceMap extends HashMap<ChessPoint, ChessPiece> {
      * The default constructor for ChessPieceMap.
      */
     public ChessPieceMap() {
-        HashMap<ChessPoint, ChessPiece> map = new HashMap(100, .75f);
+        new HashMap<ChessPoint, ChessPiece>(100, 0.75f);
     };
 
     /**
-     * The get method for ChessPieceMap. This method is identical to
-     * Map<ChessPoint,ChessPiece>.get, but throws an exception if the given
-     * point is not a valid square. Returns null if the ChessPoint is not in the
-     * map.
+     * The get method for ChessPieceMap. This method is identical to get, but
+     * throws an exception if the given point is not a valid square. Returns
+     * null if the ChessPoint is not in the map.
      * 
      * @param point The key to the target ChessPiece.
      * @return The value associated with the key,or null if none found.
@@ -64,9 +63,8 @@ public class ChessPieceMap extends HashMap<ChessPoint, ChessPiece> {
     /**
      * The put method for the ChessPieceMap class. It adds a
      * ChessPoint/ChessPiece entry to the map. Null values are not permitted.
-     * This method is identical to Map<ChessPoint,ChessPiece>.put, but throws an
-     * exception if the given point is not a valid square on a chess board, or
-     * the given value is null.
+     * This method is identical to put, but throws an exception if the given
+     * point is not a valid square on a chess board, or the given value is null.
      * 
      * @param point The key for the new entry.
      * @param piece The value for the new entry.

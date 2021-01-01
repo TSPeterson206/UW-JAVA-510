@@ -75,7 +75,7 @@ class ChessPointTest {
     void addTest() {
         ChessPoint point = new ChessPoint(3, 6);
         assertTrue(point.add(0, 0));
-        assertFalse(point.add(-2, 0));
+        assertFalse(point.add(-6, 0));
         assertFalse(point.add(0, 8));
     }
 

@@ -13,7 +13,7 @@ import java.util.List;
 public class Knight extends ChessPiece {
 
     /**
-     * The single-parameter constructor for Queen.
+     * The single-parameter constructor for Knight.
      * 
      * @param color The color of this chess piece.
      */

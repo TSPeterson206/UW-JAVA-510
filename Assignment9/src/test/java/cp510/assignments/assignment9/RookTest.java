@@ -1,6 +1,7 @@
 package cp510.assignments.assignment9;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
@@ -9,6 +10,8 @@ class RookTest {
     @Test
     void constructorTest() {
         Rook newRook = new Rook(ChessColor.BLACK);
+        assertTrue(newRook instanceof Rook);
+
     }
 
     @Test

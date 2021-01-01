@@ -12,4 +12,9 @@ class ChessColorTest {
         assertEquals("WHITE", ChessColor.WHITE.toString());
     }
 
+    @Test
+    void testColorSize() {
+        assertEquals(2, ChessColor.values().length);
+    }
+
 }

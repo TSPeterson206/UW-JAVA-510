@@ -65,16 +65,19 @@ public class ChessPoint {
      */
     public boolean add(int row, int col) {
 
-        if (row > 7 || row < 0) {
+        int rowTotal = getRow() + row;
+        int colTotal = getCol() + col;
+
+        if (rowTotal > 7 || rowTotal < 0) {
             return false;
         }
         ;
-        if (col > 7 || col < 0) {
+        if (colTotal > 7 || colTotal < 0) {
             return false;
         }
         ;
-        setRow(row);
-        setCol(col);
+        setRow(rowTotal);
+        setCol(colTotal);
         return true;
     }
 

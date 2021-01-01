@@ -52,8 +52,7 @@ public abstract class ChessPiece {
     /**
      * The abstract method getValidMoves. It returns a list of all valid moves
      * for this chess piece given the state of the chess board. Note: all
-     * ChessPiece subclasses except Bishop and Rook should return an empty list
-     * (return new ArrayList<ChessPoint>()).
+     * ChessPiece subclasses except Bishop and Rook should return an empty list.
      * 
      * 
      * @param chessMap The current state of the chess board.
