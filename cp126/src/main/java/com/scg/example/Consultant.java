@@ -1,16 +1,45 @@
 package com.scg.example;
 
+//import edu.uw.cp520.scg.util.PersonalName;
+
+/**
+ * The Consultant class for the invoice project.
+ * 
+ * @author Toby Peterson.
+ *
+ */
 public class Consultant {
 
+    /**
+     * The name property of the consultant.
+     */
+    private PersonalName name;
+
+    /**
+     * The one-parameter constructor for the Consultant class.
+     * 
+     * @param name The name to be assigned to the name property.
+     */
     Consultant(PersonalName name) {
+        this.name = name;
     };
 
+    /**
+     * The getName method for the Consultant class.
+     * 
+     * @return PersonalName The human-readable name of the consultant being
+     *         referenced by this class.
+     */
     public PersonalName getName() {
+        return this.name;
     };
 
-//    Getter for name property.
+    /**
+     * The toString method for the Consultant class.
+     * 
+     * @return String The string representation of the consultant name.
+     */
     public String toString() {
-        return "";
+        return name.toString();
     };
-//    Returns the string representation of the consultant's name.
 }
