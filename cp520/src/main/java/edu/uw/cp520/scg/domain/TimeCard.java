@@ -1,5 +1,7 @@
 package edu.uw.cp520.scg.domain;
 
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.util.ArrayList;
 import java.util.Formatter;
 import java.util.List;
@@ -10,7 +12,7 @@ import java.util.Locale;
  * a timecard entry and the individual names of those being contracted as
  * consultants.
  * 
- * @author Toby Peterson.c
+ * @author Toby Peterson.
  *
  */
 public final class TimeCard {
@@ -34,26 +36,6 @@ public final class TimeCard {
      */
     private java.time.LocalDate startingDay;
 
-    private String HEADER_FORMAT = "Consultant: %-28s Week Starting: %2$tb";
-
-    private String TO_STRING_FORMAT = "TIMECard for: %s, Week Starting: %2$tb";
-
-    private String LINE_HEADER_FORMAT = String.format("%28s %-10s %5s %s%n"
-        + "----------------------------------- ----------- ------- -----------------------%n",
-        "Account", "Date", "Hours", "Skill");
-
-    private String CARD_BORDER = "===============================================================";
-
-    private String LINE_FORMAT = "%-28s %2$tm/%2$td/%2$tY %3$5d %4$s%n";
-
-    private String SUMMARY_LINE_FORMAT = "%-39s %5d%n";
-
-    private String BILLABLE_TIME_HEADER_FORMAT = "%nBillable Time:%n";
-
-    private String NON_BILLABLE_TIME_HEADER_FORMAT = "%nNon-billable Time:%n";
-
-    private String SUMMARY_HEADER_FORMAT = "%nSummary:%n";
-
     /**
      * The two-parameter constructor for the TimeCard class. It sets the
      * consultant name and starting day.
@@ -63,7 +45,8 @@ public final class TimeCard {
      * @param weekStartingDay The starting day of the week for the selected
      *                        consultant.
      */
-    TimeCard(Consultant consultant, java.time.LocalDate weekStartingDay) {
+    public TimeCard(Consultant consultant,
+        java.time.LocalDate weekStartingDay) {
         this.consultant = consultant;
         this.startingDay = weekStartingDay;
     };
@@ -93,7 +76,7 @@ public final class TimeCard {
 
         for (ConsultantTime item : time) {
             if (item.isBillable() == true
-                && item.getAccount().getName() == clientName) {
+                && item.getAccount().getName().equals(clientName)) {
                 billable.add(item);
             }
             ;
@@ -190,29 +173,49 @@ public final class TimeCard {
      */
     public String toReportString() {
         StringBuilder sb = new StringBuilder();
-//        sb.append("test to report string");
-//        return sb.toString();
         Formatter fm = new Formatter(sb, Locale.US);
 
-        fm.format(CARD_BORDER)
-            .format(HEADER_FORMAT, consultant.getName(), startingDay)
-            .format(BILLABLE_TIME_HEADER_FORMAT).format(LINE_HEADER_FORMAT);
+        String formattedDate = startingDay
+            .format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM));
 
-//        appendTime(fm, getconsultingHours, true);
-//        appendTime(fm, getTotalHours(), true);
+        fm.format(
+            "====================================================================")
+            .format("%nConsultant: %-28s Week Starting: ", consultant.getName())
+            .format(formattedDate).format("%nBillable Time:%n")
+            .format("%-28s %-10s %6s %6s%n"
+                + "---------------------------  ----------  -----  --------------------%n",
+                "Account", "Date", "Hours", "Skill");
 
-        fm.format(NON_BILLABLE_TIME_HEADER_FORMAT).format(LINE_HEADER_FORMAT);
+        for (ConsultantTime item : time) {
+            if (item.isBillable()) {
+                fm.format("%-28s %2$tm/%2$td/%2$tY %3$6d %4$17s%n",
+                    item.getAccount().getName(), item.getDate(),
+                    item.getHours(), item.getSkill());
+            }
+            ;
+        }
 
-//        appendTime(fm, consultingHours, false);
+        fm.format("%nNon-billable Time:%n").format("%-28s %-10s %6s %6s%n"
+            + "---------------------------  ----------  -----  --------------------%n",
+            "Account", "Date", "Hours", "Skill");
 
-        fm.format(SUMMARY_HEADER_FORMAT)
-            .format(SUMMARY_LINE_FORMAT, "Total Billable:",
-                getTotalBillableHours())
-            .format(SUMMARY_LINE_FORMAT, "Total Non-Billable:",
+        for (ConsultantTime item : getConsultingHours()) {
+            if (item.isBillable() == false) {
+                fm.format("%-28s %2$tm/%2$td/%2$tY %3$6d %4$17s%n",
+                    item.getAccount().getName(), item.getDate(),
+                    item.getHours(), item.getSkill());
+            }
+            ;
+        }
+
+        fm.format("%nSummary:%n")
+            .format("%-39s %5d%n", "Total Billable:", getTotalBillableHours())
+            .format("%-39s %5d%n", "Total Non-Billable:",
                 getTotalNonBillableHours())
-            .format(SUMMARY_LINE_FORMAT, "Total Hours:",
+            .format("%-39s %5d%n", "Total Hours:",
                 getTotalBillableHours() + getTotalNonBillableHours())
-            .format(CARD_BORDER);
+            .format(
+                "====================================================================");
 
         String output = fm.toString();
         fm.close();
@@ -226,28 +229,8 @@ public final class TimeCard {
      * @return String The string representation of the TimeCard instance.
      */
     public String toString() {
-        return String.format(TO_STRING_FORMAT, consultant.getName(), Locale.US);
+        return String.format("TimeCard for: %s, Week Starting: %s",
+            consultant.getName(), startingDay
+                .format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)));
     };
 }
-
-//====================================================================
-//Consultant: Coder, Carl NMN              Week Starting: Feb 27, 2017
-//
-//Billable Time:
-//Account                      Date        Hours  Skill
-//---------------------------  ----------  -----  --------------------
-//Acme Industries              02/27/2017      8  Software Engineer
-//Acme Industries              02/28/2017      8  Software Engineer
-//FooBar Enterprises           03/01/2017      8  Software Engineer
-//FooBar Enterprises           03/02/2017      8  Software Engineer
-//FooBar Enterprises           03/03/2017      8  Software Engineer
-//
-//Non-billable Time:
-//Account                      Date        Hours  Skill
-//---------------------------  ----------  -----  --------------------
-//
-//Summary:
-//Total Billable:                             40
-//Total Non-Billable:                          0
-//Total Hours:                                40
-//====================================================================

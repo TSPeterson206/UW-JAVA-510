@@ -1,13 +1,16 @@
 package edu.uw.cp520.scg.domain;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+//import static org.junit.Assert.assertEquals;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.Test;
+//import org.junit.Test;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import edu.uw.cp520.scg.util.PersonalName;
 
@@ -21,6 +24,9 @@ class TimeCardTest {
     ClientAccount account;
     LocalDate startDate;
     ConsultantTime conTime;
+    ConsultantTime conTime2;
+
+    NonBillableAccount nonBill;
 
     @BeforeEach
     void test() {
@@ -35,6 +41,9 @@ class TimeCardTest {
             new PersonalName("Gates", "William", "Marion"));
         startDate = LocalDate.of(2020, 11, 5);
         conTime = new ConsultantTime(startDate, account,
+            Skill.SOFTWARE_ENGINEER, 8);
+        nonBill = NonBillableAccount.SICK_LEAVE;
+        conTime2 = new ConsultantTime(startDate, nonBill,
             Skill.SOFTWARE_ENGINEER, 8);
     }
 
@@ -52,8 +61,8 @@ class TimeCardTest {
 
     @Test
     void getBillableHoursForClientTest() {
-        String billable = "";
         tc.addConsultantTime(conTime);
+        String billable = "";
         for (ConsultantTime item : time) {
             if (item.isBillable() == true) {
                 billable += item.getAccount().getName();
@@ -98,8 +107,33 @@ class TimeCardTest {
 
     @Test
     void toReportStringTest() {
+        String output = "====================================================================\n"
+            + "Consultant: Thoreau, Henry David         Week Starting: Oct 3, 2019\n"
+            + "Billable Time:\n"
+            + "Account                      Date        Hours  Skill\n"
+            + "---------------------------  ----------  -----  --------------------\n"
+            + "Microsoft                    11/05/2020      8 Software Engineer\n"
+            + "\n" + "Non-billable Time:\n"
+            + "Account                      Date        Hours  Skill\n"
+            + "---------------------------  ----------  -----  --------------------\n"
+            + "Sick Leave                   11/05/2020      8 Software Engineer\n"
+            + "\n" + "Summary:\n"
+            + "Total Billable:                             8\n"
+            + "Total Non-Billable:                         8\n"
+            + "Total Hours:                               16\n"
+            + "====================================================================";
+
         tc.addConsultantTime(conTime);
-        assertEquals("test to report string", tc.toReportString());
+        tc.addConsultantTime(conTime2);
+        assertEquals(output, tc.toReportString());
+    }
+
+    @Test
+    void toStringTest() {
+
+        assertEquals(
+            "TimeCard for: Thoreau, Henry David, Week Starting: Oct 3, 2019",
+            tc.toString());
     }
 
 }

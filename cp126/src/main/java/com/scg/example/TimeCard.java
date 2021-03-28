@@ -37,7 +37,7 @@ public final class TimeCard {
      */
     private java.time.LocalDate startingDay;
 
-    private String HEADER_FORMAT = "Consultant: %-28s Week Starting: %2$tb";
+    private String HEADER_FORMAT = "%nConsultant: %-28s Week Starting: %2$tb%n";
 
 //    private String TO_STRING_FORMAT = "TimeCard for: %s, Week Starting: %2$tb";
 
@@ -45,7 +45,7 @@ public final class TimeCard {
         + "----------------------------------- ----------- ------- -----------------------%n",
         "Account", "Date", "Hours", "Skill");
 
-    private String CARD_BORDER = "===============================================================";
+    private String CARD_BORDER = "===============================================================%n";
 
     private String LINE_FORMAT = "%-28s %2$tm/%2$td/%2$tY %3$5d %4$s%n";
 
@@ -195,7 +195,8 @@ public final class TimeCard {
         StringBuilder sb = new StringBuilder();
         Formatter fm = new Formatter(sb, Locale.US);
 
-        fm.format(CARD_BORDER)
+        fm.format(
+            "%n++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++%n")
             .format(HEADER_FORMAT, consultant.getName(), startingDay)
             .format(BILLABLE_TIME_HEADER_FORMAT).format(LINE_HEADER_FORMAT);
 
@@ -212,7 +213,8 @@ public final class TimeCard {
                 getTotalNonBillableHours())
             .format(SUMMARY_LINE_FORMAT, "Total Hours:",
                 getTotalBillableHours() + getTotalNonBillableHours())
-            .format(CARD_BORDER);
+            .format(
+                "%n++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++%n");
 
         String output = fm.toString();
         fm.close();

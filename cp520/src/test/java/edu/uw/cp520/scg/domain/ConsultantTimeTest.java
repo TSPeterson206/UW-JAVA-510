@@ -1,12 +1,18 @@
 package edu.uw.cp520.scg.domain;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+//import static org.junit.Assert.assertEquals;
+//import static org.junit.Assert.assertFalse;
+//import static org.junit.Assert.assertTrue;
 
 import java.time.LocalDate;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+
+//import org.junit.Test;
 
 import edu.uw.cp520.scg.util.PersonalName;
 
@@ -18,6 +24,11 @@ class ConsultantTimeTest {
         new PersonalName("Gates", "William", "Marion"));
     LocalDate startDate = LocalDate.of(2020, 11, 5);
     ConsultantTime conTime = new ConsultantTime(startDate, account,
+        Skill.SOFTWARE_ENGINEER, 8);
+
+    NonBillableAccount account2 = NonBillableAccount.VACATION;
+
+    ConsultantTime conTime2 = new ConsultantTime(startDate, account2,
         Skill.SOFTWARE_ENGINEER, 8);
 
     @Test
@@ -87,7 +98,7 @@ class ConsultantTimeTest {
         LocalDate newDate = LocalDate.of(2019, 10, 3);
         ConsultantTime conTime3 = new ConsultantTime(newDate, null,
             Skill.PROJECT_MANAGER, 5);
-//        assertEquals(-248187896, conTime3.hashCode());
+        assertEquals(-1110479009, conTime3.hashCode());
     }
 
     @Test
@@ -95,5 +106,13 @@ class ConsultantTimeTest {
         assertEquals(true, conTime.isBillable());
         assertTrue(conTime.isBillable() == true);
         assertFalse(conTime.isBillable() == false);
+        assertEquals(false, conTime2.isBillable());
+    }
+
+    @Test
+    void toStringTest() {
+        assertEquals(
+            "ConsultantTime: Microsoft, 2020-11-05, 8, Software Engineer",
+            conTime.toString());
     }
 }

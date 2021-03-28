@@ -1,0 +1,10 @@
+/usr/lib/jvm/java-11-openjdk-amd64/bin/java
+
+JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64/bin/java
+PATH=$PATH:$HOME/bin:$JAVA_HOME/bin
+export JAVA_HOME
+export PATH
+
+
+// command to edit variables
+sudo gedit /etc/profile

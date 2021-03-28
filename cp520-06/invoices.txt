@@ -1,0 +1,49 @@
+
+The Small Consulting Group  
+1616 Index Ct.              
+Renton, WA 98058
+
+Invoice For:                
+Acme Industries
+1616 Index Ct.
+Redmond, WA 98055
+Coyote, Wiley NMN
+
+Invoice For Month of: MARCH 2017
+Invoice Date: Feb 19, 2021
+
+Date        Consultant                   Skill                Hours  Charge
+----------  ---------------------------  ------------------   -----  ----------
+2017-03-06  Coder, Carl NMN              Software Engineer     8      1200
+2017-03-07  Coder, Carl NMN              Software Engineer     8      1200
+
+Total:                                                         16       2400
+
+
+The Small Consulting Group                                             Page 1
+===============================================================================
+
+The Small Consulting Group  
+1616 Index Ct.              
+Renton, WA 98058
+
+Invoice For:                
+FooBar Enterprises
+1024 Kilobyte Dr.
+Silicone Gulch, CA 94105
+Sam, Yosemite NMN
+
+Invoice For Month of: MARCH 2017
+Invoice Date: Feb 19, 2021
+
+Date        Consultant                   Skill                Hours  Charge
+----------  ---------------------------  ------------------   -----  ----------
+2017-03-13  Architect, Ann S.              System Architect     8      1600
+2017-03-14  Architect, Ann S.              System Architect     8      1600
+2017-03-17  Architect, Ann S.              System Architect     8      1600
+
+Total:                                                        108      19400
+
+
+The Small Consulting Group                                             Page 1
+===============================================================================

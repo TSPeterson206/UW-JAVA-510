@@ -1,5 +1,7 @@
 package edu.uw.cp520.scg.domain;
 
+import java.util.Objects;
+
 /**
  * The ConsultantTime class for the invoice project. It encapsulates the time of
  * services accrued for record for a given account.
@@ -9,14 +11,41 @@ package edu.uw.cp520.scg.domain;
  */
 public final class ConsultantTime {
 
+    /**
+     * The skill property for the ConsultantTime class.
+     */
     private Skill skill;
+
+    /**
+     * The hours property for the ConsultantTime class.
+     */
     private int hours;
+
+    /**
+     * The account property for the ConsultantTime class.
+     */
     private Account account;
+
+    /**
+     * 
+     */
     private java.time.LocalDate date;
 
-    ConsultantTime(java.time.LocalDate date, Account account, Skill skillType,
-        int hours) {
-
+    /**
+     * The constructor for consultant time.
+     * 
+     * @param date      The date on which the skills were performed.
+     * @param account   The account for which the skills were performed.
+     * @param skillType The type of skill that the consultant posseses.
+     * @param hours     The amount of hours performed for the consultant on the
+     *                  specified date.
+     */
+    public ConsultantTime(java.time.LocalDate date, Account account,
+        Skill skillType, int hours) {
+        if (hours < 1) {
+            throw new IllegalArgumentException(
+                "What?! It's gotta be at least an hour or more!");
+        }
         this.skill = skillType;
         setHours(hours);
         setAccount(account);
@@ -101,13 +130,9 @@ public final class ConsultantTime {
      */
     @Override
     public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((account == null) ? 0 : account.hashCode());
-        result = prime * result + ((date == null) ? 0 : date.hashCode());
-        result = prime * result + hours;
-        result = prime * result + ((skill == null) ? 0 : skill.hashCode());
-        return result;
+        int hash = Objects.hash(getAccount(), getDate(), getSkill(),
+            getHours());
+        return hash;
     };
 
     /**
@@ -117,7 +142,12 @@ public final class ConsultantTime {
      *         to the account or not.
      */
     public boolean isBillable() {
-        return true;
+        if (account.isBillable() == true) {
+            return true;
+        } else {
+            return false;
+        }
+
     };
 
     /**
@@ -144,6 +174,10 @@ public final class ConsultantTime {
      * @param hours The hours for this ConsultantTime class to bill for.
      */
     public void setHours(int hours) {
+        if (hours < 1) {
+            throw new IllegalArgumentException(
+                "What?! It's gotta be at least an hour or more!");
+        }
         this.hours = hours;
     };
 
@@ -154,6 +188,10 @@ public final class ConsultantTime {
      *         encapsulated within this object.
      */
     public String toString() {
-        return "";
+        StringBuilder sb = new StringBuilder();
+        sb.append("ConsultantTime: ").append(getAccount().getName())
+            .append(", ").append(getDate()).append(", ").append(getHours())
+            .append(", ").append(getSkill());
+        return sb.toString();
     };
 }

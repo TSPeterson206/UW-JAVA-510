@@ -55,6 +55,7 @@ public final class ClientAccount implements Account {
      * 
      * @return String The human-readable account name.
      */
+    @Override
     public String getName() {
         return this.name;
     };

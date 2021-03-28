@@ -3,10 +3,10 @@
 <groupId>edu.uw</groupId>
 <artifactId>cp520</artifactId>
 <packaging>jar</packaging>
-<version>01</version>
+<version>02</version>
 <name>cp520</name>
 <properties>
-<student>Peterson, Toby S</student>
+<student>PetersonTS</student>
 <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 </properties>
 <repositories>

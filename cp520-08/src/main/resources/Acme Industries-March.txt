@@ -1,0 +1,24 @@
+
+The Small Consulting Group  
+1616 Index Ct.              
+Renton, WA 98058
+
+Invoice For:                
+Acme Industries
+123 main st
+seattle, WA 98116
+Gates, William Marion
+
+Invoice For Month of: MARCH 2017
+Invoice Date: Mar 23, 2021
+
+Date        Consultant                   Skill                Hours  Charge
+----------  ---------------------------  ------------------   -----  ----------
+2017-03-06  Coder, Carl NMN              Software Engineer     8      1200
+2017-03-07  Coder, Carl NMN              Software Engineer     8      1200
+
+Total:                                                         16       2400
+
+
+The Small Consulting Group                                             Page 1
+===============================================================================
