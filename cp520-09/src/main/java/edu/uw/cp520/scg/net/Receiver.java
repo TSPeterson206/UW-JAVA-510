@@ -89,17 +89,6 @@ public class Receiver implements Runnable {
      */
     private String outputDirectory;
 
-    /**
-     * The hostName property.
-     */
-    private String hostName;
-
-    /**
-     * The main method for the class.
-     * 
-     * @param args The arguments supplied
-     */
-
     public static void main(String[] args) {
 //        Thread receiver1 = new Thread("receiver1");
 //        Thread receiver2 = new Thread("receiver2");
@@ -118,17 +107,14 @@ public class Receiver implements Runnable {
      * @param consultantList The list of consultants managed.
      * @param timecardList   The list of timecards managed.
      * @param server         The server being utilized.
-     * @param hostName       The hostName
      */
     public Receiver(Socket connection, List<ClientAccount> clientList,
-        List<Consultant> consultantList, List<TimeCard> timecardList,
-        InvoiceServer server, String hostName) {
+        List<Consultant> consultantList, InvoiceServer server) {
         this.connection = connection;
         this.clientList = clientList;
         this.consultantList = consultantList;
         this.server = server;
-        this.timecardList = timecardList;
-        this.hostName = hostName;
+//        this.timecardList = timecardList;
     }
 
     /**
@@ -259,19 +245,6 @@ public class Receiver implements Runnable {
     }
 
     /**
-     * The SetOutputDirectoryCommand method.
-     * 
-     * @param cmd The command to be executed.
-     * @throws Exception The exception potentially thrown.
-     */
-    public void execute(SetOutputDirectoryCommand cmd) throws Exception {
-        System.out
-            .println("Do the setOutputDirectoryCommand action. Command type: "
-                + cmd.getClass().getSimpleName());
-        this.hostName = cmd.getTarget();
-    }
-
-    /**
      * The getOutputDirectory getter.
      * 
      * @return String The outputDirectory property.
@@ -281,7 +254,7 @@ public class Receiver implements Runnable {
     }
 
     public void setOutputProperty(String outputDirectory) {
-        this.hostName = outputDirectory;
+        this.outputDirectory = outputDirectory;
     }
 
     /**
@@ -289,8 +262,8 @@ public class Receiver implements Runnable {
      */
     @Override
     public void run() {
-        setOutputProperty("id: " + this.hashCode());
-        System.out.println("hitting receiver run method start: " + hostName);
+        System.out
+            .println("hitting receiver run method: " + !Thread.interrupted());
 //        try {
 //            serverSocket = new ServerSocket(port);
 //        } catch (IOException e1) {
@@ -298,7 +271,7 @@ public class Receiver implements Runnable {
 //        }
 
 //        while (!serverSocket.isClosed()) {
-        while (!connection.isClosed()) {
+        while (!connection.isClosed() && !Thread.interrupted()) {
 
 //            try {
 //                connection = serverSocket.accept();
@@ -334,11 +307,5 @@ public class Receiver implements Runnable {
                 e.printStackTrace();
             }
         }
-        System.out.println("hitting receiver run method end: " + hostName);
-
-    }
-
-    public String toString() {
-        return this.hostName;
     }
 }

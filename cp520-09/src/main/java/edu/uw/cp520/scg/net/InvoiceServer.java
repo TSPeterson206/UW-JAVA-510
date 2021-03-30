@@ -10,7 +10,6 @@ import app.MyShutdownHook;
 import edu.uw.cp520.scg.domain.ClientAccount;
 import edu.uw.cp520.scg.domain.Consultant;
 import edu.uw.cp520.scg.domain.TimeCard;
-import edu.uw.ext.util.ListFactory;
 
 /**
  * The InvoiceServer class for the command pattern portion of the
@@ -21,10 +20,7 @@ import edu.uw.ext.util.ListFactory;
  */
 public class InvoiceServer {
 
-    /**
-     * The port property to be used.
-     */
-    public static final int DEFAULT_PORT = 10888;
+    public static int DEFAULT_PORT = 0;
 
     /**
      * The accounts list property to be used.
@@ -59,7 +55,12 @@ public class InvoiceServer {
     /**
      * The constructor for the InvoiceServer class.
      */
-    public InvoiceServer() {
+    public InvoiceServer(int port, List<ClientAccount> accounts,
+        List<Consultant> consultants, List<TimeCard> timeCards) {
+        this.DEFAULT_PORT = port;
+        this.accounts = accounts;
+        this.consultants = consultants;
+        this.timeCards = timeCards;
     }
 
     /**
@@ -72,13 +73,13 @@ public class InvoiceServer {
      *                                found.
      */
     @SuppressWarnings({ "unchecked", "rawtypes" })
-    public static void run(boolean bool, int port)
+    public void run(boolean bool, int port)
         throws IOException, ClassNotFoundException {
         System.out.println("%%% SERVER LISTENING %%");
 
-        ListFactory.populateLists(accounts, consultants, timeCards);
+//        ListFactory.populateLists(accounts, consultants, timeCards);
 
-        InvoiceServer server = new InvoiceServer();
+//        InvoiceServer server = new InvoiceServer();
         Runtime.getRuntime().addShutdownHook(new MyShutdownHook());
 
         try {
@@ -103,11 +104,10 @@ public class InvoiceServer {
 //        t.start();
 //            System.out.println("Connection from " + connection + "!");
 //
-////            Receiver r = new Receiver(connection, accounts, consultants,
-////                timeCards, server);
-////
-////            Thread t = new Thread(r);
-////            t.start();
+        Receiver r = new Receiver(connection, accounts, consultants, this);
+
+        Thread t = new Thread(r);
+        t.start();
 //
 //            try {
 //                InputStream inputStream = connection.getInputStream();

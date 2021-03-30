@@ -20,6 +20,7 @@ public class ShutdownCommand extends AbstractCommand<Object>
      * The contructor for the ShutdownCommand class.
      */
     public ShutdownCommand() {
+        super();
     }
 
     /**

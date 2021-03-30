@@ -49,7 +49,7 @@ public class InvoiceClient extends Thread {
     /**
      * The timecards list property.
      */
-    final List<TimeCard> timeCards = new ArrayList<>();
+    private List<TimeCard> timeCards = new ArrayList<>();
 
     /**
      * The commands list property.
@@ -81,8 +81,10 @@ public class InvoiceClient extends Thread {
      * The constructor for the InvoiceClient class.
      * 
      * @param threadName The name of the thread.
+     * @param timeCards  The timeCard list.
      */
-    public InvoiceClient(String threadName) {
+    public InvoiceClient(String threadName, List<TimeCard> timeCards) {
+        this.timeCards = timeCards;
         this.threadName = threadName;
     };
 
@@ -99,15 +101,7 @@ public class InvoiceClient extends Thread {
             System.out.println("Connected? " + socket.isBound());
             outputStream = socket.getOutputStream();
             objectOutputStream = new ObjectOutputStream(outputStream);
-///////
-            String hostName = "";
-            Receiver r = new Receiver(socket, accounts, consultants, timeCards,
-                new InvoiceServer(), hostName);
 
-            Thread t = new Thread(r, "id:" + r.hashCode());
-            System.out.println("receiver names: " + t.getName());
-            t.start();
-/////////
             sendConsultants();
             sendClients();
             sendTimeCards();
@@ -241,10 +235,5 @@ public class InvoiceClient extends Thread {
      */
     public String getThreadName() {
         return this.threadName;
-    }
-
-    public void setOutputDirectoryName(String hostName) {
-        Command<?> directory = new SetOutputDirectoryCommand(getThreadName());
-        commands.add(directory);
     }
 }

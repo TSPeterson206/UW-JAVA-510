@@ -2,8 +2,14 @@ package app;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
+import edu.uw.cp520.scg.domain.ClientAccount;
+import edu.uw.cp520.scg.domain.Consultant;
+import edu.uw.cp520.scg.domain.TimeCard;
 import edu.uw.cp520.scg.net.InvoiceClient;
+import edu.uw.ext.util.ListFactory;
 
 /**
  * The Assignment08 driver for the command pattern portion of the
@@ -36,17 +42,18 @@ public class Assignment09 extends Thread implements Serializable {
      * @throws IOException The exception thrown for an IO issue.
      */
     public static void main(String[] args) throws IOException {
-//        client = new InvoiceClient();
-//        client.run();
-//        client.sendShutdown();
+        final List<ClientAccount> accounts = new ArrayList<>();
+        final List<Consultant> consultants = new ArrayList<>();
+        final List<TimeCard> timeCards = new ArrayList<>();
+        ListFactory.populateLists(accounts, consultants, timeCards);
 
-        client1 = new InvoiceClient("client1");
+        client1 = new InvoiceClient("client1", timeCards);
 //        client1.start();
 //
-        client2 = new InvoiceClient("client2");
+        client2 = new InvoiceClient("client2", timeCards);
 //        client2.start();
 //
-        client3 = new InvoiceClient("client3");
+        client3 = new InvoiceClient("client3", timeCards);
 //        client3.start();
 
         Thread t = new Thread(client1);

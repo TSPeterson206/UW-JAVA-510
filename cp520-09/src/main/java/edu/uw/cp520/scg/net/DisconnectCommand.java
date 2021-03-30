@@ -20,6 +20,7 @@ public class DisconnectCommand extends AbstractCommand<Object>
      * The contructor for the DisconnectCommand class.
      */
     public DisconnectCommand() {
+        super();
     }
 
     /**
