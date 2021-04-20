@@ -2,95 +2,142 @@ package edu.uw;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.HashMap;
 
 import edu.uw.ext.framework.account.Account;
 import edu.uw.ext.framework.account.AccountException;
 import edu.uw.ext.framework.dao.AccountDao;
 
+/**
+ * The SimpleAccountDao class for the stock tracker project.
+ * 
+ * @author Toby Peterson.
+ *
+ */
 public class SimpleAccountDao implements AccountDao {
 
-    // Me thinks this is where input/output streams are implemented
-
+    /**
+     * The account property.
+     */
     private Account account;
 
+    /**
+     * The hashmap property called accountsMap.
+     */
     private HashMap<String, Object> accountsMap = new HashMap<String, Object>();
 
-    DataOutputStream dataOutput;
-
+    /**
+     * The path property.
+     */
     String path = "target/accounts/";
 
+    /**
+     * The fos (FileOutputStream) property.
+     */
     FileOutputStream fos;
+
+    /**
+     * The dos (DataOutputStream) property.
+     */
     DataOutputStream dos;
-    DataInputStream di;
 
+    /**
+     * The dis (DataInputStream) property.
+     */
+    DataInputStream dis;
+
+    /**
+     * The SimpleAccountDao no argument constructor.
+     */
     public SimpleAccountDao() {
-
-        File file = new File("target/foo");
-        String text = "ABCD";
-
-        try (FileOutputStream fos = new FileOutputStream(file);
-            DataOutputStream dos = new DataOutputStream(fos)) {
-            dos.writeUTF(text);
-            System.out.println("Successfully written data to the file:");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        try {
-            di = new DataInputStream(new FileInputStream(file));
-        } catch (FileNotFoundException e1) {
-            // TODO Auto-generated catch block
-            e1.printStackTrace();
-        }
-        try {
-            System.out.println("output: " + di.readUTF());
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+//        File file = new File("target/accounts/");
+//        try {
+//            file.createNewFile();
+//            boolean flag = file.mkdir();
+//            System.out.println("file created: " + flag);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
     };
 
+    /**
+     * The close method for the SimpleAccountDao class.
+     */
     @Override
     public void close() throws AccountException {
-        try {
-            dataOutput.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            dataOutput.close();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
     }
 
+    /**
+     * The deleteAccount method for the SimpleAccountDao class.
+     * 
+     * @param accountName The account name to be deleted.
+     */
     @Override
     public void deleteAccount(String accountName) throws AccountException {
         accountsMap.remove(accountName);
     }
 
+    /**
+     * The getAccount method for the SimpleAccountDao class.
+     * 
+     * @param accountName The account name to be retrieved.
+     * @return Account The account to be returned.
+     */
     @Override
     public Account getAccount(String accountName) {
         return (Account) accountsMap.get(accountName);
     }
 
+    /**
+     * The reset method for the SimpleAccountDao class.
+     */
     @Override
     public void reset() throws AccountException {
         accountsMap.clear();
     }
 
+    /**
+     * The setAccount method for the SimpleAccountDao class.
+     * 
+     * @param account The account to be set.
+     */
     @Override
     public void setAccount(Account account) throws AccountException {
         accountsMap.put(account.getName(), account);
 
-        File file = new File("target/accounts" + account.getName());
-
-        try {
-            fos = new FileOutputStream(file);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
+//        File file = new File("target/accounts/" + account.getName());
+//
+//        try {
+//            fos = new FileOutputStream(file);
+//        } catch (FileNotFoundException e) {
+//            e.printStackTrace();
+//        }
+//
+//        try (DataOutputStream dos = new DataOutputStream(fos)) {
+//            dos.writeUTF(account.getName());
+//            System.out.println("Successfully written data to the file:");
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//
+//        try {
+//            di = new DataInputStream(new FileInputStream(file));
+//        } catch (FileNotFoundException e1) {
+//            // TODO Auto-generated catch block
+//            e1.printStackTrace();
+//        }
+//        try {
+//            System.out.println("output: " + di.readUTF());
+//        } catch (IOException e) {
+//            // TODO Auto-generated catch block
+//            e.printStackTrace();
+//        }
 
     }
 

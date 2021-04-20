@@ -4,18 +4,35 @@ import edu.uw.ext.framework.account.Account;
 import edu.uw.ext.framework.account.AccountException;
 import edu.uw.ext.framework.account.AccountFactory;
 
+/**
+ * The SimpleAccountFactory class for the stock trader project.
+ * 
+ * @author toby
+ *
+ */
 public class SimpleAccountFactory implements AccountFactory {
 
+    /**
+     * The no parameter constructor for the SimpleAccountFactory class.
+     */
     public SimpleAccountFactory() {
     }
 
+    /**
+     * The newAccount method for the SimpleAccountFactory class.
+     * 
+     * @param arg0 The new account name argument.
+     * @param arg1 The password argument.
+     * @param arg2 The balance argument.
+     * @return Account The account created.
+     */
     @Override
     public Account newAccount(String arg0, byte[] arg1, int arg2) {
 
         if (arg0.length() < 8 || arg2 < 100000) {
-            System.out
-                .println("bad name or balance*****************************"
-                    + arg0 + " " + arg0.length() + " " + arg2);
+//            System.out
+//                .println("bad name or balance*****************************"
+//                    + arg0 + " " + arg0.length() + " " + arg2);
             return null;
         } else {
             SimpleAccount account = null;
@@ -24,9 +41,9 @@ public class SimpleAccountFactory implements AccountFactory {
             } catch (AccountException e) {
                 e.printStackTrace();
             }
-            System.out
-                .println("Good name and balance*****************************"
-                    + arg0 + " " + arg0.length() + " " + arg2);
+//            System.out
+//                .println("Good name and balance*****************************"
+//                    + arg0 + " " + arg0.length() + " " + arg2);
             return account;
         }
     }
