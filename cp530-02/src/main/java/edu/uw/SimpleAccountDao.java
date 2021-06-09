@@ -6,6 +6,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.module.SimpleModule;
+
 import edu.uw.ext.framework.account.Account;
 import edu.uw.ext.framework.account.AccountException;
 import edu.uw.ext.framework.account.Address;
@@ -40,9 +43,23 @@ public class SimpleAccountDao implements edu.uw.ext.framework.dao.AccountDao {
     private File accountsDirectory = new File("target", "accounts");
 
     /**
+     * The JSON file property.
+     */
+    private File accountFileJSON;
+
+    /**
+     * The objectmapper property.
+     */
+    private static ObjectMapper mapper = new ObjectMapper();
+
+    /**
      * The SimpleAccountDao no argument constructor.
      */
     public SimpleAccountDao() {
+        SimpleModule module = new SimpleModule();
+        module.addAbstractTypeMapping(Address.class, SimpleAddress.class);
+        module.addAbstractTypeMapping(CreditCard.class, SimpleCreditCard.class);
+        mapper.registerModule(module);
     };
 
     /**
@@ -77,11 +94,13 @@ public class SimpleAccountDao implements edu.uw.ext.framework.dao.AccountDao {
         if (directory.exists() && directory.isDirectory()) {
 
             try {
-                File inputFile = new File(directory, accountFile);
-                try (FileInputStream accountIn = new FileInputStream(
-                    inputFile)) {
-                    account = AccountSer.read(accountIn, accountName);
-                }
+                File inputFile = new File(directory,
+                    "/" + accountName + ".json");
+
+                File filePath = new File(
+                    accountsDirectory.toPath() + "/" + accountName + ".json");
+
+                account = mapper.readValue(filePath, SimpleAccount.class);
 
                 inputFile = new File(directory, addressFile);
                 if (inputFile.exists()) {
@@ -136,13 +155,16 @@ public class SimpleAccountDao implements edu.uw.ext.framework.dao.AccountDao {
                     throw new AccountException("Couldnt create the directory!");
                 }
             }
-            File outFile = new File(acctDirectory, accountFile);
-            try (FileOutputStream accountOut = new FileOutputStream(outFile)) {
-                AccountSer.write(accountOut, account);
-            }
+
+            accountFileJSON = new File(
+                accountsDirectory + "/" + account.getName() + ".json");
+
+            mapper.writeValue(accountFileJSON, account);
+
+            File outFile = new File("target/accounts/", accountFile);
 
             if (address != null) {
-                outFile = new File(acctDirectory, addressFile);
+                outFile = new File("target/accounts/", addressFile);
 
                 try (FileOutputStream addressOut = new FileOutputStream(
                     outFile)) {
@@ -151,7 +173,7 @@ public class SimpleAccountDao implements edu.uw.ext.framework.dao.AccountDao {
             }
 
             if (card != null) {
-                outFile = new File(acctDirectory, creditCardFile);
+                outFile = new File("target/accounts/", creditCardFile);
 
                 try (FileOutputStream cardOut = new FileOutputStream(outFile)) {
                     CreditCardSer.write(cardOut, card);
@@ -170,7 +192,6 @@ public class SimpleAccountDao implements edu.uw.ext.framework.dao.AccountDao {
      * @param file The file to be deleted.
      */
     public void delete(File file) {
-        System.out.println("Deleted File: " + file.toPath());
         if (file.exists()) {
             if (file.isDirectory()) {
                 File[] files = file.listFiles();

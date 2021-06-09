@@ -25,9 +25,8 @@ import edu.uw.ext.framework.order.Order;
 import edu.uw.ext.framework.order.StopBuyOrder;
 import edu.uw.ext.framework.order.StopSellOrder;
 
-// TODO: Auto-generated Javadoc
 /**
- * The Class SimpleBroker.
+ * The Class SimpleBroker for the stock trader project.
  */
 public class SimpleBroker implements Broker, ExchangeListener {
 
@@ -49,9 +48,9 @@ public class SimpleBroker implements Broker, ExchangeListener {
     /**
      * Instantiates a new simple broker.
      *
-     * @param brokerName the broker name
-     * @param exchg      the exchg
-     * @param acctMgr    the acct mgr
+     * @param brokerName the broker name.
+     * @param exchg      the exchg.
+     * @param acctMgr    the acct mgr.
      */
     public SimpleBroker(String brokerName, StockExchange exchg,
         AccountManager acctMgr) {
@@ -63,9 +62,9 @@ public class SimpleBroker implements Broker, ExchangeListener {
     /**
      * Instantiates a new simple broker.
      *
-     * @param brokerName the broker name
-     * @param acctMgr    the acct mgr
-     * @param exchg      the exchg
+     * @param brokerName the broker name.
+     * @param acctMgr    the acct mgr.
+     * @param exchg      the exchg.
      */
     protected SimpleBroker(String brokerName, AccountManager acctMgr,
         StockExchange exchg) {
@@ -75,7 +74,7 @@ public class SimpleBroker implements Broker, ExchangeListener {
 
         marketOrders = new SimpleOrderQueue<>(isItOpenOrNot,
             (threshold, order) -> threshold);
-        marketOrders.setConsumer(this::executeOrder);
+        marketOrders.setConsumer(this::execute);
         initializeOrderManagers();
         exchg.addExchangeListener(this);
     }
@@ -83,9 +82,9 @@ public class SimpleBroker implements Broker, ExchangeListener {
     /**
      * Instantiates a new simple broker.
      *
-     * @param brokerName the broker name
-     * @param exchg      the exchg
-     * @param acctMgr    the acct mgr
+     * @param brokerName the broker name.
+     * @param exchg      the exchg.
+     * @param acctMgr    the acct mgr.
      */
     protected SimpleBroker(String brokerName, StockExchange exchg,
         SimpleAccountManager acctMgr) {
@@ -95,9 +94,9 @@ public class SimpleBroker implements Broker, ExchangeListener {
     };
 
     /**
-     * Close.
+     * The close method.
      *
-     * @throws BrokerException the broker exception
+     * @throws BrokerException The broker exception thrown.
      */
     @Override
     public void close() throws BrokerException {
@@ -134,10 +133,10 @@ public class SimpleBroker implements Broker, ExchangeListener {
     }
 
     /**
-     * Delete account.
+     * The deleteAccount method.
      *
-     * @param username the username
-     * @throws BrokerException the broker exception
+     * @param username The username passed in.
+     * @throws BrokerException The broker exception thrown.
      */
     @Override
     public void deleteAccount(String username) throws BrokerException {
@@ -149,16 +148,18 @@ public class SimpleBroker implements Broker, ExchangeListener {
     }
 
     /**
-     * Gets the account.
+     * The getAccount method for the SimpleBroker class.
      *
-     * @param username the username
-     * @param password the password
-     * @return the account
-     * @throws BrokerException the broker exception
+     * @param username The username passed in.
+     * @param password The password passed in.
+     * @return The account retrieved.
+     * @throws BrokerException the broker exception thrown.
      */
     @Override
     public Account getAccount(String username, String password)
         throws BrokerException {
+        // Totally forgot there was a validate login method on
+        // SimpleAccountManager.
 
         boolean status = false;
         byte[] pw = null;
@@ -196,7 +197,7 @@ public class SimpleBroker implements Broker, ExchangeListener {
     /**
      * Gets the name.
      *
-     * @return the name
+     * @return the name.
      */
     @Override
     public String getName() {
@@ -206,8 +207,8 @@ public class SimpleBroker implements Broker, ExchangeListener {
     /**
      * Place order.
      *
-     * @param order the order
-     * @throws BrokerException the broker exception
+     * @param order The order passed in.
+     * @throws BrokerException The broker exception thrown.
      */
     @Override
     public void placeOrder(MarketBuyOrder order) throws BrokerException {
@@ -217,8 +218,8 @@ public class SimpleBroker implements Broker, ExchangeListener {
     /**
      * Place order.
      *
-     * @param order the order
-     * @throws BrokerException the broker exception
+     * @param order The order.
+     * @throws BrokerException The broker exception thrown.
      */
     @Override
     public void placeOrder(MarketSellOrder order) throws BrokerException {
@@ -228,8 +229,8 @@ public class SimpleBroker implements Broker, ExchangeListener {
     /**
      * Place order.
      *
-     * @param order the order
-     * @throws BrokerException the broker exception
+     * @param order The order thrown.
+     * @throws BrokerException The broker exception thrown.
      */
     @Override
     public void placeOrder(StopBuyOrder order) throws BrokerException {
@@ -243,8 +244,8 @@ public class SimpleBroker implements Broker, ExchangeListener {
     /**
      * Place order.
      *
-     * @param order the order
-     * @throws BrokerException the broker exception
+     * @param order The order.
+     * @throws BrokerException The broker exception thrown.
      */
     @Override
     public void placeOrder(StopSellOrder order) throws BrokerException {
@@ -257,8 +258,8 @@ public class SimpleBroker implements Broker, ExchangeListener {
     /**
      * Request quote.
      *
-     * @param ticker the ticker
-     * @return the optional
+     * @param ticker The ticker passed in.
+     * @return The optional.
      */
     @Override
     public Optional<StockQuote> requestQuote(String ticker) {
@@ -266,11 +267,11 @@ public class SimpleBroker implements Broker, ExchangeListener {
     }
 
     /**
-     * Execute order.
+     * The execute function that will actually be used to reflect the order.
      *
-     * @param order the order
+     * @param order The order passed in.
      */
-    public void executeOrder(Order order) {
+    public void execute(Order order) {
         try {
             Account account = accountManager.getAccount(order.getAccountId());
             account.reflectOrder(order, exchange.executeTrade(order));
@@ -283,6 +284,8 @@ public class SimpleBroker implements Broker, ExchangeListener {
      * Initialize order managers.
      */
     protected void initializeOrderManagers() {
+        // This was clever so I borrowed it. Thanks for the guidance. Initially
+        // had a big messy constructor and removing this logic is much cleaner.
         orderManagerMap = new HashMap<>();
         Consumer<StopBuyOrder> buyOrders = (StopBuyOrder order) -> marketOrders
             .enqueue(order);
@@ -308,17 +311,6 @@ public class SimpleBroker implements Broker, ExchangeListener {
 
         }
     }
-
-    /**
-     * Creates the order manager.
-     *
-     * @param ticker the ticker
-     * @param price  the price
-     * @return the order manager
-     */
-//    protected OrderManager createOrderManager(String ticker, int price) {
-//        return new SimpleOrderManager(ticker, price);
-//    }
 
     /**
      * Exchange opened.
@@ -348,6 +340,5 @@ public class SimpleBroker implements Broker, ExchangeListener {
         if (om != null) {
             om.adjustPrice(event.getPrice());
         }
-
     }
 }

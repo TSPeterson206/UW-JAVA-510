@@ -1,13 +1,15 @@
 package edu.uw;
 
-import java.nio.charset.Charset;
+import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.Base64;
-import java.util.Base64.Decoder;
+
+import org.springframework.beans.BeansException;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import edu.uw.ext.framework.account.Account;
 import edu.uw.ext.framework.account.AccountException;
+import edu.uw.ext.framework.account.AccountFactory;
 import edu.uw.ext.framework.account.AccountManager;
 
 /**
@@ -23,6 +25,9 @@ public class SimpleAccountManager implements AccountManager {
      */
     private SimpleAccountDao dao;
 
+    @SuppressWarnings("unused")
+    private AccountFactory accountFactory;
+
     /**
      * The one argument constructor for the SimpleAccountManager class.
      * 
@@ -30,6 +35,13 @@ public class SimpleAccountManager implements AccountManager {
      */
     public SimpleAccountManager(SimpleAccountDao dao) {
         this.dao = dao;
+        try (
+            ClassPathXmlApplicationContext appContext = new ClassPathXmlApplicationContext(
+                "context.xml");) {
+            accountFactory = appContext.getBean(AccountFactory.class);
+        } catch (BeansException exc) {
+            exc.printStackTrace();
+        }
     };
 
     /**
@@ -38,6 +50,7 @@ public class SimpleAccountManager implements AccountManager {
     @Override
     public void close() throws AccountException {
         dao.close();
+        dao = null;
     }
 
     /**
@@ -50,20 +63,10 @@ public class SimpleAccountManager implements AccountManager {
     @Override
     public Account createAccount(String accountName, String password,
         int balance) throws AccountException {
-        System.out
-            .println("&&&&&&&&&&&&&&&&&&&&&" + dao.getAccount(accountName));
         if (dao.getAccount(accountName) != null) {
             throw new AccountException("this account already exists!");
         }
-
-        MessageDigest md = null;
-        try {
-            md = MessageDigest.getInstance("SHA-256");
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        }
-        md.update(password.getBytes());
-        byte[] digestBytes = md.digest();
+        byte[] digestBytes = hashPassword(password);
         SimpleAccount account = new SimpleAccount(accountName, digestBytes,
             balance);
         dao.setAccount(account);
@@ -76,7 +79,8 @@ public class SimpleAccountManager implements AccountManager {
      * @param accountName The account name to be deleted.
      */
     @Override
-    public void deleteAccount(String accountName) throws AccountException {
+    public synchronized void deleteAccount(String accountName)
+        throws AccountException {
         dao.deleteAccount(accountName);
     }
 
@@ -86,8 +90,13 @@ public class SimpleAccountManager implements AccountManager {
      * @param accountName The account to be retrieved.
      */
     @Override
-    public Account getAccount(String accountName) throws AccountException {
-        return dao.getAccount(accountName);
+    public synchronized Account getAccount(String accountName)
+        throws AccountException {
+        Account account = dao.getAccount(accountName);
+        if (account != null) {
+            account.registerAccountManager(this);
+        }
+        return account;
     }
 
     /**
@@ -96,7 +105,8 @@ public class SimpleAccountManager implements AccountManager {
      * @param account The account to be persisted.
      */
     @Override
-    public void persist(Account account) throws AccountException {
+    public synchronized void persist(Account account) throws AccountException {
+        dao.setAccount(account);
     }
 
     /**
@@ -109,60 +119,36 @@ public class SimpleAccountManager implements AccountManager {
      *         valid.
      */
     @Override
-    public boolean validateLogin(String arg0, String arg1)
+    public synchronized boolean validateLogin(String arg0, String arg1)
         throws AccountException {
-        boolean nameExists = false;
-        boolean passwordIsGood = false;
 
-        MessageDigest md = null;
-        try {
-            md = MessageDigest.getInstance("SHA-256");
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        }
-        md.update(arg1.getBytes());
-        byte[] digestBytes = md.digest();
+        boolean valid = false;
+        Account account = getAccount(arg0);
 
-        if (!dao.getAccount(arg0).equals(null)) {
-            nameExists = true;
+        if (account != null) {
+            byte[] pwHash = hashPassword(arg1);
+            valid = MessageDigest.isEqual(account.getPasswordHash(), pwHash);
         }
 
-        if (dao.getAccount(arg0).getPasswordHash().equals(digestBytes)) {
-            passwordIsGood = true;
-        }
-        ;
+        return valid;
 
-//        Optional<String> longestString = w.stream().reduce(
-//            (word1, word2) -> word1.length() > word2.length() ? word1 : word2);
-
-        String string = new String(dao.getAccount(arg0).getPasswordHash());
-        Decoder decoder = Base64.getDecoder();
-        String s = Base64.getEncoder()
-            .encodeToString(dao.getAccount(arg0).getPasswordHash());
-
-        byte[] bytes = decoder.decode(s);
-
-        System.out.println(string);
-        System.out.println(s);
-        System.out.println(
-            "################" + nameExists + " " + passwordIsGood + " "
-                + dao.getAccount(arg0).getPasswordHash() + " " + digestBytes
-                + " 5 " + new String(dao.getAccount(arg0).getPasswordHash())
-                + " " + arg1 + " " + s + " " + string + " "
-                + dao.getAccount(arg0).getPasswordHash().toString() + " "
-                + bytes + " " + arg1.getBytes() + " 6 "
-                + new String(dao.getAccount(arg0).getPasswordHash(),
-                    Charset.forName("US-ASCII")));
-
-        if (nameExists) {
-            if (passwordIsGood) {
-                return true;
-            } else {
-                return false;
-            }
-        } else {
-            return false;
-        }
     }
 
+    /**
+     * The hashPassword method.
+     * 
+     * @param password The password string to be hashed.
+     * @return byte[] The password returned as an array of bytes.
+     * @throws AccountException The exception thrown when secret secrets are no
+     *                          fun because secret secrets hurt someone.
+     */
+    public byte[] hashPassword(String password) throws AccountException {
+        try {
+            MessageDigest digest = MessageDigest.getInstance("SHA-256");
+            digest.update(password.getBytes("ISO-8859-1"));
+            return digest.digest();
+        } catch (NoSuchAlgorithmException | UnsupportedEncodingException exc) {
+            throw new AccountException("cant hash the password");
+        }
+    }
 }

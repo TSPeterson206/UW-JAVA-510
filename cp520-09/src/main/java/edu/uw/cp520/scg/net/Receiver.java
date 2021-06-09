@@ -3,14 +3,10 @@ package edu.uw.cp520.scg.net;
 import java.io.EOFException;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,26 +30,6 @@ public class Receiver implements Runnable {
      * The port property to be used.
      */
     public static final int port = 10888;
-
-//    /**
-//     * The accounts list property to be used.
-//     */
-//    public static List<ClientAccount> accounts = new ArrayList<>();
-//
-//    /**
-//     * The consultants list property to be used,
-//     */
-//    public static List<Consultant> consultants = new ArrayList<>();
-//
-//    /**
-//     * The timecards list property to be used,
-//     */
-//    public static List<TimeCard> timeCards = new ArrayList<>();
-//
-//    /**
-//     * The connection/socket property to be used.
-//     */
-//    public static Socket connection;
 
     /**
      * The serverSocket property.
@@ -87,34 +63,45 @@ public class Receiver implements Runnable {
     /**
      * The outputDirectory property.
      */
-    private String outputDirectory;
+    private File outputDirectory;
 
-    public static void main(String[] args) {
-//        Thread receiver1 = new Thread("receiver1");
-//        Thread receiver2 = new Thread("receiver2");
-//        Thread receiver3 = new Thread("receiver3");
-//
-//        receiver1.start();
-//        receiver2.start();
-//        receiver3.start();
-    }
+    /**
+     * The inputStream property.
+     */
+    private ObjectInputStream inputStream;
+
+    /**
+     * The name property.
+     */
+    private String name;
+
+//    public static void main(String[] args) {
+////        Thread receiver1 = new Thread("receiver1");
+////        Thread receiver2 = new Thread("receiver2");
+////        Thread receiver3 = new Thread("receiver3");
+////
+////        receiver1.start();
+////        receiver2.start();
+////        receiver3.start();
+//    }
 
     /**
      * Constructor for the Receiver class.
      * 
      * @param connection     The socket connection.
+     * @param name           The output directory name.
      * @param clientList     The list of clients managed.
      * @param consultantList The list of consultants managed.
-     * @param timecardList   The list of timecards managed.
      * @param server         The server being utilized.
      */
-    public Receiver(Socket connection, List<ClientAccount> clientList,
-        List<Consultant> consultantList, InvoiceServer server) {
+    public Receiver(Socket connection, String name,
+        List<ClientAccount> clientList, List<Consultant> consultantList,
+        InvoiceServer server) {
         this.connection = connection;
         this.clientList = clientList;
         this.consultantList = consultantList;
         this.server = server;
-//        this.timecardList = timecardList;
+        this.name = name;
     }
 
     /**
@@ -125,7 +112,11 @@ public class Receiver implements Runnable {
     public void execute(AddClientCommand cmd) {
         System.out.println("Do the addClientCommand action. Command type: "
             + cmd.getClass().getSimpleName());
-        clientList.add((ClientAccount) cmd.getTarget());
+        synchronized (clientList) {
+            if (!clientList.contains(cmd.getTarget())) {
+                clientList.add((ClientAccount) cmd.getTarget());
+            }
+        }
     }
 
     /**
@@ -136,7 +127,11 @@ public class Receiver implements Runnable {
     public void execute(AddConsultantCommand cmd) {
         System.out.println("Do the AddConsultantCommand action. Command type: "
             + cmd.getClass().getSimpleName());
-        consultantList.add((Consultant) cmd.getTarget());
+        synchronized (consultantList) {
+            if (!consultantList.contains(cmd.getTarget())) {
+                consultantList.add((Consultant) cmd.getTarget());
+            }
+        }
     }
 
     /**
@@ -146,7 +141,7 @@ public class Receiver implements Runnable {
      */
     public void execute(CreateInvoicesCommand cmd) {
         System.out.println("Do the CreateInvoicesCommand action. Command type: "
-            + cmd.getClass().getSimpleName());
+            + cmd.getClass().getSimpleName() + " " + name);
 
         List<Invoice> invoices = new ArrayList<>();
         String filename = null;
@@ -154,49 +149,25 @@ public class Receiver implements Runnable {
 
         invoices = ListFactory.createInvoices(clientList, timecardList);
         for (Invoice invoice : invoices) {
-            // CREATING FILES
             try {
-                path1 = "src/main/resources/";
                 filename = invoice.getClientAccount().getName().toString()
                     + "-March.txt";
-                File myObj = new File(path1 + filename);
+                File myObj = new File(outputDirectory, filename);
+
                 if (myObj.createNewFile()) {
                     System.out.println("File created: " + myObj.getName());
-                } else {
-                    System.out.println("File already exists.");
                 }
-            } catch (IOException e) {
-                System.out.println("An error occurred.");
-                e.printStackTrace();
-            }
 
-            // WRITING TO FILES
-            try {
                 String holder = invoice.toReportString();
-                PrintWriter fileWriter = new PrintWriter(path1 + filename,
-                    "ISO-8859-1");
+                PrintWriter fileWriter = new PrintWriter(myObj, "ISO-8859-1");
                 fileWriter.write(holder);
                 fileWriter.flush();
                 fileWriter.close();
-                System.out.println(
-                    "Successfully wrote to the file. See target/output-files directory !!");
+                System.out.println("Successfully wrote to the file. See "
+                    + outputDirectory + " directory !!");
             } catch (IOException e) {
                 System.out.println("An error occurred.");
                 e.printStackTrace();
-            }
-
-            // CREATE DIRECTORY IN TARGET AND COPY OVER FILE
-            try {
-                Path path = Paths
-                    .get("target/output-files/" + this.getOutputProperty());
-                Files.createDirectories(path);
-                Path sourceDirectory = Paths.get(path1 + filename);
-                Path targetDirectory = Paths
-                    .get("target/output-files/" + filename);
-                Files.copy(sourceDirectory, targetDirectory);
-
-            } catch (IOException e1) {
-                e1.printStackTrace();
             }
         }
     }
@@ -217,18 +188,20 @@ public class Receiver implements Runnable {
      * The execute command for DisconnectCommands.
      * 
      * @param cmd The command to be executed.
+     * @throws IOException
      */
-    public void execute(DisconnectCommand cmd) {
+    public void execute(DisconnectCommand cmd) throws IOException {
         System.out.println("Do the disconnectCommand action. Command type: "
             + cmd.getClass().getSimpleName());
         try {
-            connection.shutdownOutput();
-            connection.shutdownInput();
+//            connection.shutdownOutput();
+//            connection.shutdownInput();
             connection.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
         System.out.println("Closing sockets.");
+        server.shutdown();
 
     }
 
@@ -241,7 +214,13 @@ public class Receiver implements Runnable {
     public void execute(ShutdownCommand cmd) throws Exception {
         System.out.println("Do the shutdownCommand action. Command type: "
             + cmd.getClass().getSimpleName());
-        server.shutdown();
+        try {
+            connection.close();
+        } catch (final IOException e) {
+            System.out.println("Shutdown unable to close client connection.");
+        } finally {
+            server.shutdown();
+        }
     }
 
     /**
@@ -249,12 +228,8 @@ public class Receiver implements Runnable {
      * 
      * @return String The outputDirectory property.
      */
-    public String getOutputProperty() {
+    public File getOutputProperty() {
         return this.outputDirectory;
-    }
-
-    public void setOutputProperty(String outputDirectory) {
-        this.outputDirectory = outputDirectory;
     }
 
     /**
@@ -262,50 +237,29 @@ public class Receiver implements Runnable {
      */
     @Override
     public void run() {
-        System.out
-            .println("hitting receiver run method: " + !Thread.interrupted());
-//        try {
-//            serverSocket = new ServerSocket(port);
-//        } catch (IOException e1) {
-//            e1.printStackTrace();
-//        }
-
-//        while (!serverSocket.isClosed()) {
-        while (!connection.isClosed() && !Thread.interrupted()) {
-
-//            try {
-//                connection = serverSocket.accept();
-//            } catch (IOException e1) {
-//                e1.printStackTrace();
-//            }
-            System.out.println("Connection from " + connection + "!");
-
-//            Receiver r = new Receiver(connection, accounts, consultants,
-//                timeCards, server);
-//
-//            Thread t = new Thread(r);
-//            t.start();
-
-            try {
-                InputStream inputStream = connection.getInputStream();
-                ObjectInputStream objectInputStream = new ObjectInputStream(
-                    inputStream);
-
-                List<Command> commands = null;
-                try {
-                    commands = (List<Command>) objectInputStream.readObject();
-                } catch (ClassNotFoundException e) {
-                    e.printStackTrace();
-                }
-
-                for (Command<?> cmd : commands) {
-                    cmd.setReceiver(this);
-                    cmd.execute();
-                }
-            } catch (EOFException e) {
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        try {
+            inputStream = new ObjectInputStream(connection.getInputStream());
+//            connection.shutdownOutput();
+        } catch (IOException e1) {
+            e1.printStackTrace();
         }
+
+        try {
+            while (!connection.isClosed()) {
+                Object object = inputStream.readObject();
+                Command<?> command = (Command<?>) object;
+                command.setReceiver(this);
+                command.execute();
+            }
+        } catch (EOFException e) {
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        ;
+    }
+
+    public void setOutputDirectory(File directory) {
+        this.outputDirectory = directory;
+
     }
 }

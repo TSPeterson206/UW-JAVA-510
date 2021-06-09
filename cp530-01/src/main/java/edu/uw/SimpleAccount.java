@@ -1,5 +1,8 @@
 package edu.uw;
 
+import java.io.Serializable;
+import java.util.Optional;
+
 import edu.uw.ext.framework.account.Account;
 import edu.uw.ext.framework.account.AccountException;
 import edu.uw.ext.framework.account.AccountManager;
@@ -13,7 +16,7 @@ import edu.uw.ext.framework.order.Order;
  * @author Toby Peterson.
  *
  */
-public class SimpleAccount implements Account {
+public class SimpleAccount implements Account, Serializable {
 
     /**
      * The address property.
@@ -58,7 +61,7 @@ public class SimpleAccount implements Account {
     /**
      * The am (accountManager) property.
      */
-    private AccountManager am = null;
+    private transient Optional<AccountManager> am = Optional.empty();
 
     /**
      * The no argument constructor for the SimpleAccount class.
@@ -77,18 +80,9 @@ public class SimpleAccount implements Account {
      */
     public SimpleAccount(String acctName, byte[] pw, int balance)
         throws AccountException {
-//        if (acctName.length() < 8) {
-//            throw new AccountException(
-//                "Hey dude, name needs to be at least 8 characters!");
-//        } else {
         this.acctName = acctName;
-//        }
         this.pw = pw;
-//        if (balance < 1000) {
-//            throw new AccountException("Need to have at least a grand bro.");
-//        } else {
         this.balance = balance;
-//        }
     }
 
     /**
@@ -158,7 +152,12 @@ public class SimpleAccount implements Account {
      */
     @Override
     public byte[] getPasswordHash() {
-        return this.pw;
+        byte[] duplicate = null;
+        if (pw != null) {
+            duplicate = new byte[pw.length];
+            System.arraycopy(pw, 0, duplicate, 0, pw.length);
+        }
+        return duplicate;
     }
 
     /**
@@ -179,24 +178,8 @@ public class SimpleAccount implements Account {
      */
     @Override
     public void reflectOrder(Order arg0, int arg1) {
-        System.out.println(
-            "$$$$$$$$$ current balance $$$$$$$$$$: " + this.getBalance());
         setBalance(balance + (arg0.getNumberOfShares() * arg1));
-        System.out.println("order: " + arg0.toString() + " " + arg1);
-        System.out
-            .println("$$$$$$$$$ new balance $$$$$$$$$$: " + this.getBalance());
-
     }
-
-//    public void reflectOrder​(edu.uw.ext.framework.order.Order order,
-//        int executionPrice)
-//Incorporates the effect of an order in the balance. Increments or decrements the account 
-//    balance by the execution price * number of shares in the order and then persists the account, using the account manager.
-//Specified by:
-//reflectOrder in interface edu.uw.ext.framework.account.Account
-//Parameters:
-//order - the order to be reflected in the account
-//executionPrice - the price the order was executed at
 
     /**
      * The registerAccountManager method for the class.
@@ -206,7 +189,7 @@ public class SimpleAccount implements Account {
     @Override
     public void registerAccountManager(AccountManager m) {
         if (this.am == null) {
-            this.am = m;
+            this.am = Optional.of(m);
         }
     }
 
@@ -218,6 +201,7 @@ public class SimpleAccount implements Account {
     @Override
     public void setAddress(Address address) {
         this.address = address;
+        am.ifPresent((prop) -> persist(prop));
     }
 
     /**
@@ -228,6 +212,7 @@ public class SimpleAccount implements Account {
     @Override
     public void setBalance(int balance) {
         this.balance = balance;
+        am.ifPresent((prop) -> persist(prop));
     }
 
     /**
@@ -238,6 +223,8 @@ public class SimpleAccount implements Account {
     @Override
     public void setCreditCard(CreditCard card) {
         this.creditCard = card;
+        am.ifPresent((prop) -> persist(prop));
+
     }
 
     /**
@@ -248,6 +235,8 @@ public class SimpleAccount implements Account {
     @Override
     public void setEmail(String email) {
         this.email = email;
+        am.ifPresent((prop) -> persist(prop));
+
     }
 
     /**
@@ -258,6 +247,7 @@ public class SimpleAccount implements Account {
     @Override
     public void setFullName(String fullName) {
         this.fullName = fullName;
+        am.ifPresent((prop) -> persist(prop));
     }
 
     /**
@@ -273,6 +263,8 @@ public class SimpleAccount implements Account {
         } else {
             this.acctName = acctName;
         }
+        am.ifPresent((prop) -> persist(prop));
+
     }
 
     /**
@@ -283,6 +275,8 @@ public class SimpleAccount implements Account {
     @Override
     public void setPasswordHash(byte[] passwordHash) {
         this.pw = passwordHash;
+        am.ifPresent((prop) -> persist(prop));
+
     }
 
     /**
@@ -293,6 +287,22 @@ public class SimpleAccount implements Account {
     @Override
     public void setPhone(String phone) {
         this.phone = phone;
+        am.ifPresent((prop) -> persist(prop));
+
+    }
+
+    /**
+     * The persist method. This is a custom method to ease persisting an
+     * account.
+     * 
+     * @param accMan The accountmanager to use for persistence.
+     */
+    public void persist(AccountManager accMan) {
+        try {
+            accMan.persist(this);
+        } catch (AccountException e) {
+            e.printStackTrace();
+        }
     }
 
 }

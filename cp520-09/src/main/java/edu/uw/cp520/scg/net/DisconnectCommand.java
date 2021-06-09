@@ -1,5 +1,6 @@
 package edu.uw.cp520.scg.net;
 
+import java.io.IOException;
 import java.io.Serializable;
 
 /**
@@ -36,7 +37,12 @@ public class DisconnectCommand extends AbstractCommand<Object>
      * The execute method. Executes the command with itself as the content.
      */
     public void execute() {
-        recvr.execute(this);
+        try {
+            recvr.execute(this);
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
 
 }

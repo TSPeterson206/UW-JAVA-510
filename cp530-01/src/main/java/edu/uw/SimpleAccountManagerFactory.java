@@ -20,7 +20,6 @@ public class SimpleAccountManagerFactory implements AccountManagerFactory {
      */
     @Override
     public AccountManager newAccountManager(AccountDao dao) {
-        // TODO Auto-generated method stub
         return new SimpleAccountManager((SimpleAccountDao) dao);
     }
 }

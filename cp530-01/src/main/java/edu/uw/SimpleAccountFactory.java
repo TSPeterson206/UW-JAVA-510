@@ -7,7 +7,7 @@ import edu.uw.ext.framework.account.AccountFactory;
 /**
  * The SimpleAccountFactory class for the stock trader project.
  * 
- * @author toby
+ * @author Toby Peterson.
  *
  */
 public class SimpleAccountFactory implements AccountFactory {
@@ -30,9 +30,6 @@ public class SimpleAccountFactory implements AccountFactory {
     public Account newAccount(String arg0, byte[] arg1, int arg2) {
 
         if (arg0.length() < 8 || arg2 < 100000) {
-//            System.out
-//                .println("bad name or balance*****************************"
-//                    + arg0 + " " + arg0.length() + " " + arg2);
             return null;
         } else {
             SimpleAccount account = null;
@@ -41,9 +38,6 @@ public class SimpleAccountFactory implements AccountFactory {
             } catch (AccountException e) {
                 e.printStackTrace();
             }
-//            System.out
-//                .println("Good name and balance*****************************"
-//                    + arg0 + " " + arg0.length() + " " + arg2);
             return account;
         }
     }
