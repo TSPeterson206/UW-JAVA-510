@@ -11,7 +11,7 @@ import edu.uw.cp520.scg.net.InvoiceServer;
 import edu.uw.ext.util.ListFactory;
 
 /**
- * The Assignment08Server class for the timecard/invoice project.
+ * The Assignment09Server class for the timecard/invoice project.
  * 
  * @author Toby Peterson.
  *
@@ -32,8 +32,8 @@ public class Assignment09Server implements Serializable {
         ListFactory.populateLists(accounts, consultants, timeCards);
 
         InvoiceServer server = new InvoiceServer(10888, accounts, consultants,
-            timeCards);
-//        InvoiceServer.run(true, 10888);
-        server.run(true, 10888);
+            "target/server");
+        server.run();
+        server.shutdown();
     }
 }

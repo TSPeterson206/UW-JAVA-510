@@ -7,7 +7,7 @@ package edu.uw.cp520.scg.net;
  *
  * @param <T> The generic Type argument for the class.
  */
-public abstract class AbstractCommand<T> implements Command<Object> {
+public abstract class AbstractCommand<T> implements Command<T> {
 
     /**
      * The receiver property.
@@ -67,7 +67,7 @@ public abstract class AbstractCommand<T> implements Command<Object> {
      */
     @Override
     public String toString() {
-        return "Abstract Command";
+        return "The abstract command: " + getTarget();
     }
 
     /**

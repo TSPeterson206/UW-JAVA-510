@@ -50,28 +50,9 @@ public class SimpleOrderQueue<T, E extends Order> implements OrderQueue<T, E> {
      * @param filter    the filter
      */
     public SimpleOrderQueue(T threshold, BiPredicate<T, E> filter) {
+        // Thanks for the naturalOrder explanation. I like this touch.
         this(threshold, filter, Comparator.naturalOrder());
     };
-
-    /**
-     * The dequeue method.
-     *
-     * @return the optional.
-     */
-    @Override
-    public Optional<E> dequeue() {
-        E dispatchable = null;
-
-        if (!queue.isEmpty()) {
-            dispatchable = queue.first();
-            if (filter.test(threshold, dispatchable)) {
-                queue.remove(dispatchable);
-            } else {
-                dispatchable = null;
-            }
-        }
-        return Optional.<E>ofNullable(dispatchable);
-    }
 
     /**
      * The getThreshold method. Grabs the current threshold.
@@ -102,21 +83,12 @@ public class SimpleOrderQueue<T, E extends Order> implements OrderQueue<T, E> {
     @Override
     public void setThreshold(T threshold) {
         this.threshold = threshold;
-//        dispatchOrders();
         Optional<E> optional;
         while ((optional = dequeue()).isPresent()) {
             if (consumer != null) {
                 consumer.accept(optional.get());
             }
         }
-    }
-
-    /**
-     * Dispatch orders.
-     */
-    public void dispatchOrders() {
-        // This was a clever
-
     }
 
     /**
@@ -127,12 +99,31 @@ public class SimpleOrderQueue<T, E extends Order> implements OrderQueue<T, E> {
     @Override
     public void enqueue(E order) {
         queue.add(order);
-//        dispatchOrders();
         Optional<E> optional;
         while ((optional = dequeue()).isPresent()) {
             if (consumer != null) {
                 consumer.accept(optional.get());
             }
         }
+    }
+
+    /**
+     * The dequeue method.
+     *
+     * @return the optional.
+     */
+    @Override
+    public Optional<E> dequeue() {
+        E dispatchable = null;
+
+        if (!queue.isEmpty()) {
+            dispatchable = queue.first();
+            if (filter.test(threshold, dispatchable)) {
+                queue.remove(dispatchable);
+            } else {
+                dispatchable = null;
+            }
+        }
+        return Optional.<E>ofNullable(dispatchable);
     }
 }

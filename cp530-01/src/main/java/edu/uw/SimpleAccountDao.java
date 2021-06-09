@@ -1,13 +1,15 @@
 package edu.uw;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.util.HashMap;
+import java.io.IOException;
+import java.nio.file.Files;
 
 import edu.uw.ext.framework.account.Account;
 import edu.uw.ext.framework.account.AccountException;
-import edu.uw.ext.framework.dao.AccountDao;
+import edu.uw.ext.framework.account.Address;
+import edu.uw.ext.framework.account.CreditCard;
 
 /**
  * The SimpleAccountDao class for the stock tracker project.
@@ -15,50 +17,32 @@ import edu.uw.ext.framework.dao.AccountDao;
  * @author Toby Peterson.
  *
  */
-public class SimpleAccountDao implements AccountDao {
+public class SimpleAccountDao implements edu.uw.ext.framework.dao.AccountDao {
 
     /**
-     * The account property.
+     * The accountFile property.
      */
-    private Account account;
+    private String accountFile = "account.dat";
 
     /**
-     * The hashmap property called accountsMap.
+     * The addressFile property.
      */
-    private HashMap<String, Object> accountsMap = new HashMap<String, Object>();
+    private String addressFile = "address.properties";
 
     /**
-     * The path property.
+     * The creditCardFile property.
      */
-    String path = "target/accounts/";
+    private String creditCardFile = "card.properties";
 
     /**
-     * The fos (FileOutputStream) property.
+     * The accountsDirectory property.
      */
-    FileOutputStream fos;
-
-    /**
-     * The dos (DataOutputStream) property.
-     */
-    DataOutputStream dos;
-
-    /**
-     * The dis (DataInputStream) property.
-     */
-    DataInputStream dis;
+    private File accountsDirectory = new File("target", "accounts");
 
     /**
      * The SimpleAccountDao no argument constructor.
      */
     public SimpleAccountDao() {
-//        File file = new File("target/accounts/");
-//        try {
-//            file.createNewFile();
-//            boolean flag = file.mkdir();
-//            System.out.println("file created: " + flag);
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
     };
 
     /**
@@ -66,11 +50,7 @@ public class SimpleAccountDao implements AccountDao {
      */
     @Override
     public void close() throws AccountException {
-//        try {
-//            dataOutput.close();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
+        // Currently a stub
     }
 
     /**
@@ -80,7 +60,7 @@ public class SimpleAccountDao implements AccountDao {
      */
     @Override
     public void deleteAccount(String accountName) throws AccountException {
-        accountsMap.remove(accountName);
+        delete(new File(accountsDirectory, accountName));
     }
 
     /**
@@ -91,7 +71,41 @@ public class SimpleAccountDao implements AccountDao {
      */
     @Override
     public Account getAccount(String accountName) {
-        return (Account) accountsMap.get(accountName);
+        Account account = null;
+        File directory = new File(accountsDirectory, accountName);
+
+        if (directory.exists() && directory.isDirectory()) {
+
+            try {
+                File inputFile = new File(directory, accountFile);
+                try (FileInputStream accountIn = new FileInputStream(
+                    inputFile)) {
+                    account = AccountSer.read(accountIn);
+                }
+
+                inputFile = new File(directory, addressFile);
+                if (inputFile.exists()) {
+                    try (FileInputStream addressIn = new FileInputStream(
+                        inputFile)) {
+                        Address address = AddressSer.read(addressIn);
+                        account.setAddress(address);
+                    }
+                }
+                inputFile = new File(directory, creditCardFile);
+                if (inputFile.exists()) {
+                    try (FileInputStream cardIn = new FileInputStream(
+                        inputFile)) {
+                        CreditCard card = CreditCardSer.read(cardIn);
+                        account.setCreditCard(card);
+                    }
+                }
+            } catch (IOException exc) {
+                exc.printStackTrace();
+            } catch (AccountException e) {
+                e.printStackTrace();
+            }
+        }
+        return account;
     }
 
     /**
@@ -99,7 +113,7 @@ public class SimpleAccountDao implements AccountDao {
      */
     @Override
     public void reset() throws AccountException {
-        accountsMap.clear();
+        delete(accountsDirectory);
     }
 
     /**
@@ -109,89 +123,68 @@ public class SimpleAccountDao implements AccountDao {
      */
     @Override
     public void setAccount(Account account) throws AccountException {
-        accountsMap.put(account.getName(), account);
+        try {
+            File acctDirectory = new File(accountsDirectory, account.getName());
+            Address address = account.getAddress();
+            CreditCard card = account.getCreditCard();
 
-//        File file = new File("target/accounts/" + account.getName());
-//
-//        try {
-//            fos = new FileOutputStream(file);
-//        } catch (FileNotFoundException e) {
-//            e.printStackTrace();
-//        }
-//
-//        try (DataOutputStream dos = new DataOutputStream(fos)) {
-//            dos.writeUTF(account.getName());
-//            System.out.println("Successfully written data to the file:");
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//
-//        try {
-//            di = new DataInputStream(new FileInputStream(file));
-//        } catch (FileNotFoundException e1) {
-//            // TODO Auto-generated catch block
-//            e1.printStackTrace();
-//        }
-//        try {
-//            System.out.println("output: " + di.readUTF());
-//        } catch (IOException e) {
-//            // TODO Auto-generated catch block
-//            e.printStackTrace();
-//        }
+            delete(acctDirectory);
+            if (!acctDirectory.exists()) {
+                boolean weGotAWinner = acctDirectory.mkdirs();
+
+                if (!weGotAWinner) {
+                    throw new AccountException("Couldnt create the directory!");
+                }
+            }
+            File outFile = new File(acctDirectory, accountFile);
+            try (FileOutputStream accountOut = new FileOutputStream(outFile)) {
+                AccountSer.write(accountOut, account);
+            }
+
+            if (address != null) {
+                outFile = new File(acctDirectory, addressFile);
+
+                try (FileOutputStream addressOut = new FileOutputStream(
+                    outFile)) {
+                    AddressSer.write(addressOut, address);
+                }
+            }
+
+            if (card != null) {
+                outFile = new File(acctDirectory, creditCardFile);
+
+                try (FileOutputStream cardOut = new FileOutputStream(outFile)) {
+                    CreditCardSer.write(cardOut, card);
+                }
+            }
+        } catch (IOException exc) {
+            throw new AccountException(
+                "Houston, we have a problem storing the account!", exc);
+        }
 
     }
 
-}
+    /**
+     * The delete method for SimpleAccountDao. This can
+     * 
+     * @param file The file to be deleted.
+     */
+    public void delete(File file) {
+        if (file.exists()) {
+            if (file.isDirectory()) {
+                File[] files = file.listFiles();
+                if (files != null) {
+                    for (File current : files) {
+                        delete(current);
+                    }
+                }
+            }
+            try {
+                Files.delete(file.toPath());
+            } catch (IOException exc) {
+                exc.printStackTrace();
+            }
 
-///**
-// * StudentRecordWriter.java
-// * This program illustrates how to use the DataOutputStream class for writing
-// * data to a file.
-// *
-// * @author www.codejava.net
-// */
-//public class StudentRecordWriter {
-//    DataOutputStream dataOutput;
-// 
-//    public StudentRecordWriter(String outputFile) throws IOException {
-//        dataOutput = new DataOutputStream(new FileOutputStream(outputFile));
-//    }
-// 
-//    public void write(Student student) throws IOException {
-//        dataOutput.writeUTF(student.getName());
-//        dataOutput.writeBoolean(student.getGender());
-//        dataOutput.writeInt(student.getAge());
-//        dataOutput.writeFloat(student.getGrade());
-//    }
-// 
-//    public void save() throws IOException {
-//        dataOutput.close();
-//    }
-// 
-//    public static void main(String[] args) {
-//        if (args.length < 1) {
-//            System.out.println("Please provide output file");
-//            System.exit(0);
-//        }
-// 
-//        String outputFile = args[0];
-// 
-//        List<Student> listStudent = new ArrayList<>();
-// 
-//        listStudent.add(new Student("Alice", false, 23, 80.5f));
-//        listStudent.add(new Student("Brian", true, 22, 95.0f));
-//        listStudent.add(new Student("Carol", false, 21, 79.8f));
-// 
-//        try {
-//            StudentRecordWriter writer = new StudentRecordWriter(outputFile);
-// 
-//            for (Student student : listStudent) {
-//                writer.write(student);
-//            }
-// 
-//            writer.save();
-//        } catch (IOException ex) {
-//            ex.printStackTrace();
-//        }
-//    }
-//}
+        }
+    }
+}

@@ -3,6 +3,7 @@ package edu.uw.cp520.scg.net;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
+import java.io.Serializable;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
@@ -24,7 +25,7 @@ import edu.uw.cp520.scg.util.StateCode;
  * @author Toby Peterson.
  *
  */
-public class InvoiceClient extends Thread {
+public class InvoiceClient extends Thread implements Serializable {
 
     /**
      * The port property to be used.
@@ -34,7 +35,7 @@ public class InvoiceClient extends Thread {
     /**
      * The hostName property.
      */
-    private static String hostName;
+    private String hostName;
 
     /**
      * The accounts list property.
@@ -55,7 +56,7 @@ public class InvoiceClient extends Thread {
      * The commands list property.
      */
     @SuppressWarnings("rawtypes")
-    private List<Command> commands = new ArrayList<>();
+    private static List<Command> commands = new ArrayList<>();
 
     /**
      * The socket to be used.
@@ -95,10 +96,13 @@ public class InvoiceClient extends Thread {
     public void run() {
         try {
             setHostName(InetAddress.getLocalHost().getHostName());
-//            ListFactory.populateLists(accounts, consultants, timeCards);
+        } catch (UnknownHostException e1) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+        }
 
-            socket = new Socket(hostName, DEFAULT_PORT);
-            System.out.println("Connected? " + socket.isBound());
+        try (Socket socket = new Socket(hostName, DEFAULT_PORT);) {
+            socket.shutdownInput();
             outputStream = socket.getOutputStream();
             objectOutputStream = new ObjectOutputStream(outputStream);
 
@@ -107,12 +111,10 @@ public class InvoiceClient extends Thread {
             sendTimeCards();
             sendInvoices();
             sendDisconnect();
-
-            objectOutputStream.writeObject(commands);
-            objectOutputStream.flush();
-            commands.clear();
-
             sendShutdown();
+
+//            sendShutdown();
+//            socket.shutdownOutput();
 
             objectOutputStream.close();
         } catch (Exception e) {
@@ -138,8 +140,16 @@ public class InvoiceClient extends Thread {
         Command<?> client = new AddClientCommand(account1);
         Command<?> client2 = new AddClientCommand(account2);
 
-        commands.add(client);
-        commands.add(client2);
+        try {
+            objectOutputStream.writeObject(client);
+            objectOutputStream.flush();
+            objectOutputStream.writeObject(client2);
+            objectOutputStream.flush();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     };
 
     /**
@@ -153,8 +163,17 @@ public class InvoiceClient extends Thread {
         PersonalName name2 = new PersonalName("Wallace", "David", "Foster");
         Consultant consultantSample2 = new Consultant(name2);
         Command<?> consultant2 = new AddConsultantCommand(consultantSample2);
-        commands.add(consultant);
-        commands.add(consultant2);
+
+        try {
+            objectOutputStream.writeObject(consultant);
+            objectOutputStream.flush();
+
+            objectOutputStream.writeObject(consultant2);
+            objectOutputStream.flush();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
     };
 
@@ -164,7 +183,12 @@ public class InvoiceClient extends Thread {
     public void sendTimeCards() {
         for (TimeCard tc : timeCards) {
             Command<?> timeCardCommand = new AddTimeCardCommand(tc);
-            commands.add(timeCardCommand);
+            try {
+                objectOutputStream.writeObject(timeCardCommand);
+                objectOutputStream.flush();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     };
 
@@ -174,7 +198,14 @@ public class InvoiceClient extends Thread {
     public void sendInvoices() {
         Command<?> invoices = new CreateInvoicesCommand(
             LocalDate.of(2017, 03, 01));
-        commands.add(invoices);
+        try {
+            objectOutputStream.writeObject(invoices);
+            objectOutputStream.flush();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
     }
 
     /**
@@ -185,7 +216,14 @@ public class InvoiceClient extends Thread {
      */
     public void sendDisconnect() throws IOException {
         Command<?> disconnect = new DisconnectCommand();
-        commands.add(disconnect);
+        try {
+            objectOutputStream.writeObject(disconnect);
+            objectOutputStream.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+//        server.close();
+
         System.out.println("Closing socket and terminating program.");
     }
 
@@ -200,11 +238,17 @@ public class InvoiceClient extends Thread {
 
             ObjectOutputStream out = new ObjectOutputStream(
                 server.getOutputStream());
-            server.shutdownInput();
             Command<?> shutdown = new ShutdownCommand();
-            commands.add(shutdown);
-            out.writeObject(commands);
-            server.close();
+            try {
+//                objectOutputStream.writeObject(shutdown);
+//                objectOutputStream.flush();
+                server.shutdownInput();
+                out.writeObject(shutdown);
+                out.flush();
+                server.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -215,7 +259,7 @@ public class InvoiceClient extends Thread {
      * 
      * @return The hostname string.
      */
-    public static String getHostName() {
+    public String getHostName() {
         return hostName;
     }
 
@@ -224,8 +268,8 @@ public class InvoiceClient extends Thread {
      * 
      * @param hostName The hostName to be set.
      */
-    public static void setHostName(String hostName) {
-        InvoiceClient.hostName = hostName;
+    public void setHostName(String hostName) {
+        this.hostName = hostName;
     }
 
     /**

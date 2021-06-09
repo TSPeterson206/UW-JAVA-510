@@ -119,4 +119,16 @@ public final class ClientAccount
         return cmp;
 //        The natural ordering of ClientAccount is ascending order by name, contact and finally address.
     }
+
+    /**
+     * The toString method.
+     * 
+     * @return String The human readable string.
+     */
+    @Override
+    public String toString() {
+        return "ClientAccount Info: Name - " + getName().toString()
+            + ", Contact - " + getContact() + ", Address - "
+            + getAddress().toString();
+    }
 }
